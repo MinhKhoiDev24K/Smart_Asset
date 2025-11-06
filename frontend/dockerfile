@@ -1,0 +1,22 @@
+# ===== Stage 1: Build frontend =====
+FROM node:18-alpine AS build
+
+WORKDIR /app
+
+COPY package*.json ./
+RUN npm install || true   # Nếu không có package.json thì bỏ qua lỗi
+
+# Copy toàn bộ mã nguồn frontend
+COPY . .
+
+# ===== Stage 2: Serve static files =====
+FROM nginx:alpine
+
+# Copy các file tĩnh vào thư mục gốc của nginx
+COPY --from=build /app/dist /usr/share/nginx/html
+# Nếu không có dist (web tĩnh thuần html/css/js), thì copy luôn public
+COPY public /usr/share/nginx/html
+
+EXPOSE 80
+
+CMD ["nginx", "-g", "daemon off;"]

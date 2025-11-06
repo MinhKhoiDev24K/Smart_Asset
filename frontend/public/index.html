@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmartAsset - Quản lý Tài sản Nội bộ</title>
+    <!-- Tải Font Awesome cho Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Tải Chart.js cho biểu đồ -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <!-- Tham chiếu đến file CSS đã tách ra -->
+    <link rel="stylesheet" href="../src/style.css">
+</head>
+
+<body>
+    <div class="container"> 
+        <!-- Sidebar (Menu) -->
+        <aside class="sidebar">
+            <div>
+                <div class="logo">
+                    <i class="fas fa-cubes logo-icon"></i>
+                    <h3>SmartAsset</h3>
+                </div>
+                
+                <nav class="nav">
+                    <ul>
+                        <li class="active" data-content-id="dashboard-content">
+                            <a href="#dashboard">
+                                <i class="fas fa-tachometer-alt"></i> Dashboard
+                            </a>
+                        </li>
+                        
+                        <li class="menu-header">Quản lý Tài sản</li>
+                        <li data-content-id="asset-list-content">
+                            <a href="#asset-list"><i class="fas fa-list"></i> Danh sách tài sản</a>
+                        </li> 
+                        <li data-content-id="add-asset-content">
+                            <a href="#add-asset"><i class="fas fa-folder-plus"></i> Thêm tài sản mới</a>
+                        </li> 
+                        <li data-content-id="import-export-content">
+                            <a href="#import-export"><i class="fas fa-exchange-alt"></i> Import / Export dữ liệu</a>
+                        </li>
+                        
+                        <li class="menu-header">Hệ thống AI</li>
+                        <li data-content-id="ai-predict-content">
+                            <a href="#ai-predict"><i class="fas fa-brain"></i> Dự đoán AI</a>
+                        </li>
+                        <li data-content-id="ai-retrain-content">
+                            <a href="#ai-retrain"><i class="fas fa-sync-alt"></i> Huấn luyện lại mô hình</a></li>
+
+                        <li class="menu-header">Cấu hình</li>
+                        <li data-content-id="user-management-content">
+                            <a href="#user-management"><i class="fas fa-users"></i> Quản lý người dùng <span class="new-feature-badge">MỚI</span></a></li>
+                        <li data-content-id="settings-content">
+                            <a href="#settings"><i class="fas fa-cog"></i> Cài đặt hệ thống</a></li>
+                    </ul>
+                </nav>
+            </div>
+            
+            <div class="logout">
+                <a href="#logout"><i class="fas fa-sign-out-alt"></i> Đăng xuất</a>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            
+            <!-- Header -->
+            <header class="header">
+                <h2 id="main-title">Dashboard (Tổng quan)</h2>
+                <div class="user-info">
+                    <i class="fas fa-user-circle"></i>
+                    <span>Admin</span>
+                </div>
+            </header>
+
+            <!-- 1. Dashboard Content (Mặc định hiển thị) -->
+            <section id="dashboard-content" class="content-section active">
+                
+                <!-- Stats Cards -->
+                <div class="stats-cards">
+                    <div class="card total">
+                        <h4>Tổng số tài sản</h4>
+                        <p>1250</p>
+                    </div>
+                    <div class="card warning">
+                        <h4>Cần bảo trì</h4>
+                        <p>45</p>
+                    </div>
+                    <div class="card danger">
+                        <h4>Sắp hết hạn</h4>
+                        <p>12</p>
+                    </div>
+                    <div class="card good">
+                        <h4>Tài sản Tốt (Dự đoán)</h4>
+                        <p>72%</p>
+                    </div>
+                </div>
+
+                <!-- Chart Area (HOÀN NGUYÊN LẠI) -->
+                <div class="chart-area">
+                    <!-- Tài sản theo Loại -->
+                    <div class="chart-card">
+                        <h3>Tài sản chia theo Loại</h3>
+                        <div style="height: 300px;">
+                            <canvas id="assetTypeChart"></canvas>
+                        </div>
+                    </div>
+                    
+                    <!-- Biểu đồ Trạng thái Dự đoán -->
+                    <div class="chart-card">
+                        <h3>Biểu đồ Trạng thái Dự đoán</h3>
+                        <div style="height: 300px;">
+                            <canvas id="predictionStatusChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+                
+            </section>
+            
+            <!-- 2. Danh sách Tài sản -->
+            <section id="asset-list-content" class="content-section hidden">
+                <div class="asset-actions">
+                    <div class="left-actions">
+                        <button class="btn btn-primary" onclick="changeContent('add-asset-content')">
+                            <i class="fas fa-plus"></i> Thêm mới
+                        </button>
+                        <button class="btn btn-success" onclick="changeContent('import-export-content')">
+                            <i class="fas fa-upload"></i> Import/Export
+                        </button>
+                    </div>
+                    
+                    <div class="search-controls">
+                        <select id="filterType">
+                            <option value="">Lọc theo Loại</option>
+                            <option value="Giấy tờ">Giấy tờ</option>
+                            <option value="Phần cứng">Phần cứng</option>
+                            <option value="Phần mềm">Phần mềm</option>
+                        </select>
+                        <input type="text" id="searchInput" placeholder="Tìm kiếm theo Tên, Mã...">
+                    </div>
+                </div>
+                
+                <div class="asset-table-container">
+                    <table class="asset-table">
+                        <thead>
+                            <tr>
+                                <th>Mã TS</th>
+                                <th>Tên Tài sản</th>
+                                <th>Loại</th>
+                                <th>Giá trị (VNĐ)</th>
+                                <th>Ngày sử dụng</th>
+                                <th>Trạng thái (AI)</th>
+                                <th>Hành động</th>
+                            </tr>
+                        </thead>
+                        <tbody id="assetTableBody">
+                            <!-- Dữ liệu mẫu sẽ được chèn bởi JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="pagination">
+                    <span>Hiển thị 1 - 10 / 50 tài sản</span>
+                    <button disabled>&laquo;</button>
+                    <button class="active">1</button>
+                    <button>2</button>
+                    <button>3</button>
+                    <button>&raquo;</button>
+                </div>
+                
+            </section>
+            
+            <!-- 3. Thêm Tài sản Mới -->
+            <section id="add-asset-content" class="content-section hidden">
+                <div class="card">
+                    <h3 class="mb-4" style="color: var(--primary-color);">Thêm Tài sản Mới</h3>
+                    <form id="addAssetForm">
+                        <div class="form-grid">
+                            
+                            <!-- Phần thông tin cơ bản -->
+                            <h4 class="form-section-title">I. THÔNG TIN CHUNG</h4>
+                            
+                            <div class="form-group">
+                                <label for="assetName">Tên Tài sản (*)</label>
+                                <input type="text" id="assetName" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="assetType">Loại Tài sản (*)</label>
+                                <select id="assetType" required>
+                                    <option value="">-- Chọn Loại --</option>
+                                    <option value="Giấy tờ">Giấy tờ (Hợp đồng, Hồ sơ)</option>
+                                    <option value="Phần cứng">Phần cứng (Laptop, Máy in)</option>
+                                    <option value="Phần mềm">Phần mềm (License, Domain)</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="assetValue">Giá trị (VNĐ)</label>
+                                <input type="number" id="assetValue" min="0" value="0" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="purchaseDate">Ngày mua/Ký hợp đồng (*)</label>
+                                <input type="date" id="purchaseDate" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="expiryDate">Ngày hết hạn (Nếu có)</label>
+                                <input type="date" id="expiryDate">
+                            </div>
+                            <div class="form-group">
+                                <label for="department">Phòng ban sử dụng</label>
+                                <input type="text" id="department">
+                            </div>
+
+                            <div class="form-group" style="grid-column: 1 / -1;">
+                                <label for="description">Mô tả chi tiết</label>
+                                <textarea id="description" rows="3"></textarea>
+                            </div>
+
+                            <!-- Phần đặc trưng AI (Cho mô hình ML) -->
+                            <h4 class="form-section-title">II. ĐẶC TRƯNG HỌC MÁY (ML Features)</h4>
+
+                            <div class="form-group">
+                                <label for="usageFrequency">Tần suất sử dụng (Lần/tháng)</label>
+                                <input type="number" id="usageFrequency" min="0" value="0" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="maintenanceCount">Số lần bảo trì (Trong vòng 1 năm)</label>
+                                <input type="number" id="maintenanceCount" min="0" value="0" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="ageMonths">Tuổi đời Tài sản (Tháng)</label>
+                                <input type="number" id="ageMonths" min="0" value="0" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="lastMaintenance">Ngày bảo trì gần nhất</label>
+                                <input type="date" id="lastMaintenance">
+                            </div>
+
+                            <!-- Actions -->
+                            <div class="form-actions">
+                                <button type="button" class="btn btn-secondary" onclick="changeContent('asset-list-content')">
+                                    <i class="fas fa-times"></i> Hủy
+                                </button>
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fas fa-save"></i> Lưu Tài sản
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </section>
+            
+            <!-- 4. Import / Export Dữ liệu -->
+            <section id="import-export-content" class="content-section hidden">
+                <div class="ie-card-container">
+                    
+                    <!-- Card Import -->
+                    <div class="ie-card">
+                        <h3><i class="fas fa-file-import"></i> Nhập Dữ liệu (Import)</h3>
+                        <p>Chọn file Excel (.xlsx) hoặc CSV (.csv) chứa danh sách tài sản để nhập vào hệ thống.</p>
+                        
+                        <div class="form-group mt-4">
+                            <label for="importType">Chọn loại dữ liệu Import:</label>
+                            <select id="importType">
+                                <option value="assets">Danh sách Tài sản</option>
+                                <option value="users">Danh sách Người dùng</option>
+                            </select>
+                        </div>
+
+                        <form id="importForm" onsubmit="handleImport(event)">
+                            <div class="form-group">
+                                <input type="file" id="importFile" accept=".csv, .xlsx" hidden required>
+                                <div class="file-upload-container" onclick="document.getElementById('importFile').click()">
+                                    <i class="fas fa-file-upload"></i>
+                                    <p id="fileNameDisplay">Kéo thả hoặc Nhấn để chọn file</p>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary w-full mt-3">
+                                <i class="fas fa-upload"></i> Thực hiện Import
+                            </button>
+                        </form>
+                    </div>
+
+                    <!-- Card Export -->
+                    <div class="ie-card">
+                        <h3><i class="fas fa-file-export"></i> Xuất Dữ liệu (Export)</h3>
+                        <p>Chọn loại dữ liệu và định dạng file mà bạn muốn xuất ra khỏi hệ thống.</p>
+
+                        <div class="form-group mt-4">
+                            <label for="exportType">Chọn loại dữ liệu Export:</label>
+                            <select id="exportType">
+                                <option value="current_assets">Danh sách Tài sản Hiện tại</option>
+                                <option value="all_assets">Tất cả Tài sản (Lịch sử)</option>
+                                <option value="users">Danh sách Người dùng</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Chọn định dạng file:</label>
+                            <div class="ie-export-options">
+                                <button type="button" class="btn btn-success" onclick="handleExport('csv')">
+                                    <i class="fas fa-file-csv"></i> Xuất CSV
+                                </button>
+                                <button type="button" class="btn btn-success" onclick="handleExport('xlsx')">
+                                    <i class="fas fa-file-excel"></i> Xuất Excel (XLSX)
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- 5. Dự đoán Tình trạng Tài sản bằng AI -->
+            <section id="ai-predict-content" class="content-section hidden">
+                <div class="card">
+                    <h3 class="mb-4" style="color: var(--primary-color);">Dự đoán Tình trạng Tài sản bằng AI</h3>
+                    
+                    <form id="aiPredictForm" onsubmit="handleAIPredict(event)">
+                        <div class="form-grid">
+                            
+                            <p style="grid-column: 1 / -1; margin-bottom: 20px;">
+                                Vui lòng nhập các đặc trưng (features) của tài sản cần dự đoán.
+                            </p>
+
+                            <!-- Đặc trưng AI (Giống form thêm mới để đảm bảo tính nhất quán) -->
+                            <div class="form-group">
+                                <label for="ai_assetType">Loại Tài sản (*)</label>
+                                <select id="ai_assetType" required>
+                                    <option value="">-- Chọn Loại --</option>
+                                    <option value="Giấy tờ">Giấy tờ</option>
+                                    <option value="Phần cứng">Phần cứng</option>
+                                    <option value="Phần mềm">Phần mềm</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="ai_assetValue">Giá trị (VNĐ)</label>
+                                <input type="number" id="ai_assetValue" min="0" value="1000000" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="ai_usageFrequency">Tần suất sử dụng (Lần/tháng)</label>
+                                <input type="number" id="ai_usageFrequency" min="0" value="10" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="ai_maintenanceCount">Số lần bảo trì (Trong vòng 1 năm)</label>
+                                <input type="number" id="ai_maintenanceCount" min="0" value="1" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="ai_ageMonths">Tuổi đời Tài sản (Tháng)</label>
+                                <input type="number" id="ai_ageMonths" min="0" value="18" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="ai_lastMaintenance">Ngày bảo trì gần nhất</label>
+                                <input type="date" id="ai_lastMaintenance" value="2024-06-01">
+                            </div>
+
+                            <!-- Nút dự đoán -->
+                            <div class="form-actions">
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fas fa-magic"></i> Dự đoán Tình trạng
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                    
+                    <!-- Khu vực Hiển thị Kết quả Dự đoán -->
+                    <div id="predictionResult" class="ai-result hidden">
+                        <h4><i class="fas fa-chart-line"></i> KẾT QUẢ DỰ ĐOÁN AI</h4>
+                        <p>Trạng thái dự kiến của tài sản là:</p>
+                        <div id="predictionBadge" class="prediction-box">...</div>
+                        
+                        <p style="margin-top: 15px; font-size: 0.9em; color: var(--secondary-color);">
+                            Kết quả dựa trên mô hình Học máy hiện tại.
+                        </p>
+                        <button class="btn btn-success mt-3" onclick="savePredictionResult()">
+                            <i class="fas fa-database"></i> Lưu kết quả vào MySQL
+                        </button>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- 6. Huấn luyện lại mô hình -->
+            <section id="ai-retrain-content" class="content-section hidden">
+                <div class="card">
+                    <h3 class="mb-4" style="color: var(--primary-color);">Huấn luyện lại Mô hình AI</h3>
+                    
+                    <p>Thực hiện huấn luyện lại mô hình dự đoán tình trạng tài sản bằng dữ liệu lịch sử mới nhất.</p>
+
+                    <button class="btn btn-danger mt-4" onclick="handleRetrain()">
+                        <i class="fas fa-sync-alt"></i> BẮT ĐẦU HUẤN LUYỆN LẠI
+                    </button>
+                    
+                    <div id="retrainLog" class="ai-log-area mt-5">
+                        <h4><i class="fas fa-terminal"></i> LOG HUẤN LUYỆN</h4>
+                        <div class="log-output" id="logOutput">
+                            [Hệ thống]: Sẵn sàng để huấn luyện.
+                        </div>
+                        <p class="mt-3 text-sm text-gray-500">
+                            Trạng thái hiện tại: <span id="retrainStatus" class="font-bold text-success-color">Sẵn sàng</span>
+                        </p>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- 7. Quản lý người dùng -->
+            <section id="user-management-content" class="content-section hidden">
+                <div class="card p-5">
+                    <h3 class="mb-4" style="color: var(--primary-color);">Quản lý Người dùng Hệ thống</h3>
+                    
+                    <button class="btn btn-primary mb-4" onclick="openAddUserModal()">
+                        <i class="fas fa-user-plus"></i> Thêm Người Dùng Mới
+                    </button>
+                    
+                    <div class="asset-table-container p-0">
+                        <table class="asset-table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Tên</th>
+                                    <th>Email</th>
+                                    <th>Vai trò</th>
+                                    <th>Trạng thái</th>
+                                    <th>Hành động</th>
+                                </tr>
+                            </thead>
+                            <tbody id="userTableBody">
+                                <!-- Users will be rendered here by JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+                <!-- Modal Thêm Người Dùng (Simple Inline Form) -->
+                <div id="addUserModal" class="card mt-4 hidden">
+                    <h4 class="mb-4">Thêm Người Dùng</h4>
+                    <form id="addUserForm" onsubmit="addUser(event)">
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="userName">Tên Người dùng (*)</label>
+                                <input type="text" id="userName" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="userEmail">Email (*)</label>
+                                <input type="email" id="userEmail" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="userPassword">Mật khẩu (*)</label>
+                                <input type="password" id="userPassword" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="userRole">Vai trò (*)</label>
+                                <select id="userRole" required>
+                                    <option value="Staff">Nhân viên</option>
+                                    <option value="Admin">Quản trị viên</option>
+                                </select>
+                            </div>
+                            <div class="form-actions" style="justify-content: flex-end;">
+                                <button type="button" class="btn btn-secondary" onclick="document.getElementById('addUserModal').classList.add('hidden')">
+                                    Hủy
+                                </button>
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fas fa-save"></i> Lưu
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </section>
+            
+            <!-- 8. Cài đặt hệ thống -->
+            <section id="settings-content" class="content-section hidden">
+                <div class="card">
+                    <h3 class="mb-4" style="color: var(--primary-color);">Cài đặt Hệ thống & API</h3>
+                    
+                    <form id="settingsForm" onsubmit="handleSaveSettings(event)">
+                        <div class="form-grid">
+                            
+                            <!-- Cấu hình API -->
+                            <h4 class="form-section-title">I. CẤU HÌNH API AI/ML</h4>
+                            
+                            <div class="form-group">
+                                <label for="apiUrlPredict">Endpoint Dự đoán (PREDICT)</label>
+                                <input type="url" id="apiUrlPredict" value="https://api.smartasset.com/predict" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="apiUrlRetrain">Endpoint Huấn luyện (RETRAIN)</label>
+                                <input type="url" id="apiUrlRetrain" value="https://api.smartasset.com/retrain" required>
+                            </div>
+                            
+                            <!-- Cấu hình Database (Mô phỏng) -->
+                            <h4 class="form-section-title">II. CẤU HÌNH DATABASE (MOCK)</h4>
+                            
+                            <div class="form-group">
+                                <label for="dbHost">Database Host</label>
+                                <input type="text" id="dbHost" value="localhost:3306" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="dbName">Database Name</label>
+                                <input type="text" id="dbName" value="smart_asset_db" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="assetPerPage">Tài sản/Trang (Phân trang)</label>
+                                <input type="number" id="assetPerPage" min="5" value="10" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="warningThreshold">Ngưỡng Cảnh báo Sắp hết hạn (Ngày)</label>
+                                <input type="number" id="warningThreshold" min="1" value="30" required>
+                            </div>
+
+                            <!-- Actions -->
+                            <div class="form-actions">
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fas fa-save"></i> Lưu Cài đặt
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </section>
+
+        </main>
+    </div>
+    
+    <!-- Tham chiếu đến file JavaScript -->
+    <script src="../src/main.js"></script>
+</body>
+</html>
