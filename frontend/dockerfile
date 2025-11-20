@@ -1,11 +1,10 @@
-# ===== Stage 1: Serve static frontend =====
 FROM nginx:alpine
 
-WORKDIR /usr/share/nginx/html
+# Xóa file trang mẫu mặc định của nginx
+RUN rm -rf /usr/share/nginx/html/*
 
-# Copy file tĩnh
-COPY ./public ./        
-COPY ./src ./src        
+# Copy toàn bộ frontend vào thư mục web root
+COPY . /usr/share/nginx/html/
 
 EXPOSE 80
 

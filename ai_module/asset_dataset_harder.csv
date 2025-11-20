@@ -1,0 +1,977 @@
+id,name,type,start_date,end_date,days_left,condition,cost_maintenance,status
+PM-0001,License phần mềm kế toán MISA,Phần mềm,2026-01-09,2026-07-30,267,Tốt,917173.95,2
+GT-0002,Hợp đồng thuê văn phòng,Giấy tờ,2023-02-02,2024-07-21,-481,Hỏng,779972.6,0
+PM-0003,License AutoCAD 2024,Phần mềm,2021-10-31,2024-06-17,-503,Hỏng,1668543.06,0
+PM-0004,Giấy phép Zoom Pro,Phần mềm,2025-04-25,2026-04-30,192,Tốt,3609993.86,2
+PC-0005,Máy chủ Dell PowerEdge,Phần cứng,2024-09-17,2025-04-11,-219,Hỏng,909124.84,0
+GT-0006,Biên bản kiểm tra tài sản,Giấy tờ,2025-01-04,2025-06-24,-145,Cần bảo trì,,1
+GT-0007,Biên bản thanh lý hợp đồng,Giấy tờ,2024-05-17,2026-07-26,280,Tốt,1456145.7,2
+PM-0008,Giấy phép Zoom Pro,Phần mềm,2025-10-22,2026-02-19,111,Tốt,1831809.22,2
+PC-0009,Switch Cisco SG350,Phần cứng,2024-11-20,2026-11-04,350,Tốt,998368.91,2
+PM-0010,Bản quyền phần mềm diệt virus Kaspersky,Phần mềm,2025-11-22,2026-07-01,239,Tốt,2333814.47,2
+GT-0011,Biên bản kiểm tra tài sản,Giấy tờ,2024-06-10,2025-12-28,39,Tốt,852620.62,2
+PM-0012,License AutoCAD 2024,Phần mềm,2024-06-03,2025-04-13,-220,Hỏng,4711008.78,0
+PC-0013,Bộ lưu điện APC 1000VA,Phần cứng,2025-03-03,2026-05-07,180,Tốt,79831.26,2
+PC-0014,Router Mikrotik RB750Gr3,Giấy tờ,2022-12-11,2024-06-21,-538,Hỏng,2200762.47,0
+PM-0015,License phần mềm kế toán MISA,Phần mềm,2025-03-26,2025-09-09,-118,Hỏng,,0
+PM-0016,Bản quyền phần mềm diệt virus Kaspersky,Phần mềm,2025-12-14,2027-03-31,496,Tốt,1293899.91,2
+PC-0017,Máy chiếu Epson EB-X51,Phần cứng,2025-03-23,2025-10-08,-50,Hỏng,2733551.4,0
+PC-0018,Ổ cứng WD 1TB,Phần cứng,2023-06-27,2026-02-22,107,Tốt,4211423.87,2
+PC-0019,Máy tính bàn HP EliteDesk,Phần cứng,2024-11-09,2026-12-12,381,Tốt,2989499.89,2
+PM-0020,Domain công ty .vn,Phần mềm,2026-05-17,2027-01-02,395,Tốt,4805860.12,2
+GT-0021,Biên bản kiểm tra tài sản,Giấy tờ,2023-01-23,2025-02-22,-241,Hỏng,2698460.66,0
+PC-0022,Switch Cisco SG350,Phần cứng,2025-03-12,2026-04-24,160,Tốt,3035171.24,2
+GT-0023,Phiếu đăng ký nội bộ,Giấy tờ,2025-01-27,2027-06-15,581,Tốt,4010984.9,2
+GT-0024,Giấy phép kinh doanh,Phần cứng,2024-06-07,2025-08-24,-101,Hỏng,3861223.85,0
+PM-0025,License AutoCAD 2024,Phần mềm,2024-03-23,2025-11-04,-16,Hỏng,3556709.76,0
+PM-0026,Domain công ty .vn,Phần mềm,2023-11-08,2025-04-04,-220,Hỏng,370223.26,0
+PM-0027,Bản quyền phần mềm diệt virus Kaspersky,Phần mềm,2024-08-15,2027-02-06,434,Tốt,4315517.13,2
+PC-0028,Router Mikrotik RB750Gr3,Phần cứng,2025-10-29,2027-02-26,477,Tốt,1854091.26,2
+PC-0029,Ổ cứng WD 1TB,Phần cứng,2025-08-17,2026-06-04,195,Tốt,3648030.89,2
+PC-0030,Router Mikrotik RB750Gr3,Phần cứng,2025-10-27,2026-11-07,356,Tốt,1914634.37,2
+PM-0031,Phần mềm quản lý nhân sự,Phần mềm,2025-04-08,2025-12-24,33,Tốt,59395663.2966301,2
+PC-0032,Thiết bị NAS Synology DS220+,Phần cứng,2024-10-15,2026-04-27,194,Tốt,1280341.61,2
+PM-0033,Gói Cloud AWS Business,Phần mềm,2023-09-14,2024-09-19,-394,Cần bảo trì,,1
+PC-0034,Bộ lưu điện APC 1000VA,Phần cứng,2026-04-03,2026-08-02,247,Tốt,3182052.06,2
+GT-0035,Giấy ủy quyền đại diện,Giấy tờ,2024-08-01,2025-07-19,-104,Hỏng,1246461.15,0
+GT-0036,Hồ sơ nhân sự,Giấy tờ,2025-03-04,2027-06-29,576,Tốt,1015306.12,2
+GT-0037,Biên bản hợp tác,Giấy tờ,2024-08-22,2027-04-05,512,Cần bảo trì,4402339.2,1
+PC-0038,Máy chủ Dell PowerEdge,Phần cứng,2025-03-09,2026-12-29,383,Tốt,4357302.95,2
+PC-0039,Switch Cisco SG350,Phần cứng,2023-03-03,2024-09-27,-431,Hỏng,550259.62,0
+GT-0040,Giấy chứng nhận đăng ký doanh nghiệp,Giấy tờ,2025-07-09,2025-12-14,35,Tốt,4090073.83,2
+GT-0041,Giấy ủy quyền đại diện,Giấy tờ,2024-06-06,2026-02-01,120,Tốt,2553736.51,2
+GT-0042,Giấy phép kinh doanh,Giấy tờ,2023-12-15,2026-02-03,86,Tốt,1220627.61,2
+PM-0043,Domain công ty .vn,Phần mềm,2025-10-04,2027-05-02,534,Tốt,324461.24,2
+PC-0044,Máy tính bàn HP EliteDesk,Phần cứng,2025-02-22,2027-05-02,531,Tốt,740434.65,2
+GT-0045,Giấy ủy quyền đại diện,Giấy tờ,2022-02-11,2024-07-12,-510,Cần bảo trì,4883074.78,1
+PC-0046,Router Mikrotik RB750Gr3,Phần cứng,2024-06-25,2025-04-10,-227,Hỏng,1197809.45,0
+PC-0047,Máy in Canon LBP 2900,Phần cứng,2024-01-25,2026-03-21,122,Hỏng,4928252.27,0
+PM-0048,Domain công ty .vn,Phần mềm,2022-12-18,2024-10-10,-382,Hỏng,1848272.28,0
+GT-0049,Biên bản thanh lý hợp đồng,Giấy tờ,2022-05-10,2025-01-09,-302,Hỏng,1838915.66,0
+PC-0050,Router Mikrotik RB750Gr3,Phần cứng,2025-01-31,2026-11-28,355,Tốt,2678873.42,2
+GT-0051,Hợp đồng thuê văn phòng,Phần mềm,2026-06-21,2027-04-28,552,Tốt,2540993.88,2
+GT-0052,Giấy phép kinh doanh,Giấy tờ,2023-06-24,2026-01-10,53,Tốt,1629794.53,2
+PM-0053,Domain công ty .vn,Phần mềm,2022-12-20,2024-08-15,-464,Hỏng,1743329.94,0
+PM-0054,Bản quyền phần mềm diệt virus Kaspersky,Phần mềm,2024-12-05,2025-07-23,-103,Hỏng,3454688.69,0
+PM-0055,Bản quyền Windows Server 2022,Phần mềm,2025-01-03,2026-08-10,286,Tốt,687604.72,2
+GT-0056,Biên bản thanh lý hợp đồng,Giấy tờ,2022-02-13,2024-08-19,-436,Hỏng,2707239.87,0
+PC-0057,Máy tính bàn HP EliteDesk,Phần cứng,2022-11-24,2024-12-09,-351,Cần bảo trì,3299920.23,1
+PC-0058,Router Mikrotik RB750Gr3,Phần cứng,2026-09-04,2027-01-02,411,Tốt,2583179.46,2
+GT-0059,Biên bản kiểm tra tài sản,Giấy tờ,2024-02-07,2026-09-04,301,Tốt,465513.84,2
+GT-0060,Hợp đồng thuê văn phòng,Giấy tờ,2026-09-25,2027-06-18,598,Tốt,40931939.58053996,2
+GT-0061,Phiếu đăng ký nội bộ,Giấy tờ,2026-04-10,2027-04-18,515,Cần bảo trì,3501789.15,1
+PM-0062,Giấy phép Zoom Pro,Phần mềm,2023-04-21,2024-08-20,-452,Hỏng,2022540.64,0
+GT-0063,Phiếu đăng ký nội bộ,Giấy tờ,2023-11-29,2025-10-29,-31,Hỏng,4678174.97,0
+PC-0064,Switch Cisco SG350,Phần cứng,2023-10-12,2024-11-30,-365,Hỏng,303190.35715875495,0
+PC-0065,Máy chiếu Epson EB-X51,Phần cứng,2024-03-07,2024-06-28,-490,Hỏng,4868319.18,0
+PC-0066,Bộ lưu điện APC 1000VA,Phần cứng,2025-09-09,2026-08-16,297,Tốt,2743668.95,2
+PC-0067,Bộ lưu điện APC 1000VA,Phần cứng,2024-05-31,2026-12-02,355,Tốt,1121346.55,2
+GT-0068,Giấy chứng nhận đăng ký doanh nghiệp,Giấy tờ,2025-03-12,2026-05-31,215,Tốt,2469468.58,2
+PM-0069,Bản quyền Windows Server 2022,Phần mềm,2023-07-02,2025-04-26,-195,Hỏng,1540303.96,0
+PM-0070,License AutoCAD 2024,Phần mềm,2022-10-11,2025-07-04,-141,Hỏng,1326011.84,0
+PC-0071,Switch Cisco SG350,Phần cứng,2023-02-14,2024-04-28,-558,Cần bảo trì,4894464.29,1
+PM-0072,License AutoCAD 2024,Phần mềm,2023-10-09,2024-04-17,-551,Hỏng,3974056.52,0
+PC-0073,Switch Cisco SG350,Phần cứng,2023-09-21,2024-12-30,-318,Hỏng,3344620.3,0
+GT-0074,Biên bản hợp tác,Giấy tờ,2025-06-30,2027-01-05,442,Cần bảo trì,3612260.58,1
+PM-0075,Phần mềm quản lý nhân sự,Phần mềm,2024-04-10,2025-09-19,-93,Hỏng,3842770.07,0
+GT-0076,Hợp đồng cung cấp dịch vụ,Giấy tờ,2022-12-27,2024-08-26,-431,Hỏng,4769642.89,0
+GT-0077,Phiếu đăng ký nội bộ,Giấy tờ,2022-02-04,2024-06-28,-501,Hỏng,3738593.87,0
+GT-0078,Biên bản kiểm tra tài sản,Giấy tờ,2025-03-19,2025-07-31,-108,Hỏng,2763824.83,0
+PM-0079,Bản quyền phần mềm diệt virus Kaspersky,Phần mềm,2025-04-20,2026-02-19,100,Tốt,4265047.28,2
+PM-0080,Domain công ty .vn,Phần mềm,2026-07-24,2026-11-10,350,Tốt,954555.16,2
+GT-0081,Giấy ủy quyền đại diện,Giấy tờ,2022-08-07,2024-07-27,-476,Hỏng,1863434.34,0
+PC-0082,Máy chiếu Epson EB-X51,Phần cứng,2023-02-10,2025-10-08,-30,Hỏng,3480148.98,0
+PC-0083,Máy chủ Dell PowerEdge,Phần cứng,2024-08-07,2025-12-07,47,Cần bảo trì,3075036.13,1
+PC-0084,Bộ lưu điện APC 1000VA,Phần cứng,2026-07-30,2026-11-08,353,Tốt,1270818.25,2
+PC-0085,Ổ cứng WD 1TB,Phần cứng,2025-01-11,2026-05-15,172,Tốt,4243348.97,2
+GT-0086,Hồ sơ nhân sự,Giấy tờ,2023-01-27,2024-11-22,-363,Hỏng,1797455.76,0
+GT-0087,Giấy chứng nhận đăng ký doanh nghiệp,Giấy tờ,2025-09-26,2026-04-19,172,Tốt,2098904.28,2
+PC-0088,Switch Cisco SG350,Phần cứng,2023-04-10,2025-08-28,-71,Hỏng,407970.9,0
+PM-0089,Giấy phép Microsoft 365,Phần mềm,2021-10-18,2024-04-26,-573,Hỏng,3991475.89,0
+GT-0090,Giấy ủy quyền đại diện,Giấy tờ,2024-01-17,2025-08-15,-81,Hỏng,1983919.14,0
+PC-0091,Laptop Dell XPS 13,Phần cứng,2023-04-25,2025-07-05,-129,Hỏng,1651452.7613581864,0
+PC-0092,Máy chủ Dell PowerEdge,Phần cứng,2024-11-29,2026-03-01,141,Tốt,3360130.68,2
+PM-0093,Phần mềm quản lý nhân sự,Phần mềm,2023-07-11,2025-10-17,-37,Hỏng,4909204.44,0
+PC-0094,Máy chiếu Epson EB-X51,Phần cứng,2023-12-27,2025-10-12,-36,Hỏng,152501.25,0
+PC-0095,Ổ cứng WD 1TB,Phần cứng,2026-06-16,2027-03-04,471,Tốt,2685412.14,2
+GT-0096,Hợp đồng thuê văn phòng,Giấy tờ,2026-05-06,2027-03-03,454,Tốt,1357714.58,2
+GT-0097,Hợp đồng thuê văn phòng,Giấy tờ,2025-04-12,2026-05-06,177,Tốt,258408.61,2
+PC-0098,Máy tính bàn HP EliteDesk,Phần cứng,2023-12-17,2026-08-05,270,Tốt,3187149.51,2
+GT-0099,Biên bản thanh lý hợp đồng,Giấy tờ,2023-06-16,2025-12-17,35,Tốt,3572975.52,2
+PM-0100,License AutoCAD 2024,Phần mềm,2023-07-15,2024-07-19,-485,Hỏng,1354161.26,0
+PC-0101,Router Mikrotik RB750Gr3,Phần cứng,2024-09-23,2026-04-01,119,Tốt,921668.37,2
+PC-0102,Router Mikrotik RB750Gr3,Phần cứng,2025-10-15,2027-05-19,544,Tốt,3479871.03,2
+GT-0103,Biên bản kiểm tra tài sản,Giấy tờ,2024-12-02,2027-03-08,476,Tốt,4576068.64,2
+PM-0104,Giấy phép Zoom Pro,Phần mềm,2026-04-29,2027-04-15,507,Tốt,2746133.32,2
+GT-0105,Biên bản thanh lý hợp đồng,Giấy tờ,2024-06-25,2026-09-04,294,Tốt,4774326.4,2
+PM-0106,Bản quyền phần mềm diệt virus Kaspersky,Phần mềm,2024-09-23,2025-10-23,-14,Hỏng,,0
+PM-0107,Giấy phép Zoom Pro,Phần mềm,2022-05-21,2024-08-22,-419,Hỏng,1779863.39,0
+GT-0108,Biên bản kiểm tra tài sản,Giấy tờ,2023-11-20,2026-02-16,99,Tốt,1709398.33,2
+GT-0109,Phiếu đăng ký nội bộ,Giấy tờ,2024-08-29,2026-12-25,412,Tốt,1557066.55,2
+PC-0110,Switch Cisco SG350,Phần cứng,2025-07-09,2026-09-19,310,Tốt,489170.8,2
+GT-0111,Giấy ủy quyền đại diện,Giấy tờ,2022-07-09,2025-03-13,-273,Hỏng,1992523.67,0
+PC-0112,Máy tính bàn HP EliteDesk,Phần cứng,2026-11-18,2027-04-19,523,Tốt,226520.05,2
+PM-0113,License phần mềm kế toán MISA,Phần mềm,2022-12-28,2025-06-06,-158,Hỏng,2505199.42,0
+GT-0114,Giấy chứng nhận đăng ký doanh nghiệp,Giấy tờ,2026-03-15,2027-01-25,476,Tốt,352843.74,2
+PM-0115,Domain công ty .vn,Phần mềm,2023-03-21,2025-07-31,-107,Hỏng,4335994.67,0
+PM-0116,Gói dịch vụ Google Workspace,Phần mềm,2025-04-28,2026-02-09,94,Tốt,2866835.21,2
+GT-0117,Giấy chứng nhận đăng ký doanh nghiệp,Giấy tờ,2026-03-04,2027-06-26,590,Tốt,4526753.21,2
+GT-0118,Phiếu đăng ký nội bộ,Giấy tờ,2022-08-19,2024-04-02,-607,Hỏng,503890.01,0
+PC-0119,Thiết bị NAS Synology DS220+,Phần cứng,2025-03-15,2025-08-02,-85,Hỏng,3091269.42,0
+PM-0120,Giấy phép Microsoft 365,Phần mềm,2023-10-07,2024-06-19,-500,Hỏng,1594878.15,0
+PC-0121,Máy in Canon LBP 2900,Phần cứng,2026-09-15,2027-01-07,433,Tốt,4072342.41,2
+GT-0122,Biên bản hợp tác,Giấy tờ,2023-12-26,2026-06-25,211,Tốt,3483685.83,2
+GT-0123,Biên bản thanh lý hợp đồng,Giấy tờ,2024-11-25,2025-05-08,-167,Hỏng,195931.63,0
+GT-0124,Hồ sơ nhân sự,Giấy tờ,2024-05-25,2027-01-06,399,Tốt,1410172.86,2
+PC-0125,Máy in Canon LBP 2900,Phần cứng,2022-11-26,2025-06-21,-135,Cần bảo trì,2842601.42,1
+PM-0126,License AutoCAD 2024,Phần mềm,2025-08-06,2027-04-18,555,Tốt,2063088.38,2
+PC-0127,Thiết bị NAS Synology DS220+,Phần cứng,2024-10-27,2026-01-13,47,Tốt,4653786.63,2
+GT-0128,Giấy ủy quyền đại diện,Giấy tờ,2024-05-11,2024-12-25,-330,Hỏng,3772714.37,0
+GT-0129,Phiếu đăng ký nội bộ,Giấy tờ,2022-05-06,2024-05-22,-538,Hỏng,2482805.95,0
+GT-0130,Giấy chứng nhận đăng ký doanh nghiệp,Giấy tờ,2023-09-29,2025-04-22,-212,Hỏng,,0
+GT-0131,Biên bản hợp tác,Giấy tờ,2024-11-10,2025-04-21,-228,Hỏng,4792707.48,0
+PM-0132,Bản quyền phần mềm diệt virus Kaspersky,Phần mềm,2024-04-17,2024-12-11,-335,Cần bảo trì,1596568.19,1
+PC-0133,Máy in Canon LBP 2900,Phần cứng,2024-11-29,2026-07-20,234,Tốt,,2
+GT-0134,Biên bản hợp tác,Giấy tờ,2025-03-31,2027-05-02,529,Tốt,3012204.63,2
+PM-0135,Bản quyền Windows Server 2022,Phần mềm,2026-02-03,2027-06-09,560,Tốt,3906480.25,2
+PM-0136,Domain công ty .vn,Phần mềm,2025-01-07,2027-02-20,488,Tốt,80455702.9230499,2
+PC-0137,Máy tính bàn HP EliteDesk,Phần cứng,2024-07-15,2025-12-15,21,Hỏng,2207652.51,0
+PM-0138,Giấy phép Microsoft 365,Phần mềm,2023-10-20,2024-11-11,-371,Hỏng,3529157.42,2
+PM-0139,License AutoCAD 2024,Phần mềm,2025-09-27,2027-01-18,444,Tốt,3807553.16,2
+GT-0140,Giấy ủy quyền đại diện,Giấy tờ,2025-02-10,2027-07-02,579,Tốt,3504845.66,2
+PC-0141,Ổ cứng WD 1TB,Phần cứng,2025-03-13,2026-10-23,348,Tốt,4459484.54,2
+PC-0142,Router Mikrotik RB750Gr3,Phần cứng,2023-04-30,2024-04-12,-552,Hỏng,424188.57,0
+PM-0143,Phần mềm quản lý nhân sự,Phần mềm,2025-03-16,2025-08-03,-125,Hỏng,1183425.97,0
+PM-0144,Domain công ty .vn,Phần mềm,2027-01-14,2027-05-21,558,Tốt,1751091.23,2
+PM-0145,Bản quyền Windows Server 2022,Phần mềm,2024-10-18,2025-06-09,-152,Hỏng,1889937.95,1
+PM-0146,Gói dịch vụ Google Workspace,Phần mềm,2025-05-09,2026-03-05,125,Tốt,4531771.93,2
+PM-0147,Domain công ty .vn,Phần mềm,2022-02-14,2024-09-10,-447,Hỏng,56768.22,0
+PC-0148,Máy in Canon LBP 2900,Phần cứng,2023-02-12,2025-07-10,-145,Hỏng,3835974.27,0
+PM-0149,License AutoCAD 2024,Phần mềm,2026-08-31,2027-01-10,432,Tốt,3405197.14,2
+PC-0150,Máy in Canon LBP 2900,Phần cứng,2026-01-27,2026-06-23,227,Tốt,,2
+GT-0151,Biên bản hợp tác,Giấy tờ,2022-09-24,2024-05-18,-539,Hỏng,60772.37,0
+GT-0152,Giấy phép kinh doanh,Giấy tờ,2025-01-24,2026-06-14,219,Tốt,4455715.57,2
+PC-0153,Máy tính bàn HP EliteDesk,Phần cứng,2022-12-07,2024-10-10,-408,Hỏng,4595578.58,0
+PM-0154,Gói dịch vụ Google Workspace,Phần mềm,2022-01-31,2024-05-07,-551,Hỏng,3146993.19,0
+PC-0155,Switch Cisco SG350,Phần cứng,2023-07-17,2026-01-06,59,Tốt,3685503.53,2
+PM-0156,Gói Cloud AWS Business,Phần mềm,2025-09-10,2026-03-27,124,Tốt,289319.49,2
+PC-0157,Bộ lưu điện APC 1000VA,Phần cứng,2023-11-27,2026-01-18,95,Tốt,1678300.32,2
+PC-0158,Thiết bị NAS Synology DS220+,Phần cứng,2023-05-31,2026-01-26,82,Tốt,2318492.02,2
+PC-0159,Laptop Dell XPS 13,Phần cứng,2023-06-10,2025-09-12,-79,Hỏng,388673.18,0
+GT-0160,Giấy phép kinh doanh,Giấy tờ,2023-10-29,2025-08-05,-89,Hỏng,161579.76,0
+GT-0161,Phiếu đăng ký nội bộ,Giấy tờ,2023-04-21,2025-06-18,-155,Hỏng,,0
+GT-0162,Biên bản kiểm tra tài sản,Giấy tờ,2023-05-04,2025-04-15,-199,Cần bảo trì,69791823.05504535,1
+GT-0163,Hợp đồng cung cấp dịch vụ,Giấy tờ,2023-12-01,2025-06-14,-134,Hỏng,413742.1,0
+PC-0164,Máy chủ Dell PowerEdge,Phần cứng,2024-08-03,2026-08-15,264,Tốt,824171.31,2
+GT-0165,Hợp đồng thuê văn phòng,Giấy tờ,2024-10-28,2027-03-15,502,Tốt,2401850.41,2
+PM-0166,Bản quyền Windows Server 2022,Phần mềm,2026-04-09,2026-07-22,258,Tốt,,2
+GT-0167,Giấy phép kinh doanh,Giấy tờ,2025-09-22,2026-06-23,238,Tốt,4210594.62,2
+GT-0168,Biên bản kiểm tra tài sản,Giấy tờ,2022-12-06,2024-07-13,-468,Hỏng,2074097.51,0
+GT-0169,Giấy phép kinh doanh,Giấy tờ,2024-02-07,2026-06-22,218,Tốt,4323611.88,2
+GT-0170,Biên bản thanh lý hợp đồng,Giấy tờ,2024-12-20,2026-05-01,159,Cần bảo trì,2777158.53,1
+GT-0171,Giấy chứng nhận đăng ký doanh nghiệp,Giấy tờ,2023-06-02,2026-01-27,63,Tốt,3785406.01,2
+PM-0172,Giấy phép Microsoft 365,Phần mềm,2024-10-22,2027-04-04,496,Tốt,2252720.68,2
+PC-0173,Thiết bị NAS Synology DS220+,Phần cứng,2023-01-05,2024-05-11,-551,Hỏng,1373658.99,0
+PC-0174,Router Mikrotik RB750Gr3,Phần cứng,2025-10-17,2026-08-19,285,Cần bảo trì,3784995.66,1
+PC-0175,Máy tính bàn HP EliteDesk,Phần cứng,2024-03-02,2024-06-24,-502,Hỏng,567787.96,0
+PC-0176,Router Mikrotik RB750Gr3,Phần cứng,2023-06-12,2026-01-24,85,Tốt,2381053.48,2
+PM-0177,Phần mềm quản lý nhân sự,Phần mềm,2023-03-02,2024-12-14,-333,Cần bảo trì,4081928.68,1
+GT-0178,Giấy phép kinh doanh,Giấy tờ,2023-08-06,2026-04-23,184,Tốt,2017414.33,2
+PM-0179,Gói dịch vụ Google Workspace,Phần mềm,2025-03-15,2026-09-26,314,Tốt,3775686.28,2
+GT-0180,Hợp đồng cung cấp dịch vụ,Giấy tờ,2022-04-06,2024-06-04,-485,Hỏng,1064820.81,0
+PC-0181,Bộ lưu điện APC 1000VA,Phần cứng,2024-06-19,2026-04-24,172,Tốt,4902313.63,2
+PC-0182,Laptop Dell XPS 13,Phần cứng,2023-10-08,2026-05-28,184,Tốt,2774078.04,2
+PM-0183,Bản quyền Windows Server 2022,Phần mềm,2022-08-06,2024-11-25,-368,Hỏng,2569947.45,0
+PM-0184,Domain công ty .vn,Giấy tờ,2025-05-14,2026-04-19,165,Tốt,2618011.38,2
+GT-0185,Biên bản kiểm tra tài sản,Giấy tờ,2024-08-02,2026-05-27,193,Tốt,735367.4,2
+GT-0186,Hồ sơ nhân sự,Giấy tờ,2025-11-01,2026-05-15,195,Tốt,1291221.94,2
+GT-0187,Biên bản hợp tác,Giấy tờ,2021-08-18,2024-05-13,-541,Hỏng,,0
+PC-0188,Switch Cisco SG350,Phần cứng,2022-01-21,2024-05-03,-559,Hỏng,1200728.09,0
+PM-0189,Domain công ty .vn,Phần mềm,2024-09-14,2026-04-21,147,Hỏng,2300595.79,0
+PM-0190,License phần mềm kế toán MISA,Phần mềm,2025-04-19,2026-09-07,276,Tốt,15568353.102866298,2
+GT-0191,Phiếu đăng ký nội bộ,Giấy tờ,2025-02-21,2026-01-17,59,Tốt,3337788.69,2
+PC-0192,Switch Cisco SG350,Phần cứng,2023-08-20,2025-12-15,46,Tốt,1119245.33,2
+GT-0193,Giấy phép kinh doanh,Giấy tờ,2023-10-23,2025-11-15,6,Cần bảo trì,1738096.07,1
+PC-0194,Switch Cisco SG350,Phần cứng,2025-10-10,2026-07-07,218,Tốt,603179.36,2
+GT-0195,Biên bản thanh lý hợp đồng,Giấy tờ,2023-06-01,2025-03-02,-252,Hỏng,4471086.31,0
+GT-0196,Hợp đồng thuê văn phòng,Giấy tờ,2026-11-08,2027-03-23,502,Tốt,461452.93,2
+PM-0197,Bản quyền Windows Server 2022,Phần mềm,2023-02-05,2024-10-21,-400,Hỏng,408795.16,0
+PC-0198,Máy chủ Dell PowerEdge,Phần cứng,2025-10-14,2026-06-30,232,Tốt,1886429.83,0
+GT-0199,Biên bản thanh lý hợp đồng,Giấy tờ,2024-01-04,2026-05-30,204,Tốt,,2
+GT-0200,Hợp đồng thuê văn phòng,Giấy tờ,2024-01-02,2026-03-10,101,Tốt,2682953.23,2
+PC-0201,Máy chủ Dell PowerEdge,Phần cứng,2024-07-31,2025-07-08,-122,Hỏng,3799777.04,0
+PC-0202,Thiết bị NAS Synology DS220+,Phần cứng,2024-09-17,2025-03-21,-228,Hỏng,311706.81,0
+PM-0203,Bản quyền Windows Server 2022,Phần mềm,2024-03-09,2026-08-21,298,Tốt,52283600.24472968,2
+PM-0204,Bản quyền Windows Server 2022,Phần mềm,2023-05-12,2025-03-19,-222,Hỏng,2660567.43,0
+GT-0205,Biên bản thanh lý hợp đồng,Giấy tờ,2024-04-15,2026-06-05,184,Tốt,2663086.33,2
+PM-0206,Giấy phép Microsoft 365,Phần mềm,2023-10-02,2025-07-19,-130,Hỏng,911419.39,0
+PM-0207,Domain công ty .vn,Phần mềm,2022-08-12,2024-06-15,-507,Hỏng,1637486.76,0
+GT-0208,Hợp đồng cung cấp dịch vụ,Giấy tờ,2022-04-01,2024-04-15,-568,Hỏng,3395511.6,0
+PM-0209,License phần mềm kế toán MISA,Phần mềm,2022-01-25,2024-07-08,-484,Hỏng,2397910.51,0
+PM-0210,Giấy phép Microsoft 365,Phần mềm,2023-12-19,2024-04-24,-509,Hỏng,2788711.33,0
+GT-0211,Phiếu đăng ký nội bộ,Giấy tờ,2023-11-18,2025-11-06,3,Hỏng,1893863.13,0
+GT-0212,Hồ sơ nhân sự,Giấy tờ,2024-04-27,2026-02-11,108,Cần bảo trì,3229586.21,1
+PC-0213,Switch Cisco SG350,Phần cứng,2023-11-18,2025-01-30,-272,Hỏng,4932576.24,0
+GT-0214,Biên bản hợp tác,Giấy tờ,2023-07-30,2026-01-12,71,Tốt,1126663.99,2
+PC-0215,Laptop Dell XPS 13,Phần cứng,2024-10-01,2025-12-05,18,Cần bảo trì,803406.87,1
+PM-0216,Bản quyền Windows Server 2022,Phần mềm,2023-02-26,2025-03-06,-240,Hỏng,866867.98,0
+PM-0217,Giấy phép Microsoft 365,Phần cứng,2024-08-22,2026-04-19,146,Tốt,258177.39,2
+PM-0218,License phần mềm kế toán MISA,Phần mềm,2023-08-16,2024-11-05,-376,Hỏng,4911893.08,0
+PM-0219,Gói dịch vụ Google Workspace,Phần mềm,2023-12-08,2025-07-02,-140,Hỏng,4847352.17,0
+PM-0220,Bản quyền phần mềm diệt virus Kaspersky,Phần mềm,2023-08-22,2024-07-17,-482,Hỏng,1289514.14,0
+PC-0221,Máy chủ Dell PowerEdge,Phần cứng,2023-12-17,2024-10-01,-372,Hỏng,2783814.47,0
+PC-0222,Bộ lưu điện APC 1000VA,Phần cứng,2023-10-22,2024-09-10,-456,Hỏng,3847464.67,0
+PC-0223,Router Mikrotik RB750Gr3,Phần cứng,2026-01-08,2027-05-07,551,Tốt,3554762.39,2
+GT-0224,Hồ sơ nhân sự,Phần cứng,2023-03-24,2024-07-12,-512,Cần bảo trì,2649200.12,1
+GT-0225,Giấy ủy quyền đại diện,Giấy tờ,2024-12-18,2026-01-04,46,Tốt,1443152.77,2
+GT-0226,Giấy chứng nhận đăng ký doanh nghiệp,Giấy tờ,2022-08-06,2024-08-07,-446,Hỏng,4660071.71,0
+GT-0227,Hợp đồng thuê văn phòng,Giấy tờ,2024-09-12,2026-09-09,302,Tốt,1683021.39,2
+PC-0228,Thiết bị NAS Synology DS220+,Phần cứng,2022-05-19,2024-09-09,-445,Hỏng,1008652.31,0
+PC-0229,Switch Cisco SG350,Phần cứng,2024-02-13,2025-02-05,-291,Hỏng,694123.87,0
+GT-0230,Phiếu đăng ký nội bộ,Giấy tờ,2025-02-03,2026-05-07,186,Tốt,2978193.7,2
+PC-0231,Ổ cứng WD 1TB,Phần cứng,2025-01-25,2027-04-14,507,Tốt,4647645.72,2
+PC-0232,Laptop Dell XPS 13,Giấy tờ,2023-08-13,2025-02-18,-264,Hỏng,4664690.34,0
+PM-0233,Bản quyền Windows Server 2022,Phần mềm,2024-06-07,2025-10-30,-12,Hỏng,1896142.92,0
+GT-0234,Biên bản hợp tác,Giấy tờ,2024-09-07,2026-09-25,307,Cần bảo trì,240473.22,0
+GT-0235,Phiếu đăng ký nội bộ,Giấy tờ,2025-06-20,2026-08-11,304,Tốt,3752509.62,2
+PC-0236,Ổ cứng WD 1TB,Phần cứng,2024-01-30,2026-03-16,134,Tốt,932024.93,2
+PM-0237,Bản quyền Windows Server 2022,Phần mềm,2023-07-19,2024-06-07,-553,Hỏng,,0
+GT-0238,Biên bản hợp tác,Giấy tờ,2024-08-16,2027-02-20,468,Tốt,1962225.54,2
+PM-0239,Phần mềm quản lý nhân sự,Phần mềm,2025-07-01,2026-05-30,189,Tốt,2313398.93,2
+PC-0240,Bộ lưu điện APC 1000VA,Phần cứng,2024-12-10,2027-02-01,459,Cần bảo trì,2193723.38,1
+GT-0241,Giấy chứng nhận đăng ký doanh nghiệp,Phần mềm,2022-07-12,2024-08-13,-468,Hỏng,4497872.87,0
+PM-0242,Bản quyền phần mềm diệt virus Kaspersky,Phần mềm,2021-12-20,2024-07-03,-499,Hỏng,3121189.98,0
+PM-0243,Giấy phép Microsoft 365,Phần mềm,2024-07-05,2025-10-21,-14,Hỏng,17311098.66439463,0
+PC-0244,Máy chủ Dell PowerEdge,Phần cứng,2024-12-14,2027-01-24,451,Tốt,4393145.58,2
+GT-0245,Giấy phép kinh doanh,Giấy tờ,2024-10-23,2026-09-30,304,Cần bảo trì,3942986.06,1
+PC-0246,Máy chiếu Epson EB-X51,Phần cứng,2025-09-22,2027-04-16,515,Tốt,3534902.31,2
+PM-0247,Gói dịch vụ Google Workspace,Phần mềm,2023-11-06,2024-10-03,-412,Hỏng,2849448.42,0
+PC-0248,Laptop Dell XPS 13,Phần cứng,2024-06-03,2026-08-03,254,Tốt,514580.15,2
+GT-0249,Hợp đồng thuê văn phòng,Giấy tờ,2025-11-14,2026-06-14,240,Tốt,4232261.46,2
+PM-0250,Domain công ty .vn,Phần mềm,2024-11-28,2027-06-15,586,Tốt,1146256.98,2
+GT-0251,Hợp đồng cung cấp dịch vụ,Giấy tờ,2022-11-06,2024-06-24,-525,Hỏng,2992213.51,0
+PC-0252,Bộ lưu điện APC 1000VA,Phần cứng,2022-12-05,2024-05-29,-518,Hỏng,4133994.14,0
+PC-0253,Thiết bị NAS Synology DS220+,Phần cứng,2024-10-16,2026-08-10,303,Tốt,2916958.97,2
+PM-0254,License AutoCAD 2024,Phần mềm,2024-03-05,2025-02-28,-240,Hỏng,4736416.7,0
+PC-0255,Máy chiếu Epson EB-X51,Phần cứng,2025-03-05,2026-11-04,334,Cần bảo trì,503973.02,1
+GT-0256,Biên bản thanh lý hợp đồng,Giấy tờ,2024-01-03,2026-06-27,220,Tốt,2964814.53,2
+GT-0257,Giấy chứng nhận đăng ký doanh nghiệp,Giấy tờ,2023-03-29,2024-07-26,-455,Hỏng,13740359.55684932,0
+PM-0258,Phần mềm quản lý nhân sự,Phần mềm,2025-08-31,2026-12-30,402,Tốt,386605.33,2
+PC-0259,Máy tính bàn HP EliteDesk,Phần mềm,2025-10-09,2026-05-09,185,Tốt,2254196.86,2
+PC-0260,Máy chủ Dell PowerEdge,Phần cứng,2023-06-03,2025-05-15,-169,Hỏng,623313.41,0
+GT-0261,Phiếu đăng ký nội bộ,Giấy tờ,2023-10-16,2025-10-09,-48,Hỏng,1136978.1,0
+PM-0262,Gói Cloud AWS Business,Phần mềm,2026-05-19,2026-11-15,367,Tốt,3721248.26,2
+PC-0263,Ổ cứng WD 1TB,Giấy tờ,2022-11-22,2025-01-28,-337,Hỏng,,0
+GT-0264,Giấy ủy quyền đại diện,Giấy tờ,2025-03-19,2025-10-17,-41,Hỏng,2072522.92,0
+PC-0265,Máy chủ Dell PowerEdge,Phần cứng,2024-12-31,2025-04-11,-219,Hỏng,2328500.61,0
+PM-0266,Giấy phép Microsoft 365,Phần mềm,2023-02-21,2025-03-03,-273,Hỏng,2261089.7,0
+PM-0267,License AutoCAD 2024,Phần mềm,2025-06-08,2026-04-23,186,Tốt,704285.1,2
+GT-0268,Giấy ủy quyền đại diện,Giấy tờ,2024-05-05,2026-03-01,88,Tốt,169395.8,2
+GT-0269,Biên bản kiểm tra tài sản,Giấy tờ,2022-05-22,2024-12-31,-323,Cần bảo trì,2902941.75,1
+PC-0270,Máy chủ Dell PowerEdge,Phần cứng,2022-05-12,2024-08-24,-443,Hỏng,1063403.92,0
+GT-0271,Biên bản kiểm tra tài sản,Giấy tờ,2026-05-14,2027-04-03,529,Tốt,2294944.94,2
+PC-0272,Laptop Dell XPS 13,Phần cứng,2024-03-13,2025-07-10,-147,Hỏng,2675348.59,0
+GT-0273,Hồ sơ nhân sự,Giấy tờ,2026-01-13,2027-05-30,581,Tốt,1986590.58,2
+PM-0274,Bản quyền phần mềm diệt virus Kaspersky,Phần mềm,2024-10-22,2026-10-29,351,Tốt,4490271.45,2
+PC-0275,Máy chiếu Epson EB-X51,Phần cứng,2024-10-07,2025-05-24,-187,Hỏng,1888629.74,0
+PM-0276,Gói Cloud AWS Business,Phần mềm,2025-11-28,2026-04-29,175,Tốt,3877638.08,2
+PM-0277,Gói dịch vụ Google Workspace,Phần mềm,2023-06-14,2025-08-05,-96,Hỏng,2203813.73,0
+PC-0278,Máy in Canon LBP 2900,Phần cứng,2024-07-17,2026-10-24,337,Tốt,776201.23,2
+GT-0279,Giấy ủy quyền đại diện,Giấy tờ,2024-08-22,2026-10-02,325,Tốt,377516.82,2
+PM-0280,Bản quyền phần mềm diệt virus Kaspersky,Phần mềm,2024-02-19,2026-05-08,171,Tốt,1353723.37,0
+PC-0281,Laptop Dell XPS 13,Phần cứng,2023-01-18,2024-06-16,-512,Hỏng,4894657.18,1
+PC-0282,Thiết bị NAS Synology DS220+,Phần cứng,2026-02-05,2027-01-17,441,Tốt,135479.96,2
+PM-0283,Gói dịch vụ Google Workspace,Phần mềm,2022-11-15,2025-06-07,-134,Hỏng,2527539.4,0
+PC-0284,Máy chủ Dell PowerEdge,Phần cứng,2024-05-01,2025-10-21,-41,Hỏng,4437302.41,0
+PM-0285,Gói Cloud AWS Business,Phần mềm,2023-08-28,2024-06-25,-473,Hỏng,4943643.91,0
+PC-0286,Máy chủ Dell PowerEdge,Phần cứng,2024-09-06,2025-06-16,-178,Hỏng,4722048.63,0
+PC-0287,Laptop Dell XPS 13,Phần cứng,2026-02-07,2026-09-17,307,Tốt,1465738.65,2
+PC-0288,Thiết bị NAS Synology DS220+,Phần cứng,2023-10-03,2025-02-14,-262,Hỏng,427542.65,1
+PM-0289,License phần mềm kế toán MISA,Phần mềm,2022-04-02,2024-08-20,-450,Hỏng,613884.45,0
+PM-0290,Gói dịch vụ Google Workspace,Phần mềm,2025-01-30,2026-01-23,90,Tốt,3519730.68,2
+GT-0291,Biên bản hợp tác,Giấy tờ,2025-02-14,2026-02-28,105,Tốt,1709086.76,2
+PC-0292,Ổ cứng WD 1TB,Giấy tờ,2023-08-05,2026-02-26,99,Tốt,2951474.71,2
+GT-0293,Giấy ủy quyền đại diện,Giấy tờ,2024-02-01,2026-10-11,324,Tốt,,2
+GT-0294,Biên bản hợp tác,Giấy tờ,2025-03-24,2027-03-03,489,Tốt,1472328.8,2
+PC-0295,Máy chiếu Epson EB-X51,Phần cứng,2025-01-11,2025-11-04,-3,Hỏng,4342339.88,0
+PM-0296,Giấy phép Zoom Pro,Phần mềm,2022-11-25,2024-07-27,-483,Hỏng,910535.69,0
+PC-0297,Thiết bị NAS Synology DS220+,Phần cứng,2023-05-01,2025-08-29,-62,Hỏng,3708434.72,0
+PC-0298,Máy chiếu Epson EB-X51,Phần cứng,2024-11-27,2025-07-28,-102,Hỏng,4922010.9,0
+PC-0299,Thiết bị NAS Synology DS220+,Phần cứng,2025-05-20,2027-04-28,544,Tốt,3456109.29,2
+GT-0300,Giấy phép kinh doanh,Giấy tờ,2025-10-06,2026-06-20,246,Tốt,4571494.03,2
+GT-0301,Giấy phép kinh doanh,Giấy tờ,2023-09-21,2024-05-01,-572,Hỏng,1370276.1,0
+GT-0302,Hồ sơ nhân sự,Giấy tờ,2026-08-29,2027-06-11,568,Tốt,2487324.47,2
+PM-0303,Bản quyền phần mềm diệt virus Kaspersky,Phần mềm,2023-12-29,2025-02-26,-248,Hỏng,684428.15,0
+GT-0304,Biên bản thanh lý hợp đồng,Giấy tờ,2024-06-12,2025-12-27,54,Tốt,3660922.89,2
+PC-0305,Máy in Canon LBP 2900,Phần cứng,2025-03-29,2026-06-20,220,Tốt,876856.39,2
+GT-0306,Giấy ủy quyền đại diện,Giấy tờ,2024-05-12,2026-09-29,323,Tốt,2021907.51,2
+PC-0307,Router Mikrotik RB750Gr3,Phần cứng,2022-07-01,2024-07-29,-452,Hỏng,831416.84,0
+PM-0308,Bản quyền phần mềm diệt virus Kaspersky,Phần mềm,2024-02-06,2026-06-18,209,Tốt,451684.8,2
+PM-0309,Giấy phép Zoom Pro,Phần mềm,2022-12-04,2024-04-19,-564,Hỏng,1946478.07,0
+PM-0310,Giấy phép Microsoft 365,Phần mềm,2024-11-07,2026-01-26,72,Tốt,3595229.53,2
+PM-0311,Bản quyền Windows Server 2022,Phần mềm,2022-10-26,2024-06-27,-506,Hỏng,1983246.87,0
+PC-0312,Máy chiếu Epson EB-X51,Phần cứng,2023-09-26,2024-05-29,-516,Hỏng,2418774.71,0
+PC-0313,Laptop Dell XPS 13,Phần cứng,2025-09-16,2026-03-29,162,Tốt,1311320.22,2
+PM-0314,Giấy phép Zoom Pro,Phần mềm,2024-03-16,2026-11-04,369,Tốt,4776181.56,2
+PM-0315,License AutoCAD 2024,Phần mềm,2022-07-21,2024-10-08,-380,Hỏng,3854561.02,0
+GT-0316,Biên bản kiểm tra tài sản,Giấy tờ,2023-08-28,2026-03-04,112,Tốt,1757700.81,2
+GT-0317,Giấy chứng nhận đăng ký doanh nghiệp,Giấy tờ,2022-10-11,2024-05-21,-530,Hỏng,3442011.98,0
+PC-0318,Thiết bị NAS Synology DS220+,Phần cứng,2025-02-08,2027-02-17,457,Tốt,379667.05,2
+PC-0319,Máy chiếu Epson EB-X51,Phần cứng,2022-09-26,2024-07-07,-488,Cần bảo trì,3473482.35,1
+PC-0320,Máy chiếu Epson EB-X51,Phần cứng,2025-05-24,2026-08-04,263,Tốt,515468.73,2
+GT-0321,Giấy ủy quyền đại diện,Giấy tờ,2023-10-19,2026-06-16,217,Tốt,684093.15,2
+PC-0322,Ổ cứng WD 1TB,Phần cứng,2022-03-24,2024-04-02,-580,Hỏng,,0
+PM-0323,Domain công ty .vn,Phần mềm,2023-08-17,2026-01-11,48,Tốt,,2
+GT-0324,Biên bản hợp tác,Giấy tờ,2025-04-02,2026-12-19,406,Tốt,4245978.26,2
+GT-0325,Giấy chứng nhận đăng ký doanh nghiệp,Giấy tờ,2026-07-16,2027-04-13,497,Tốt,3233324.6,2
+PM-0326,Bản quyền phần mềm diệt virus Kaspersky,Phần mềm,2022-12-10,2024-05-07,-572,Hỏng,220827.19,0
+PM-0327,Bản quyền phần mềm diệt virus Kaspersky,Phần mềm,2025-10-26,2026-11-27,397,Tốt,2366050.59,2
+PM-0328,License phần mềm kế toán MISA,Phần mềm,2023-03-12,2025-02-19,-254,Hỏng,3487101.34,0
+GT-0329,Giấy chứng nhận đăng ký doanh nghiệp,Giấy tờ,2025-02-10,2026-02-07,96,Tốt,576410.11,2
+PM-0330,License phần mềm kế toán MISA,Phần mềm,2023-06-26,2025-11-05,2,Hỏng,,0
+PM-0331,Giấy phép Zoom Pro,Phần mềm,2025-03-28,2025-11-26,14,Cần bảo trì,,1
+PM-0332,License AutoCAD 2024,Phần mềm,2025-09-22,2026-12-11,381,Tốt,2803385.97,2
+GT-0333,Phiếu đăng ký nội bộ,Giấy tờ,2022-08-07,2024-07-30,-469,Hỏng,3481443.88,0
+PC-0334,Máy chủ Dell PowerEdge,Phần cứng,2025-03-10,2026-11-29,372,Tốt,326781.7,2
+PM-0335,Bản quyền phần mềm diệt virus Kaspersky,Phần mềm,2022-11-24,2025-07-31,-89,Hỏng,,0
+PC-0336,Laptop Dell XPS 13,Phần cứng,2025-12-02,2026-03-13,119,Tốt,2600840.55,2
+GT-0337,Giấy ủy quyền đại diện,Giấy tờ,2024-08-04,2027-04-27,519,Tốt,1164797.37,2
+PM-0338,License AutoCAD 2024,Phần mềm,2026-05-21,2027-06-28,588,Tốt,4951706.57,2
+PM-0339,License AutoCAD 2024,Phần mềm,2026-06-11,2027-05-30,570,Cần bảo trì,,1
+PM-0340,Bản quyền Windows Server 2022,Phần mềm,2025-01-27,2027-02-17,454,Tốt,,2
+GT-0341,Phiếu đăng ký nội bộ,Giấy tờ,2023-07-31,2025-02-02,-295,Hỏng,2399378.1,0
+GT-0342,Phiếu đăng ký nội bộ,Giấy tờ,2024-11-17,2025-04-02,-220,Hỏng,3841367.07,0
+GT-0343,Giấy phép kinh doanh,Giấy tờ,2024-06-10,2025-02-24,-257,Hỏng,3687911.51,0
+PC-0344,Ổ cứng WD 1TB,Phần cứng,2023-12-07,2024-03-24,-606,Hỏng,2336553.83,0
+PC-0345,Máy chiếu Epson EB-X51,Phần cứng,2023-09-17,2024-08-14,-462,Hỏng,1168038.76,0
+GT-0346,Biên bản hợp tác,Phần cứng,2025-08-10,2026-02-24,107,Cần bảo trì,4551695.51,1
+PM-0347,License phần mềm kế toán MISA,Phần mềm,2023-03-28,2025-04-24,-224,Hỏng,1921633.24,0
+PM-0348,Bản quyền Windows Server 2022,Phần mềm,2021-11-18,2024-05-21,-561,Hỏng,1294913.26,0
+PC-0349,Máy tính bàn HP EliteDesk,Phần cứng,2023-05-30,2024-04-01,-601,Hỏng,4518619.84,0
+PC-0350,Switch Cisco SG350,Phần cứng,2025-02-18,2025-10-06,-40,Hỏng,324932.05,0
+GT-0351,Phiếu đăng ký nội bộ,Giấy tờ,2025-04-07,2026-08-23,289,Tốt,4153212.59,1
+PC-0352,Bộ lưu điện APC 1000VA,Phần cứng,2026-08-18,2027-04-26,552,Tốt,882640.16,2
+PC-0353,Bộ lưu điện APC 1000VA,Phần cứng,2025-03-09,2025-08-09,-82,Hỏng,3897922.37,0
+PC-0354,Switch Cisco SG350,Phần cứng,2023-10-08,2024-05-14,-549,Hỏng,4845513.15,0
+GT-0355,Phiếu đăng ký nội bộ,Giấy tờ,2025-03-07,2027-04-18,522,Cần bảo trì,2986370.36,1
+GT-0356,Phiếu đăng ký nội bộ,Giấy tờ,2023-05-18,2025-05-14,-197,Hỏng,3791192.38,0
+PC-0357,Thiết bị NAS Synology DS220+,Phần cứng,2022-12-07,2024-10-23,-385,Hỏng,4487180.74,0
+PM-0358,License phần mềm kế toán MISA,Phần mềm,2025-05-15,2027-05-09,539,Tốt,3739358.02,2
+GT-0359,Biên bản kiểm tra tài sản,Giấy tờ,2024-05-21,2025-10-22,-16,Hỏng,2900431.04,0
+PC-0360,Switch Cisco SG350,Phần cứng,2025-05-26,2026-10-29,339,Tốt,1328000.21,2
+GT-0361,Hợp đồng thuê văn phòng,Giấy tờ,2026-03-09,2026-09-28,328,Tốt,4260967.67,2
+PC-0362,Máy chủ Dell PowerEdge,Phần cứng,2021-09-22,2024-04-30,-538,Hỏng,4657947.44,0
+PM-0363,Bản quyền phần mềm diệt virus Kaspersky,Phần mềm,2025-12-12,2026-11-30,381,Tốt,1263245.47,2
+PC-0364,Ổ cứng WD 1TB,Phần cứng,2026-08-12,2027-07-04,605,Tốt,2479378.68,2
+PC-0365,Laptop Dell XPS 13,Phần cứng,2026-04-22,2026-11-19,382,Tốt,4472399.65,2
+GT-0366,Hợp đồng thuê văn phòng,Giấy tờ,2025-09-01,2027-05-03,531,Tốt,2475732.64,2
+PC-0367,Thiết bị NAS Synology DS220+,Phần cứng,2022-12-20,2024-07-14,-483,Hỏng,,0
+PC-0368,Máy in Canon LBP 2900,Phần cứng,2024-04-08,2024-10-23,-385,Hỏng,3987130.11,0
+GT-0369,Giấy ủy quyền đại diện,Giấy tờ,2025-10-06,2026-06-15,216,Tốt,3541814.88,2
+PM-0370,Giấy phép Zoom Pro,Phần mềm,2024-11-10,2027-06-28,581,Tốt,529170.47,2
+PM-0371,Giấy phép Microsoft 365,Giấy tờ,2023-05-31,2026-02-19,99,Tốt,793025.53,2
+PM-0372,Bản quyền phần mềm diệt virus Kaspersky,Phần mềm,2023-10-22,2026-06-25,232,Tốt,2327350.04,2
+PM-0373,Gói Cloud AWS Business,Phần mềm,2024-03-10,2025-05-21,-153,Hỏng,644349.34,0
+PM-0374,Gói dịch vụ Google Workspace,Phần mềm,2022-03-29,2024-06-11,-505,Hỏng,4089835.12,0
+PC-0375,Bộ lưu điện APC 1000VA,Phần cứng,2022-07-04,2025-01-10,-274,Hỏng,965664.32,0
+GT-0376,Giấy phép kinh doanh,Giấy tờ,2026-08-13,2027-05-02,524,Tốt,2799221.56,2
+PM-0377,License AutoCAD 2024,Phần mềm,2023-11-23,2026-02-19,112,Tốt,45362.02,2
+GT-0378,Biên bản thanh lý hợp đồng,Giấy tờ,2024-11-04,2026-12-24,410,Tốt,534903.19,2
+PC-0379,Ổ cứng WD 1TB,Phần cứng,2025-02-10,2025-10-28,18,Hỏng,2161203.92,0
+PC-0380,Bộ lưu điện APC 1000VA,Phần cứng,2023-12-05,2025-10-14,-41,Hỏng,897486.62,0
+GT-0381,Hợp đồng cung cấp dịch vụ,Giấy tờ,2024-04-06,2026-09-23,302,Tốt,3439428.61,2
+PC-0382,Máy in Canon LBP 2900,Phần cứng,2024-11-10,2026-03-22,121,Tốt,831887.93,2
+PC-0383,Máy tính bàn HP EliteDesk,Phần cứng,2025-08-13,2026-08-24,253,Tốt,1729415.28,2
+PC-0384,Ổ cứng WD 1TB,Phần cứng,2022-04-16,2024-10-17,-399,Hỏng,4357684.03,0
+PM-0385,Giấy phép Microsoft 365,Phần mềm,2024-07-12,2026-03-07,104,Tốt,3748259.16,2
+PM-0386,Giấy phép Zoom Pro,Phần mềm,2022-10-03,2025-06-24,-139,Hỏng,122934.58,0
+PM-0387,Domain công ty .vn,Phần mềm,2025-04-13,2026-08-17,283,Cần bảo trì,2443215.95,1
+PM-0388,Gói Cloud AWS Business,Phần mềm,2025-02-20,2025-10-12,-3,Hỏng,5147.4,0
+PC-0389,Laptop Dell XPS 13,Phần cứng,2025-06-08,2026-03-29,151,Tốt,4985622.5,2
+GT-0390,Biên bản hợp tác,Giấy tờ,2023-12-09,2025-04-22,-213,Hỏng,,0
+PM-0391,Phần mềm quản lý nhân sự,Phần mềm,2024-05-18,2026-05-27,183,Tốt,3468411.13,2
+PC-0392,Ổ cứng WD 1TB,Phần cứng,2026-07-11,2026-11-20,380,Tốt,1150268.42,2
+PM-0393,Phần mềm quản lý nhân sự,Phần mềm,2024-05-22,2026-07-18,228,Tốt,4816183.27,2
+GT-0394,Giấy ủy quyền đại diện,Giấy tờ,2023-07-09,2025-01-18,-271,Hỏng,2098636.58,0
+PM-0395,Gói dịch vụ Google Workspace,Phần mềm,2023-02-03,2025-10-12,-13,Hỏng,4470496.02,2
+PM-0396,License phần mềm kế toán MISA,Phần mềm,2025-11-29,2027-06-21,579,Tốt,155670.41,2
+GT-0397,Hồ sơ nhân sự,Phần mềm,2024-04-08,2025-07-26,-135,Hỏng,2366049.53,0
+PC-0398,Máy chủ Dell PowerEdge,Phần cứng,2025-04-24,2025-08-23,-61,Hỏng,3854609.22,0
+PC-0399,Switch Cisco SG350,Phần cứng,2022-06-10,2024-10-06,-404,Hỏng,3131101.61,0
+GT-0400,Phiếu đăng ký nội bộ,Giấy tờ,2023-02-24,2025-04-03,-204,Hỏng,3083251.57,0
+PC-0401,Máy chủ Dell PowerEdge,Phần cứng,2027-01-25,2027-06-11,552,Tốt,6159.18,2
+PM-0402,License AutoCAD 2024,Phần mềm,2024-09-29,2025-08-24,-89,Cần bảo trì,1002623.63,1
+GT-0403,Hợp đồng thuê văn phòng,Giấy tờ,2024-12-08,2026-03-17,125,Tốt,2909857.01,2
+GT-0404,Giấy phép kinh doanh,Giấy tờ,2024-01-03,2025-10-26,-16,Hỏng,1551809.79,0
+GT-0405,Giấy chứng nhận đăng ký doanh nghiệp,Giấy tờ,2022-12-12,2024-06-01,-536,Hỏng,2322992.98,0
+PC-0406,Máy chiếu Epson EB-X51,Phần cứng,2022-10-01,2025-02-22,-254,Hỏng,2399694.17,0
+PM-0407,Domain công ty .vn,Phần mềm,2023-03-16,2024-04-01,-606,Hỏng,3474909.43,0
+GT-0408,Phiếu đăng ký nội bộ,Giấy tờ,2026-01-03,2026-05-09,176,Cần bảo trì,2402534.74,1
+GT-0409,Biên bản kiểm tra tài sản,Giấy tờ,2024-12-09,2025-10-30,-11,Cần bảo trì,4933312.97,1
+PM-0410,Bản quyền phần mềm diệt virus Kaspersky,Phần mềm,2026-03-25,2027-04-05,517,Tốt,1051747.9,2
+GT-0411,Giấy phép kinh doanh,Giấy tờ,2024-04-29,2026-10-13,346,Tốt,48854.24,2
+GT-0412,Hồ sơ nhân sự,Giấy tờ,2022-11-24,2024-11-01,-393,Hỏng,439332.5,0
+GT-0413,Giấy phép kinh doanh,Giấy tờ,2023-06-28,2024-07-15,-508,Hỏng,1789006.75,0
+PM-0414,Giấy phép Zoom Pro,Phần mềm,2024-10-19,2027-06-24,608,Tốt,2837704.24,2
+PC-0415,Switch Cisco SG350,Phần cứng,2023-01-09,2024-08-11,-453,Hỏng,1000751.22,0
+PM-0416,Giấy phép Zoom Pro,Phần mềm,2023-07-30,2025-02-01,-295,Hỏng,3532378.63,0
+PC-0417,Router Mikrotik RB750Gr3,Phần cứng,2023-10-19,2026-05-04,196,Tốt,3083022.91,2
+PM-0418,Gói dịch vụ Google Workspace,Phần mềm,2023-03-25,2025-09-25,-46,Hỏng,3545302.6,0
+PC-0419,Máy chủ Dell PowerEdge,Phần cứng,2025-03-06,2027-04-03,525,Tốt,1697250.96,2
+PM-0420,Domain công ty .vn,Phần mềm,2022-07-22,2024-03-28,-593,Hỏng,3304100.59,0
+PC-0421,Bộ lưu điện APC 1000VA,Phần cứng,2022-07-06,2024-04-12,-548,Hỏng,2261591.42,0
+PM-0422,Bản quyền Windows Server 2022,Phần mềm,2025-08-21,2026-06-08,234,Tốt,819997.4,2
+PC-0423,Máy chủ Dell PowerEdge,Phần cứng,2024-02-24,2024-06-18,-518,Hỏng,,0
+GT-0424,Hợp đồng thuê văn phòng,Giấy tờ,2022-11-18,2024-07-21,-464,Hỏng,1645087.19,1
+PC-0425,Thiết bị NAS Synology DS220+,Phần cứng,2025-10-11,2026-02-04,94,Tốt,910589.58,2
+PM-0426,Giấy phép Microsoft 365,Phần mềm,2025-05-19,2026-02-14,115,Tốt,218308.29,2
+PC-0427,Laptop Dell XPS 13,Phần cứng,2025-02-27,2026-01-12,47,Tốt,1661573.13,2
+GT-0428,Biên bản thanh lý hợp đồng,Giấy tờ,2026-01-17,2026-10-01,333,Tốt,,2
+PM-0429,Gói dịch vụ Google Workspace,Phần mềm,2022-11-24,2024-06-22,-492,Hỏng,2091998.94,0
+PM-0430,Giấy phép Microsoft 365,Phần mềm,2026-04-18,2026-09-10,276,Tốt,2313114.78,2
+PC-0431,Ổ cứng WD 1TB,Phần cứng,2023-05-13,2024-08-27,-460,Hỏng,2079536.83,0
+GT-0432,Hồ sơ nhân sự,Giấy tờ,2024-07-14,2026-03-23,100,Tốt,1855193.81,2
+PC-0433,Thiết bị NAS Synology DS220+,Phần cứng,2026-04-09,2026-10-24,342,Tốt,,2
+PC-0434,Máy chủ Dell PowerEdge,Phần cứng,2023-11-17,2026-08-04,276,Tốt,2433344.71,2
+PC-0435,Bộ lưu điện APC 1000VA,Phần cứng,2024-06-17,2026-10-09,354,Tốt,2108604.63,2
+PC-0436,Máy tính bàn HP EliteDesk,Phần cứng,2024-05-10,2024-09-23,-414,Hỏng,4561816.73,0
+PM-0437,Gói dịch vụ Google Workspace,Phần mềm,2024-08-19,2025-09-02,-47,Cần bảo trì,3157801.1,1
+PM-0438,Phần mềm quản lý nhân sự,Phần mềm,2025-05-14,2026-08-05,245,Tốt,3880001.04,2
+PC-0439,Switch Cisco SG350,Phần cứng,2025-02-28,2026-10-17,313,Tốt,32651980.730859358,2
+PC-0440,Router Mikrotik RB750Gr3,Phần cứng,2023-12-04,2025-01-08,-309,Hỏng,4271925.47,0
+GT-0441,Giấy ủy quyền đại diện,Giấy tờ,2024-04-28,2025-02-02,-277,Hỏng,486966.96,0
+GT-0442,Biên bản kiểm tra tài sản,Giấy tờ,2022-04-29,2024-04-04,-587,Hỏng,2574086.77,0
+GT-0443,Giấy ủy quyền đại diện,Giấy tờ,2024-01-13,2024-07-29,-502,Hỏng,476307.54,0
+GT-0444,Giấy chứng nhận đăng ký doanh nghiệp,Giấy tờ,2022-02-09,2024-04-18,-574,Cần bảo trì,1290667.16,1
+GT-0445,Giấy chứng nhận đăng ký doanh nghiệp,Giấy tờ,2024-11-21,2025-06-24,-161,Hỏng,654368.3,0
+GT-0446,Giấy ủy quyền đại diện,Giấy tờ,2024-03-18,2025-01-02,-304,Hỏng,,0
+PM-0447,Bản quyền phần mềm diệt virus Kaspersky,Phần mềm,2023-12-30,2024-12-16,-326,Hỏng,1654446.81,0
+GT-0448,Biên bản thanh lý hợp đồng,Giấy tờ,2025-10-26,2026-07-13,229,Tốt,4144416.83,2
+GT-0449,Giấy chứng nhận đăng ký doanh nghiệp,Giấy tờ,2025-11-28,2026-11-18,363,Tốt,3533886.08,1
+PC-0450,Ổ cứng WD 1TB,Phần cứng,2026-03-14,2027-05-10,528,Tốt,3027690.79,2
+PM-0451,Phần mềm quản lý nhân sự,Phần mềm,2024-01-19,2024-09-02,-437,Hỏng,3908951.65,0
+PM-0452,Bản quyền Windows Server 2022,Phần mềm,2025-08-06,2025-12-01,33,Cần bảo trì,2699529.2,1
+PC-0453,Máy chiếu Epson EB-X51,Phần cứng,2024-06-06,2026-11-15,353,Tốt,2655847.64,2
+PC-0454,Laptop Dell XPS 13,Phần cứng,2024-09-28,2027-01-10,432,Tốt,610549.57,2
+PC-0455,Máy tính bàn HP EliteDesk,Phần cứng,2025-05-13,2027-03-09,474,Tốt,1580780.52,2
+GT-0456,Biên bản hợp tác,Giấy tờ,2025-03-23,2027-01-21,423,Cần bảo trì,741716.0,1
+GT-0457,Hợp đồng cung cấp dịch vụ,Phần cứng,2023-05-30,2024-07-25,-477,Hỏng,4759058.93,0
+PC-0458,Máy chủ Dell PowerEdge,Phần cứng,2024-06-21,2027-02-17,446,Tốt,2273699.28,2
+PM-0459,Giấy phép Microsoft 365,Phần mềm,2024-08-02,2026-09-26,310,Tốt,3334321.29,2
+PM-0460,Bản quyền Windows Server 2022,Phần mềm,2022-08-16,2025-01-23,-311,Hỏng,3523403.81,0
+PC-0461,Máy tính bàn HP EliteDesk,Phần cứng,2023-03-22,2025-04-01,-197,Hỏng,811909.47,1
+GT-0462,Biên bản hợp tác,Giấy tờ,2025-12-09,2026-12-31,415,Tốt,3363010.59,2
+PC-0463,Máy tính bàn HP EliteDesk,Phần cứng,2021-11-05,2024-06-15,-525,Hỏng,1276532.62,0
+GT-0464,Biên bản hợp tác,Giấy tờ,2025-04-06,2027-05-08,545,Hỏng,4723071.1,0
+PC-0465,Máy chiếu Epson EB-X51,Phần cứng,2022-07-06,2024-07-13,-489,Hỏng,1220736.45,0
+PC-0466,Switch Cisco SG350,Phần cứng,2024-05-09,2025-01-18,-301,Hỏng,2853048.73,0
+PM-0467,License AutoCAD 2024,Phần mềm,2023-07-21,2025-03-01,-247,Hỏng,3447633.76,0
+GT-0468,Hợp đồng cung cấp dịch vụ,Giấy tờ,2026-02-05,2027-06-05,581,Tốt,4704376.78,2
+PC-0469,Máy chiếu Epson EB-X51,Phần cứng,2024-10-16,2027-03-19,484,Tốt,2885926.18,2
+PC-0470,Router Mikrotik RB750Gr3,Phần cứng,2026-06-06,2026-12-26,400,Tốt,3024769.61,1
+PM-0471,Giấy phép Zoom Pro,Phần mềm,2026-02-12,2027-06-19,580,Tốt,2034539.8,2
+GT-0472,Hồ sơ nhân sự,Giấy tờ,2023-05-05,2025-10-31,-47,Hỏng,1443427.98,0
+PM-0473,Gói dịch vụ Google Workspace,Phần mềm,2026-05-11,2027-04-21,502,Tốt,1635165.81,2
+PC-0474,Bộ lưu điện APC 1000VA,Phần cứng,2024-07-21,2025-04-22,-183,Cần bảo trì,3989068.24,1
+PM-0475,Bản quyền Windows Server 2022,Phần mềm,2026-02-03,2026-06-21,246,Tốt,3245373.29,2
+GT-0476,Biên bản hợp tác,Giấy tờ,2025-08-16,2027-03-15,484,Tốt,1832307.67,2
+PM-0477,License phần mềm kế toán MISA,Phần mềm,2024-08-04,2026-09-24,325,Tốt,1902098.52,2
+GT-0478,Biên bản hợp tác,Giấy tờ,2022-07-31,2025-01-01,-291,Hỏng,2728434.44,0
+PM-0479,Gói dịch vụ Google Workspace,Phần mềm,2024-11-06,2026-08-05,312,Tốt,842221.93,2
+PC-0480,Máy tính bàn HP EliteDesk,Phần cứng,2024-03-17,2026-11-08,378,Tốt,2317470.22,2
+PM-0481,Gói dịch vụ Google Workspace,Phần mềm,2022-08-10,2025-02-12,-275,Hỏng,2595408.93,0
+PC-0482,Bộ lưu điện APC 1000VA,Phần cứng,2026-01-21,2027-06-12,563,Tốt,544591.71,2
+GT-0483,Biên bản hợp tác,Giấy tờ,2025-03-07,2026-11-21,350,Tốt,2668012.73,2
+PM-0484,Domain công ty .vn,Phần mềm,2024-04-07,2026-10-21,346,Tốt,2747071.19,2
+PC-0485,Thiết bị NAS Synology DS220+,Phần cứng,2023-07-24,2025-03-20,-248,Hỏng,4777618.48,0
+GT-0486,Giấy ủy quyền đại diện,Giấy tờ,2022-10-21,2025-05-02,-215,Hỏng,31419423.126853853,0
+PM-0487,Giấy phép Zoom Pro,Phần mềm,2026-12-29,2027-05-13,537,Tốt,4773300.15,2
+PM-0488,Domain công ty .vn,Phần mềm,2022-12-17,2025-02-08,-293,Cần bảo trì,4672180.13,1
+PC-0489,Máy chủ Dell PowerEdge,Phần cứng,2026-07-14,2026-11-10,388,Tốt,1283882.84,2
+PC-0490,Laptop Dell XPS 13,Phần cứng,2025-02-15,2026-04-11,163,Tốt,2661301.07,2
+PC-0491,Máy chủ Dell PowerEdge,Phần cứng,2023-08-29,2026-01-20,69,Tốt,3580753.37,2
+GT-0492,Biên bản thanh lý hợp đồng,Giấy tờ,2024-04-23,2025-12-25,65,Tốt,4115870.08,2
+PC-0493,Ổ cứng WD 1TB,Phần cứng,2025-12-14,2027-04-27,532,Cần bảo trì,907191.74,1
+GT-0494,Hồ sơ nhân sự,Giấy tờ,2024-10-13,2026-11-05,345,Tốt,534384.62,2
+PC-0495,Thiết bị NAS Synology DS220+,Phần cứng,2022-03-23,2025-02-10,-280,Hỏng,4588762.45,0
+PC-0496,Bộ lưu điện APC 1000VA,Phần cứng,2025-12-07,2027-06-06,603,Tốt,217062.66,2
+PC-0497,Ổ cứng WD 1TB,Phần cứng,2025-12-30,2026-08-29,274,Tốt,12920.07,2
+PC-0498,Máy chiếu Epson EB-X51,Phần cứng,2025-09-07,2026-03-17,122,Tốt,2967692.85,2
+PC-0499,Thiết bị NAS Synology DS220+,Phần cứng,2023-01-03,2024-03-31,-604,Hỏng,873867.21,0
+GT-0500,Phiếu đăng ký nội bộ,Giấy tờ,2023-07-14,2026-02-01,60,Tốt,4500115.62,2
+GT-0501,Giấy phép kinh doanh,Giấy tờ,2024-02-10,2026-07-28,272,Cần bảo trì,3902627.58,1
+PC-0502,Máy chiếu Epson EB-X51,Phần cứng,2023-05-31,2025-09-03,-41,Hỏng,4255871.3,0
+PM-0503,Domain công ty .vn,Phần mềm,2023-12-16,2026-07-26,235,Tốt,477676.57,2
+PC-0504,Switch Cisco SG350,Phần cứng,2024-06-21,2024-11-18,-351,Hỏng,764919.0,0
+GT-0505,Hợp đồng thuê văn phòng,Giấy tờ,2025-03-24,2027-04-27,521,Tốt,4313985.39,2
+PM-0506,License AutoCAD 2024,Phần mềm,2023-11-07,2026-01-12,54,Cần bảo trì,118192.93,1
+PM-0507,Phần mềm quản lý nhân sự,Phần mềm,2025-01-29,2026-12-04,378,Tốt,1030930.82,2
+PM-0508,Giấy phép Microsoft 365,Phần mềm,2026-01-30,2026-11-15,355,Tốt,1954529.98,2
+GT-0509,Biên bản kiểm tra tài sản,Giấy tờ,2026-02-16,2026-09-28,321,Tốt,4938927.6,2
+PM-0510,License AutoCAD 2024,Phần mềm,2025-04-13,2025-12-18,24,Tốt,3587988.83,2
+GT-0511,Giấy chứng nhận đăng ký doanh nghiệp,Giấy tờ,2025-10-28,2026-12-15,402,Tốt,,2
+PC-0512,Máy chiếu Epson EB-X51,Phần cứng,2025-06-21,2027-04-21,524,Tốt,2891934.59,2
+PM-0513,Giấy phép Zoom Pro,Phần mềm,2025-10-07,2026-12-22,401,Tốt,1324477.24,2
+GT-0514,Phiếu đăng ký nội bộ,Giấy tờ,2023-04-25,2024-06-02,-542,Hỏng,1616857.81,0
+PM-0515,Bản quyền phần mềm diệt virus Kaspersky,Phần mềm,2023-03-21,2025-05-20,-185,Hỏng,3085778.92,0
+GT-0516,Giấy ủy quyền đại diện,Giấy tờ,2024-05-07,2026-06-27,238,Tốt,338062.82,2
+GT-0517,Giấy ủy quyền đại diện,Giấy tờ,2022-02-03,2024-08-28,-433,Hỏng,2700059.57,0
+PC-0518,Máy in Canon LBP 2900,Phần cứng,2021-12-27,2024-05-27,-549,Cần bảo trì,2664788.93,1
+GT-0519,Hợp đồng cung cấp dịch vụ,Giấy tờ,2024-09-26,2025-02-26,-258,Hỏng,3347434.78,0
+PM-0520,License AutoCAD 2024,Phần mềm,2024-11-03,2026-04-30,180,Tốt,1814721.36,2
+PM-0521,Bản quyền Windows Server 2022,Phần mềm,2022-08-03,2024-07-15,-510,Hỏng,300711.71,0
+PC-0522,Ổ cứng WD 1TB,Phần cứng,2024-06-19,2025-06-17,-140,Hỏng,876514.71,0
+PM-0523,Bản quyền phần mềm diệt virus Kaspersky,Phần mềm,2026-08-03,2027-01-02,406,Tốt,852389.69,2
+PC-0524,Máy chủ Dell PowerEdge,Phần cứng,2024-03-20,2026-01-20,78,Tốt,2251854.68,2
+GT-0525,Phiếu đăng ký nội bộ,Giấy tờ,2024-12-07,2026-11-26,368,Cần bảo trì,2374432.72,0
+PC-0526,Router Mikrotik RB750Gr3,Phần cứng,2024-11-20,2025-03-04,-280,Hỏng,4870823.14,0
+PC-0527,Máy chủ Dell PowerEdge,Phần cứng,2024-08-30,2025-03-20,-261,Hỏng,1218283.58,0
+PC-0528,Máy tính bàn HP EliteDesk,Phần cứng,2026-06-12,2027-04-03,508,Tốt,3117928.44,2
+PC-0529,Router Mikrotik RB750Gr3,Phần cứng,2024-01-08,2026-05-30,203,Tốt,638567.42,2
+PC-0530,Thiết bị NAS Synology DS220+,Phần cứng,2023-07-27,2026-03-29,123,Tốt,315545.17,2
+GT-0531,Biên bản thanh lý hợp đồng,Giấy tờ,2021-11-03,2024-07-13,-477,Hỏng,,0
+GT-0532,Biên bản kiểm tra tài sản,Giấy tờ,2025-02-05,2026-04-30,144,Tốt,4684789.12,2
+GT-0533,Giấy chứng nhận đăng ký doanh nghiệp,Giấy tờ,2026-02-08,2026-07-04,233,Tốt,1984907.59,2
+PM-0534,Domain công ty .vn,Phần mềm,2022-06-05,2025-01-26,-308,Hỏng,808821.06,0
+PC-0535,Bộ lưu điện APC 1000VA,Phần cứng,2022-08-19,2025-02-26,-269,Hỏng,2832876.81,0
+PC-0536,Bộ lưu điện APC 1000VA,Phần cứng,2023-03-29,2025-10-03,-39,Hỏng,581831.99,0
+PC-0537,Thiết bị NAS Synology DS220+,Phần cứng,2025-05-22,2027-06-16,568,Tốt,4389871.6,2
+PC-0538,Máy tính bàn HP EliteDesk,Phần cứng,2023-07-31,2024-08-02,-473,Hỏng,706390.25,0
+PM-0539,Domain công ty .vn,Phần mềm,2023-02-19,2024-06-02,-513,Hỏng,1612639.89,0
+PM-0540,Bản quyền phần mềm diệt virus Kaspersky,Phần mềm,2024-07-23,2026-07-28,249,Tốt,3474755.44,2
+PC-0541,Máy in Canon LBP 2900,Phần cứng,2024-05-21,2024-12-12,-322,Hỏng,4112402.82,0
+GT-0542,Phiếu đăng ký nội bộ,Giấy tờ,2024-05-13,2026-06-21,204,Tốt,1568638.46,2
+PM-0543,Bản quyền Windows Server 2022,Phần mềm,2024-06-19,2026-06-23,240,Tốt,3031264.69,2
+PC-0544,Máy chiếu Epson EB-X51,Phần cứng,2023-03-12,2025-04-06,-198,Hỏng,1587657.24,0
+PM-0545,License phần mềm kế toán MISA,Phần mềm,2026-09-29,2027-05-06,503,Tốt,608809.56,2
+GT-0546,Hợp đồng thuê văn phòng,Giấy tờ,2024-09-10,2027-03-29,490,Tốt,4815575.56,2
+GT-0547,Giấy chứng nhận đăng ký doanh nghiệp,Giấy tờ,2024-02-10,2026-07-15,254,Tốt,4380525.96,2
+GT-0548,Hồ sơ nhân sự,Giấy tờ,2023-07-09,2025-06-11,-157,Hỏng,3204131.57,0
+GT-0549,Giấy phép kinh doanh,Giấy tờ,2024-06-26,2024-11-30,-341,Hỏng,3012765.82,0
+PM-0550,Giấy phép Zoom Pro,Phần mềm,2023-10-15,2025-01-02,-323,Hỏng,306748.14,0
+PM-0551,Bản quyền Windows Server 2022,Phần mềm,2022-11-12,2025-03-01,-255,Hỏng,290818.98,0
+PM-0552,Domain công ty .vn,Phần mềm,2025-08-10,2027-03-06,477,Tốt,1486775.24,2
+PM-0553,Bản quyền Windows Server 2022,Phần mềm,2026-09-14,2027-04-18,540,Tốt,373149.07,2
+PC-0554,Ổ cứng WD 1TB,Phần cứng,2024-02-04,2026-08-21,286,Cần bảo trì,888831.94,1
+GT-0555,Giấy chứng nhận đăng ký doanh nghiệp,Giấy tờ,2023-12-07,2026-05-15,189,Tốt,1163227.69,2
+GT-0556,Giấy ủy quyền đại diện,Giấy tờ,2024-10-01,2025-05-15,-187,Hỏng,2635207.32,0
+PM-0557,Domain công ty .vn,Phần mềm,2025-11-06,2027-03-13,479,Tốt,3960468.17,2
+PM-0558,License AutoCAD 2024,Phần mềm,2024-04-18,2026-04-28,161,Tốt,973112.56,2
+PM-0559,Gói Cloud AWS Business,Phần mềm,2024-01-16,2024-06-21,-503,Hỏng,2408174.23,0
+PM-0560,Bản quyền Windows Server 2022,Phần mềm,2023-11-07,2025-11-09,-9,Hỏng,4819111.38,2
+PM-0561,Gói Cloud AWS Business,Phần mềm,2023-08-27,2025-04-30,-192,Hỏng,95961.38,0
+PM-0562,License AutoCAD 2024,Phần mềm,2023-09-03,2025-12-31,80,Tốt,3404874.14,2
+PM-0563,Gói dịch vụ Google Workspace,Phần mềm,2024-08-04,2027-01-22,449,Cần bảo trì,60603.87,1
+PC-0564,Ổ cứng WD 1TB,Phần cứng,2024-08-11,2025-02-22,-268,Hỏng,323083.4,0
+GT-0565,Biên bản hợp tác,Giấy tờ,2024-02-13,2026-02-19,117,Hỏng,3230450.62,0
+GT-0566,Phiếu đăng ký nội bộ,Giấy tờ,2024-02-16,2024-09-20,-424,Hỏng,746188.89,0
+PC-0567,Bộ lưu điện APC 1000VA,Phần cứng,2023-11-29,2025-09-18,-86,Hỏng,1623379.63,0
+PC-0568,Máy in Canon LBP 2900,Phần cứng,2023-10-27,2025-09-26,-62,Hỏng,3925082.72,0
+GT-0569,Giấy chứng nhận đăng ký doanh nghiệp,Giấy tờ,2022-11-25,2024-07-04,-524,Hỏng,510747.65,0
+GT-0570,Hợp đồng thuê văn phòng,Giấy tờ,2023-08-27,2024-07-28,-477,Hỏng,4044417.31,0
+GT-0571,Giấy phép kinh doanh,Giấy tờ,2024-05-10,2027-01-19,433,Tốt,63542179.992221415,2
+GT-0572,Giấy ủy quyền đại diện,Giấy tờ,2023-06-14,2026-03-06,139,Tốt,2477260.52,2
+PM-0573,Gói dịch vụ Google Workspace,Phần mềm,2023-10-02,2024-10-07,-396,Hỏng,1134823.47,0
+GT-0574,Biên bản kiểm tra tài sản,Giấy tờ,2025-10-10,2026-07-25,252,Tốt,4412297.2,2
+GT-0575,Biên bản kiểm tra tài sản,Giấy tờ,2024-08-05,2026-10-17,351,Tốt,2561109.6,2
+GT-0576,Biên bản kiểm tra tài sản,Giấy tờ,2025-01-07,2026-07-30,211,Tốt,190109.24,2
+PM-0577,License phần mềm kế toán MISA,Phần mềm,2023-06-23,2025-05-03,-189,Hỏng,526837.67,0
+GT-0578,Biên bản kiểm tra tài sản,Giấy tờ,2022-03-11,2024-08-16,-441,Hỏng,3687541.8,0
+PC-0579,Máy chủ Dell PowerEdge,Phần cứng,2022-10-14,2025-05-31,-187,Hỏng,3873267.66,0
+PM-0580,Giấy phép Microsoft 365,Phần mềm,2024-10-01,2025-09-12,-44,Hỏng,1774206.8,0
+PC-0581,Ổ cứng WD 1TB,Phần cứng,2025-11-09,2026-05-03,177,Tốt,3301513.6,2
+PC-0582,Bộ lưu điện APC 1000VA,Phần cứng,2026-03-30,2026-12-08,385,Tốt,,2
+GT-0583,Phiếu đăng ký nội bộ,Giấy tờ,2023-02-20,2025-03-16,-232,Hỏng,3123317.84,0
+PC-0584,Laptop Dell XPS 13,Phần cứng,2025-05-07,2026-10-23,379,Tốt,52138.5,2
+PC-0585,Laptop Dell XPS 13,Phần cứng,2024-03-05,2024-09-06,-429,Hỏng,4799132.59,0
+PM-0586,License phần mềm kế toán MISA,Phần mềm,2024-02-21,2026-04-27,170,Tốt,4842443.89,2
+GT-0587,Biên bản thanh lý hợp đồng,Giấy tờ,2024-12-14,2026-01-02,44,Tốt,2371680.55,2
+PC-0588,Switch Cisco SG350,Phần cứng,2025-06-26,2026-05-11,167,Tốt,2912113.29,2
+PM-0589,Gói Cloud AWS Business,Phần mềm,2026-03-15,2026-08-30,303,Tốt,783192.18,2
+PC-0590,Switch Cisco SG350,Phần cứng,2024-07-26,2024-12-19,-341,Cần bảo trì,4640418.2,1
+PM-0591,License phần mềm kế toán MISA,Phần mềm,2025-01-10,2025-07-22,-112,Hỏng,2160384.41,0
+PC-0592,Thiết bị NAS Synology DS220+,Phần cứng,2024-01-22,2026-05-20,182,Tốt,1368956.54,2
+GT-0593,Hợp đồng cung cấp dịch vụ,Giấy tờ,2024-08-02,2026-02-05,92,Tốt,63574.45,2
+GT-0594,Hồ sơ nhân sự,Giấy tờ,2023-07-01,2024-04-29,-557,Hỏng,4232571.69,2
+GT-0595,Giấy ủy quyền đại diện,Giấy tờ,2023-10-05,2024-08-17,-436,Hỏng,3775209.64,0
+GT-0596,Biên bản thanh lý hợp đồng,Giấy tờ,2023-06-24,2025-01-17,-307,Hỏng,3642453.39,0
+PM-0597,License phần mềm kế toán MISA,Phần mềm,2023-05-31,2024-11-12,-369,Hỏng,269291.03,0
+PC-0598,Router Mikrotik RB750Gr3,Phần cứng,2023-08-29,2024-11-11,-381,Hỏng,1346656.49,0
+GT-0599,Hợp đồng cung cấp dịch vụ,Giấy tờ,2024-07-19,2026-04-30,162,Tốt,658643.87,2
+PM-0600,Giấy phép Zoom Pro,Phần mềm,2023-01-18,2024-12-29,-312,Hỏng,4825648.71,0
+PM-0601,License phần mềm kế toán MISA,Phần mềm,2023-05-26,2024-06-17,-502,Hỏng,1711918.18,0
+PC-0602,Thiết bị NAS Synology DS220+,Phần cứng,2024-05-28,2025-05-16,-194,Hỏng,2951738.45,1
+PM-0603,Giấy phép Microsoft 365,Phần mềm,2021-12-28,2024-04-09,-569,Hỏng,757846.86,0
+PC-0604,Switch Cisco SG350,Phần cứng,2023-02-21,2024-07-20,-473,Hỏng,3181456.77,0
+GT-0605,Biên bản hợp tác,Giấy tờ,2024-04-04,2024-08-04,-459,Hỏng,2307787.37,0
+GT-0606,Biên bản kiểm tra tài sản,Giấy tờ,2023-04-10,2025-08-18,-58,Hỏng,4959049.76,0
+PM-0607,License phần mềm kế toán MISA,Phần mềm,2024-11-29,2026-08-12,261,Tốt,3287801.56,2
+GT-0608,Giấy chứng nhận đăng ký doanh nghiệp,Giấy tờ,2022-09-13,2025-01-17,-318,Hỏng,3079927.25,0
+PM-0609,Giấy phép Microsoft 365,Phần mềm,2024-03-22,2026-10-14,309,Tốt,1876299.52,2
+GT-0610,Biên bản thanh lý hợp đồng,Giấy tờ,2026-03-24,2026-10-09,353,Tốt,26148.07,2
+PC-0611,Bộ lưu điện APC 1000VA,Phần cứng,2023-04-21,2025-10-08,-25,Hỏng,4163402.35,0
+PC-0612,Máy in Canon LBP 2900,Phần cứng,2026-04-25,2027-01-29,442,Tốt,1634658.08,2
+PM-0613,Giấy phép Microsoft 365,Phần mềm,2026-02-12,2026-12-31,418,Tốt,2351595.27,2
+PM-0614,Gói Cloud AWS Business,Phần mềm,2023-10-10,2026-02-17,80,Tốt,1841547.65,2
+GT-0615,Biên bản hợp tác,Giấy tờ,2025-01-01,2027-01-29,480,Tốt,3901998.88,2
+PC-0616,Bộ lưu điện APC 1000VA,Phần cứng,2025-12-18,2027-06-12,579,Tốt,32571333.721392762,2
+GT-0617,Biên bản kiểm tra tài sản,Giấy tờ,2024-09-01,2026-08-09,272,Tốt,16091.32,2
+PC-0618,Switch Cisco SG350,Giấy tờ,2022-07-09,2024-08-31,-402,Hỏng,3970986.66,0
+GT-0619,Giấy ủy quyền đại diện,Giấy tờ,2024-08-27,2025-10-25,-11,Hỏng,2404864.45,0
+PC-0620,Thiết bị NAS Synology DS220+,Phần cứng,2023-05-22,2025-03-06,-262,Hỏng,1127193.78,0
+PC-0621,Thiết bị NAS Synology DS220+,Phần cứng,2024-05-07,2024-08-30,-451,Hỏng,2996844.83,0
+PM-0622,License phần mềm kế toán MISA,Phần mềm,2021-12-11,2024-05-20,-534,Hỏng,1610540.02,0
+PM-0623,Gói dịch vụ Google Workspace,Phần mềm,2023-08-10,2024-10-18,-362,Hỏng,292754.65,0
+GT-0624,Biên bản thanh lý hợp đồng,Giấy tờ,2023-05-10,2025-09-14,-39,Hỏng,4909845.95,0
+GT-0625,Giấy chứng nhận đăng ký doanh nghiệp,Giấy tờ,2023-04-18,2024-04-09,-558,Hỏng,2200994.99,0
+PC-0626,Laptop Dell XPS 13,Phần cứng,2022-11-24,2024-07-12,-496,Cần bảo trì,2170096.83,1
+PC-0627,Switch Cisco SG350,Phần cứng,2024-08-10,2027-05-02,521,Tốt,2991126.47,2
+PM-0628,Phần mềm quản lý nhân sự,Phần mềm,2026-03-03,2026-11-17,368,Tốt,3668079.15,2
+PC-0629,Bộ lưu điện APC 1000VA,Phần cứng,2023-02-02,2024-08-29,-439,Hỏng,2106240.27,0
+PM-0630,Gói Cloud AWS Business,Phần mềm,2021-10-30,2024-06-07,-507,Hỏng,3736097.94,0
+PM-0631,Domain công ty .vn,Phần mềm,2023-10-12,2025-11-13,-24,Cần bảo trì,2938846.8,1
+GT-0632,Biên bản kiểm tra tài sản,Giấy tờ,2022-06-09,2024-08-06,-440,Hỏng,1672556.44,0
+GT-0633,Giấy chứng nhận đăng ký doanh nghiệp,Giấy tờ,2022-10-18,2024-11-30,-349,Hỏng,2932395.46,0
+PC-0634,Switch Cisco SG350,Phần cứng,2024-06-13,2025-10-05,-44,Hỏng,4703396.23,0
+PC-0635,Máy chủ Dell PowerEdge,Phần cứng,2024-12-24,2026-09-29,306,Tốt,4363651.25,2
+GT-0636,Biên bản kiểm tra tài sản,Giấy tờ,2022-03-11,2024-05-09,-577,Hỏng,2175902.0,0
+GT-0637,Biên bản thanh lý hợp đồng,Phần cứng,2024-07-11,2025-12-19,49,Tốt,3639696.53,2
+PC-0638,Ổ cứng WD 1TB,Phần cứng,2024-06-09,2026-05-22,192,Tốt,3647541.14,2
+PC-0639,Thiết bị NAS Synology DS220+,Phần cứng,2025-02-03,2026-02-05,66,Tốt,3051125.75,2
+GT-0640,Giấy chứng nhận đăng ký doanh nghiệp,Giấy tờ,2024-05-11,2026-12-01,365,Tốt,4783073.11,2
+PC-0641,Laptop Dell XPS 13,Phần cứng,2024-10-07,2026-08-14,270,Tốt,222974.54,2
+PC-0642,Switch Cisco SG350,Phần cứng,2025-04-12,2026-09-10,327,Tốt,1234894.0,2
+PC-0643,Thiết bị NAS Synology DS220+,Phần cứng,2025-12-20,2026-09-13,301,Tốt,1359748.63,2
+PC-0644,Máy chiếu Epson EB-X51,Phần cứng,2022-03-16,2024-10-12,-419,Hỏng,,0
+GT-0645,Giấy ủy quyền đại diện,Giấy tờ,2025-06-18,2025-11-07,-9,Hỏng,3098497.2,0
+PM-0646,Gói dịch vụ Google Workspace,Phần mềm,2022-12-18,2024-10-03,-409,Hỏng,1575947.61,0
+PM-0647,Gói dịch vụ Google Workspace,Phần mềm,2026-03-01,2027-03-20,453,Tốt,4499166.73,2
+PC-0648,Máy chiếu Epson EB-X51,Phần cứng,2026-01-26,2027-06-06,570,Tốt,639941.04,2
+PM-0649,Domain công ty .vn,Phần mềm,2025-04-06,2025-07-26,-112,Hỏng,3938565.08,0
+PC-0650,Router Mikrotik RB750Gr3,Phần cứng,2022-09-27,2024-09-02,-426,Hỏng,4906485.45,0
+PC-0651,Máy chiếu Epson EB-X51,Phần cứng,2026-04-14,2027-05-20,582,Tốt,3625778.64,2
+GT-0652,Biên bản hợp tác,Giấy tờ,2022-07-04,2025-03-27,-213,Hỏng,,0
+GT-0653,Hợp đồng cung cấp dịch vụ,Giấy tờ,2024-06-02,2025-05-20,-180,Hỏng,110175.8,0
+GT-0654,Giấy phép kinh doanh,Giấy tờ,2025-01-12,2026-09-02,277,Tốt,1254833.31,2
+PM-0655,Giấy phép Zoom Pro,Phần mềm,2024-08-30,2026-12-31,453,Tốt,2725527.64,2
+GT-0656,Biên bản kiểm tra tài sản,Giấy tờ,2023-12-06,2024-04-18,-572,Hỏng,3614071.52,0
+GT-0657,Biên bản kiểm tra tài sản,Giấy tờ,2022-06-11,2024-09-14,-424,Cần bảo trì,2717691.09,1
+PC-0658,Router Mikrotik RB750Gr3,Phần cứng,2022-03-02,2024-10-05,-403,Hỏng,4234593.64,0
+PC-0659,Máy in Canon LBP 2900,Phần cứng,2023-10-06,2024-04-12,-576,Cần bảo trì,4249876.86,1
+PC-0660,Bộ lưu điện APC 1000VA,Phần cứng,2022-02-03,2024-06-27,-505,Hỏng,4309934.54,0
+PM-0661,Gói Cloud AWS Business,Phần mềm,2025-05-01,2027-04-05,500,Tốt,1452937.8,2
+PM-0662,Gói Cloud AWS Business,Phần cứng,2023-11-12,2025-10-13,-38,Hỏng,2296199.39,0
+PM-0663,License AutoCAD 2024,Phần mềm,2024-05-04,2025-10-03,-40,Hỏng,1006818.91,1
+PM-0664,Bản quyền phần mềm diệt virus Kaspersky,Phần mềm,2025-02-02,2025-09-04,-77,Hỏng,2724238.8,0
+PC-0665,Laptop Dell XPS 13,Phần cứng,2022-11-05,2024-10-21,-398,Hỏng,89728.39,0
+GT-0666,Phiếu đăng ký nội bộ,Giấy tờ,2025-02-17,2025-12-09,29,Cần bảo trì,4352892.13,1
+PM-0667,Giấy phép Microsoft 365,Phần mềm,2024-06-05,2026-12-17,396,Tốt,2800911.29,2
+PC-0668,Switch Cisco SG350,Phần cứng,2023-10-20,2025-06-11,-131,Cần bảo trì,2762568.07,1
+PC-0669,Router Mikrotik RB750Gr3,Phần cứng,2025-02-27,2027-02-22,427,Tốt,2693508.99,2
+PM-0670,Gói Cloud AWS Business,Phần mềm,2024-06-16,2026-01-29,94,Tốt,3283900.52,2
+GT-0671,Biên bản kiểm tra tài sản,Giấy tờ,2025-09-07,2026-02-28,127,Tốt,4822383.27,2
+PC-0672,Ổ cứng WD 1TB,Phần cứng,2024-03-17,2025-08-11,-124,Hỏng,3964272.1,0
+GT-0673,Phiếu đăng ký nội bộ,Giấy tờ,2025-12-02,2027-03-22,490,Tốt,3989570.8,2
+PM-0674,Domain công ty .vn,Phần mềm,2025-11-20,2027-04-23,521,Tốt,2600952.62,1
+PC-0675,Laptop Dell XPS 13,Phần cứng,2023-01-04,2025-04-11,-236,Cần bảo trì,1583808.39,1
+PM-0676,Domain công ty .vn,Phần mềm,2023-11-25,2024-12-05,-354,Hỏng,4485931.7,0
+PM-0677,License AutoCAD 2024,Phần mềm,2023-03-13,2025-07-20,-132,Hỏng,703557.64,0
+GT-0678,Hợp đồng thuê văn phòng,Giấy tờ,2023-10-11,2025-11-24,38,Cần bảo trì,3663176.17,1
+PM-0679,Bản quyền Windows Server 2022,Phần mềm,2023-08-01,2024-12-06,-327,Hỏng,3992966.36,0
+PC-0680,Máy in Canon LBP 2900,Phần cứng,2023-01-22,2025-09-16,-38,Hỏng,588219.94,0
+PM-0681,Bản quyền phần mềm diệt virus Kaspersky,Phần mềm,2025-07-18,2027-01-25,450,Tốt,4942079.95,2
+GT-0682,Giấy ủy quyền đại diện,Giấy tờ,2026-03-13,2026-12-29,395,Tốt,3339599.99,2
+GT-0683,Giấy phép kinh doanh,Giấy tờ,2024-06-15,2026-10-01,315,Tốt,4409638.79,2
+PM-0684,Phần mềm quản lý nhân sự,Phần mềm,2022-09-27,2024-11-23,-347,Hỏng,649132.24,0
+GT-0685,Hợp đồng thuê văn phòng,Giấy tờ,2024-01-14,2024-07-30,-488,Hỏng,2636998.11,0
+GT-0686,Biên bản hợp tác,Giấy tờ,2025-03-31,2027-01-07,432,Tốt,3657482.45,2
+GT-0687,Hồ sơ nhân sự,Giấy tờ,2024-05-30,2024-12-11,-340,Hỏng,,0
+PC-0688,Laptop Dell XPS 13,Phần cứng,2022-09-16,2024-10-18,-396,Hỏng,3797912.05,0
+GT-0689,Giấy phép kinh doanh,Giấy tờ,2024-09-18,2026-10-20,353,Tốt,3258339.59,2
+GT-0690,Giấy chứng nhận đăng ký doanh nghiệp,Giấy tờ,2026-02-12,2026-11-28,388,Tốt,4141246.26,2
+PC-0691,Máy tính bàn HP EliteDesk,Phần cứng,2022-05-12,2024-08-24,-450,Hỏng,4129891.06,0
+PC-0692,Bộ lưu điện APC 1000VA,Phần cứng,2026-07-14,2026-11-27,397,Tốt,13069280.660923425,2
+PC-0693,Thiết bị NAS Synology DS220+,Phần cứng,2022-08-27,2025-01-22,-310,Hỏng,2251754.89,0
+PC-0694,Máy chiếu Epson EB-X51,Phần cứng,2025-07-19,2026-10-30,361,Tốt,2177527.27,2
+PC-0695,Bộ lưu điện APC 1000VA,Phần cứng,2024-05-03,2026-07-06,245,Tốt,4030979.41,2
+PC-0696,Thiết bị NAS Synology DS220+,Phần cứng,2025-01-22,2026-10-08,325,Tốt,155578.0,2
+GT-0697,Giấy chứng nhận đăng ký doanh nghiệp,Giấy tờ,2026-03-03,2027-03-16,494,Tốt,,2
+PM-0698,Domain công ty .vn,Phần mềm,2023-11-27,2024-10-08,-419,Hỏng,3276412.05,0
+GT-0699,Biên bản kiểm tra tài sản,Giấy tờ,2023-12-01,2026-07-24,268,Tốt,385390.06,2
+PM-0700,License AutoCAD 2024,Phần mềm,2022-10-08,2025-06-06,-162,Hỏng,2563273.77,0
+PC-0701,Máy tính bàn HP EliteDesk,Phần cứng,2023-03-23,2025-09-05,-76,Hỏng,165946.77,0
+GT-0702,Giấy chứng nhận đăng ký doanh nghiệp,Giấy tờ,2024-06-17,2025-06-24,-125,Hỏng,1163815.74,0
+GT-0703,Giấy chứng nhận đăng ký doanh nghiệp,Giấy tờ,2023-11-07,2026-07-14,233,Cần bảo trì,4494236.94,1
+PM-0704,Gói dịch vụ Google Workspace,Phần mềm,2025-07-19,2025-12-27,24,Tốt,3353661.56,2
+PM-0705,Gói Cloud AWS Business,Phần mềm,2024-09-30,2026-08-26,264,Tốt,1897514.52,2
+PC-0706,Bộ lưu điện APC 1000VA,Phần cứng,2022-11-29,2025-08-04,-91,Hỏng,2733241.1,0
+PM-0707,Giấy phép Microsoft 365,Phần mềm,2023-08-02,2025-11-07,-24,Hỏng,90000.44,0
+PC-0708,Thiết bị NAS Synology DS220+,Phần cứng,2024-09-10,2025-11-25,39,Cần bảo trì,1400186.65,1
+GT-0709,Hồ sơ nhân sự,Giấy tờ,2025-06-15,2026-10-24,315,Tốt,4130195.26,2
+PM-0710,Giấy phép Zoom Pro,Phần mềm,2022-10-24,2024-12-30,-292,Hỏng,90032.78,0
+PM-0711,Phần mềm quản lý nhân sự,Phần mềm,2026-11-15,2027-03-13,489,Tốt,,2
+PM-0712,Bản quyền Windows Server 2022,Phần mềm,2025-08-14,2026-05-17,185,Hỏng,4363769.2,0
+PC-0713,Router Mikrotik RB750Gr3,Phần cứng,2024-10-30,2026-10-11,325,Tốt,601236.13,2
+GT-0714,Giấy chứng nhận đăng ký doanh nghiệp,Giấy tờ,2023-08-04,2024-12-11,-330,Hỏng,62020.18,0
+GT-0715,Hợp đồng thuê văn phòng,Giấy tờ,2024-12-23,2026-06-20,219,Tốt,1486189.04,2
+PM-0716,Gói Cloud AWS Business,Phần mềm,2023-12-02,2024-10-29,-362,Hỏng,2994041.48,0
+PM-0717,Bản quyền phần mềm diệt virus Kaspersky,Phần mềm,2026-06-12,2026-12-04,389,Tốt,4261319.37,2
+GT-0718,Hợp đồng cung cấp dịch vụ,Giấy tờ,2026-05-17,2027-05-16,552,Tốt,3130880.86,2
+GT-0719,Biên bản kiểm tra tài sản,Giấy tờ,2025-02-11,2026-08-19,275,Tốt,1426451.69,2
+PM-0720,Giấy phép Microsoft 365,Phần mềm,2023-02-14,2025-07-28,-108,Hỏng,4278480.47,0
+PM-0721,Gói Cloud AWS Business,Phần mềm,2024-10-03,2026-12-29,417,Tốt,469286.42,2
+GT-0722,Giấy phép kinh doanh,Giấy tờ,2024-11-01,2027-02-13,432,Tốt,4146434.0,2
+GT-0723,Biên bản kiểm tra tài sản,Giấy tờ,2023-11-02,2025-02-27,-278,Hỏng,2152137.05,0
+PC-0724,Thiết bị NAS Synology DS220+,Giấy tờ,2022-11-18,2024-09-11,-416,Hỏng,3869398.28,0
+GT-0725,Biên bản kiểm tra tài sản,Giấy tờ,2021-09-09,2024-04-16,-572,Hỏng,824123.38,0
+PC-0726,Máy tính bàn HP EliteDesk,Phần cứng,2024-01-09,2025-09-05,-71,Hỏng,3156537.77,0
+GT-0727,Giấy ủy quyền đại diện,Phần mềm,2023-06-08,2024-09-16,-422,Hỏng,1187167.34,0
+PM-0728,Gói Cloud AWS Business,Phần mềm,2025-01-12,2025-09-12,-56,Hỏng,1170922.23,0
+GT-0729,Hợp đồng thuê văn phòng,Giấy tờ,2023-11-12,2026-07-23,245,Tốt,1313378.21,2
+PC-0730,Router Mikrotik RB750Gr3,Phần cứng,2026-05-13,2026-10-28,338,Cần bảo trì,4919201.56,1
+PM-0731,Gói dịch vụ Google Workspace,Phần mềm,2024-04-06,2024-10-21,-384,Cần bảo trì,1271957.9,1
+GT-0732,Giấy phép kinh doanh,Giấy tờ,2024-12-31,2026-05-10,164,Tốt,3020358.39,2
+PM-0733,Giấy phép Zoom Pro,Phần mềm,2024-11-14,2025-03-18,-233,Hỏng,4857663.45,0
+GT-0734,Phiếu đăng ký nội bộ,Giấy tờ,2023-07-28,2026-04-13,126,Tốt,3112598.48,2
+PC-0735,Laptop Dell XPS 13,Phần cứng,2024-09-18,2026-04-09,163,Tốt,2371442.1,2
+GT-0736,Biên bản kiểm tra tài sản,Giấy tờ,2024-07-17,2026-02-20,107,Tốt,27529.0,2
+PC-0737,Router Mikrotik RB750Gr3,Phần cứng,2025-07-30,2027-05-25,563,Tốt,183606.81,2
+GT-0738,Phiếu đăng ký nội bộ,Giấy tờ,2024-06-20,2025-02-25,-245,Hỏng,2192692.44,0
+PC-0739,Máy chiếu Epson EB-X51,Phần cứng,2024-08-07,2025-04-07,-194,Hỏng,1389110.36,0
+GT-0740,Giấy ủy quyền đại diện,Giấy tờ,2023-11-27,2025-09-25,-33,Hỏng,4091033.34,0
+GT-0741,Hợp đồng cung cấp dịch vụ,Giấy tờ,2024-05-25,2024-10-04,-446,Hỏng,4371112.62,1
+GT-0742,Biên bản thanh lý hợp đồng,Giấy tờ,2025-10-13,2026-05-09,159,Tốt,224267.84,2
+PM-0743,Phần mềm quản lý nhân sự,Phần mềm,2022-05-26,2024-07-26,-483,Hỏng,1373657.63,0
+GT-0744,Phiếu đăng ký nội bộ,Giấy tờ,2023-11-20,2024-04-09,-582,Hỏng,2055105.38,0
+GT-0745,Hợp đồng thuê văn phòng,Giấy tờ,2024-08-28,2025-06-09,-148,Hỏng,1546863.59,0
+GT-0746,Hợp đồng thuê văn phòng,Giấy tờ,2023-02-21,2024-07-02,-509,Hỏng,4770165.64,0
+GT-0747,Hợp đồng thuê văn phòng,Giấy tờ,2026-07-24,2027-06-11,579,Tốt,3182006.85,2
+PM-0748,Domain công ty .vn,Phần mềm,2024-12-18,2026-12-21,393,Tốt,4147937.78,2
+GT-0749,Hợp đồng thuê văn phòng,Giấy tờ,2025-11-29,2026-07-19,240,Cần bảo trì,,1
+PC-0750,Ổ cứng WD 1TB,Phần cứng,2025-04-02,2025-12-20,17,Tốt,3313322.57,2
+GT-0751,Phiếu đăng ký nội bộ,Phần mềm,2024-06-27,2025-05-07,-203,Hỏng,2747918.28,0
+GT-0752,Giấy phép kinh doanh,Giấy tờ,2022-11-07,2025-02-16,-289,Hỏng,,0
+PM-0753,License phần mềm kế toán MISA,Phần mềm,2025-12-06,2026-11-05,343,Tốt,3230480.88,0
+PC-0754,Máy in Canon LBP 2900,Phần cứng,2024-02-18,2026-09-17,325,Hỏng,3180480.23,0
+PC-0755,Máy chiếu Epson EB-X51,Phần cứng,2024-04-27,2026-05-31,156,Tốt,3619865.28,2
+PM-0756,Gói dịch vụ Google Workspace,Phần mềm,2022-12-14,2025-04-12,-175,Hỏng,2669837.36,0
+PC-0757,Máy chiếu Epson EB-X51,Phần cứng,2023-01-27,2024-12-14,-326,Hỏng,1475203.54,0
+GT-0758,Phiếu đăng ký nội bộ,Giấy tờ,2026-08-16,2026-12-02,388,Tốt,4550673.18,2
+PC-0759,Router Mikrotik RB750Gr3,Phần cứng,2026-11-24,2027-05-16,537,Tốt,1715836.77,2
+PM-0760,Giấy phép Microsoft 365,Phần mềm,2023-05-12,2024-12-23,-313,Hỏng,3462464.13,0
+PC-0761,Máy in Canon LBP 2900,Phần cứng,2024-12-05,2025-11-22,1,Cần bảo trì,388073.22,1
+GT-0762,Biên bản thanh lý hợp đồng,Giấy tờ,2026-03-12,2027-01-22,455,Tốt,2232097.58,2
+PC-0763,Máy chủ Dell PowerEdge,Phần cứng,2023-01-23,2024-10-02,-368,Hỏng,4287811.69,0
+PM-0764,Bản quyền Windows Server 2022,Phần mềm,2026-06-13,2027-03-13,485,Tốt,494368.09,2
+PM-0765,Giấy phép Microsoft 365,Phần mềm,2024-01-01,2026-01-22,88,Tốt,1855862.12,2
+GT-0766,Phiếu đăng ký nội bộ,Giấy tờ,2025-05-07,2026-01-29,67,Tốt,2558406.93,2
+GT-0767,Hợp đồng thuê văn phòng,Giấy tờ,2024-08-20,2025-05-16,-181,Hỏng,4450485.18,0
+GT-0768,Biên bản hợp tác,Giấy tờ,2026-01-30,2027-06-06,598,Tốt,1698844.14,2
+PC-0769,Máy chủ Dell PowerEdge,Phần cứng,2024-04-10,2026-09-21,304,Tốt,3184511.59,2
+PM-0770,Giấy phép Zoom Pro,Phần mềm,2022-07-23,2024-07-25,-448,Hỏng,35388184.99887813,0
+GT-0771,Hồ sơ nhân sự,Giấy tờ,2024-12-29,2025-10-18,-14,Hỏng,3028896.25,0
+PC-0772,Bộ lưu điện APC 1000VA,Phần cứng,2024-10-24,2026-07-02,224,Tốt,526295.93,2
+GT-0773,Phiếu đăng ký nội bộ,Giấy tờ,2026-02-28,2026-07-06,245,Tốt,1142433.73,2
+PM-0774,Bản quyền phần mềm diệt virus Kaspersky,Phần mềm,2023-09-14,2024-06-04,-511,Hỏng,678945.24,0
+PC-0775,Thiết bị NAS Synology DS220+,Phần cứng,2023-10-15,2025-03-19,-229,Hỏng,13015963.14704401,0
+PC-0776,Router Mikrotik RB750Gr3,Phần cứng,2023-09-27,2024-12-08,-363,Hỏng,3781068.07,0
+PM-0777,Giấy phép Microsoft 365,Phần mềm,2023-08-29,2025-09-14,-70,Cần bảo trì,650238.91,1
+PC-0778,Máy chiếu Epson EB-X51,Phần cứng,2023-01-21,2024-09-07,-435,Hỏng,1874017.84,0
+PM-0779,Domain công ty .vn,Phần mềm,2024-09-19,2025-12-27,44,Tốt,3014714.38,2
+GT-0780,Biên bản kiểm tra tài sản,Giấy tờ,2023-11-07,2026-05-27,205,Tốt,1442027.19,2
+PM-0781,Giấy phép Microsoft 365,Phần mềm,2023-04-24,2024-07-08,-489,Hỏng,4853710.77,0
+PC-0782,Bộ lưu điện APC 1000VA,Phần cứng,2025-07-28,2027-03-19,472,Tốt,770725.22,2
+GT-0783,Giấy phép kinh doanh,Giấy tờ,2023-02-24,2025-03-21,-230,Cần bảo trì,3809509.06,1
+PM-0784,Domain công ty .vn,Phần mềm,2025-02-21,2026-10-24,355,Tốt,1780928.24,2
+PC-0785,Ổ cứng WD 1TB,Phần cứng,2026-02-26,2027-04-28,540,Tốt,973119.18,2
+GT-0786,Hồ sơ nhân sự,Giấy tờ,2025-12-07,2026-10-19,357,Tốt,3386936.61,2
+GT-0787,Hồ sơ nhân sự,Giấy tờ,2023-07-04,2024-08-07,-449,Hỏng,2788544.13,0
+PM-0788,Bản quyền phần mềm diệt virus Kaspersky,Phần mềm,2024-11-28,2025-07-17,-111,Hỏng,752607.46,0
+PC-0789,Máy chiếu Epson EB-X51,Phần cứng,2024-06-22,2026-12-12,394,Tốt,2008894.0,2
+GT-0790,Giấy phép kinh doanh,Giấy tờ,2024-01-16,2024-07-03,-522,Hỏng,1629115.59,0
+PC-0791,Ổ cứng WD 1TB,Phần cứng,2023-09-17,2024-09-02,-430,Hỏng,3654090.14,0
+GT-0792,Biên bản thanh lý hợp đồng,Giấy tờ,2024-06-28,2025-11-24,15,Tốt,,2
+PM-0793,Giấy phép Zoom Pro,Phần mềm,2024-10-31,2027-04-04,518,Tốt,4547273.05,2
+PM-0794,Gói Cloud AWS Business,Phần mềm,2025-12-01,2027-05-29,544,Tốt,189907.82,2
+PC-0795,Laptop Dell XPS 13,Phần cứng,2022-11-08,2025-07-10,-141,Hỏng,2020724.2957528136,0
+GT-0796,Biên bản kiểm tra tài sản,Giấy tờ,2026-03-28,2027-01-03,433,Tốt,4720210.47,2
+GT-0797,Giấy chứng nhận đăng ký doanh nghiệp,Giấy tờ,2023-11-23,2024-08-15,-455,Hỏng,2564512.08,0
+PC-0798,Máy chiếu Epson EB-X51,Phần cứng,2026-10-13,2027-04-21,535,Tốt,2612220.73,2
+PC-0799,Máy chủ Dell PowerEdge,Phần cứng,2023-02-09,2025-05-02,-194,Hỏng,1932702.53,0
+PM-0800,Giấy phép Microsoft 365,Phần mềm,2023-09-07,2026-04-21,160,Tốt,1811340.44,2
+GT-0801,Hồ sơ nhân sự,Giấy tờ,2025-02-28,2026-11-20,387,Tốt,2279896.38,2
+PM-0802,Phần mềm quản lý nhân sự,Phần mềm,2025-12-15,2026-05-02,163,Cần bảo trì,4032946.71,1
+PM-0803,Giấy phép Zoom Pro,Phần mềm,2025-01-01,2025-08-14,-89,Hỏng,546321.05,0
+GT-0804,Giấy phép kinh doanh,Giấy tờ,2023-08-21,2025-02-21,-271,Hỏng,4234844.27,0
+PM-0805,Giấy phép Zoom Pro,Phần mềm,2024-09-08,2025-06-07,-165,Hỏng,153950.25,0
+PM-0806,Gói dịch vụ Google Workspace,Phần mềm,2022-12-29,2024-12-17,-319,Hỏng,3670148.81,0
+PC-0807,Switch Cisco SG350,Phần cứng,2021-12-11,2024-04-12,-576,Hỏng,3438610.21,0
+PM-0808,Giấy phép Microsoft 365,Phần mềm,2025-10-29,2026-09-13,298,Tốt,672175.65,2
+PC-0809,Máy chủ Dell PowerEdge,Phần cứng,2022-09-25,2024-10-01,-388,Hỏng,1667036.61,0
+PM-0810,License phần mềm kế toán MISA,Phần mềm,2023-12-12,2024-05-17,-557,Hỏng,,0
+PM-0811,License phần mềm kế toán MISA,Phần mềm,2022-11-12,2024-12-10,-340,Hỏng,4973243.21,0
+PM-0812,Bản quyền Windows Server 2022,Phần mềm,2024-06-01,2025-12-28,39,Tốt,220809.68,2
+GT-0813,Hồ sơ nhân sự,Giấy tờ,2022-09-14,2024-03-22,-578,Hỏng,345147.7,0
+GT-0814,Giấy ủy quyền đại diện,Giấy tờ,2023-06-15,2025-12-29,50,Tốt,3844613.91,2
+GT-0815,Biên bản thanh lý hợp đồng,Giấy tờ,2022-03-15,2024-12-03,-329,Hỏng,4229607.2,2
+PC-0816,Laptop Dell XPS 13,Phần cứng,2026-01-18,2027-04-23,505,Cần bảo trì,1995500.94,1
+PC-0817,Switch Cisco SG350,Phần cứng,2025-01-29,2025-05-09,-183,Hỏng,122492.24,0
+PM-0818,Phần mềm quản lý nhân sự,Phần mềm,2025-04-11,2026-09-18,322,Tốt,4041176.05,2
+GT-0819,Hợp đồng thuê văn phòng,Giấy tờ,2023-02-13,2024-05-05,-555,Hỏng,4775576.04,0
+PM-0820,Bản quyền Windows Server 2022,Phần mềm,2026-05-31,2027-03-16,505,Tốt,384310.38,2
+PM-0821,Gói Cloud AWS Business,Phần mềm,2023-06-13,2025-02-06,-287,Cần bảo trì,364509.18,1
+GT-0822,Hợp đồng cung cấp dịch vụ,Giấy tờ,2023-09-24,2024-07-10,-469,Hỏng,1055562.36,0
+PC-0823,Máy tính bàn HP EliteDesk,Phần cứng,2025-01-12,2026-09-11,337,Tốt,1462575.46,2
+PC-0824,Máy chiếu Epson EB-X51,Phần cứng,2025-10-25,2027-02-05,445,Tốt,110134.61,2
+PM-0825,Giấy phép Microsoft 365,Phần mềm,2023-09-16,2025-02-05,-287,Hỏng,2744902.25,0
+PC-0826,Máy chủ Dell PowerEdge,Phần cứng,2023-10-31,2026-05-11,202,Tốt,3017465.48,2
+GT-0827,Giấy phép kinh doanh,Giấy tờ,2025-08-13,2026-03-17,149,Tốt,939214.26,2
+PM-0828,Domain công ty .vn,Phần mềm,2025-01-26,2025-09-16,-65,Hỏng,2246748.71,0
+PC-0829,Router Mikrotik RB750Gr3,Phần cứng,2025-08-06,2026-01-10,53,Tốt,3413086.11,2
+PC-0830,Máy chiếu Epson EB-X51,Phần cứng,2023-07-22,2025-05-07,-193,Hỏng,1173267.21,0
+GT-0831,Biên bản hợp tác,Giấy tờ,2024-05-23,2026-07-16,226,Tốt,2762504.84,2
+PM-0832,Giấy phép Microsoft 365,Phần mềm,2025-01-27,2027-03-09,468,Tốt,3876730.75,2
+PC-0833,Router Mikrotik RB750Gr3,Phần cứng,2025-10-20,2026-07-19,234,Tốt,4118890.45,2
+PM-0834,Gói Cloud AWS Business,Phần mềm,2024-01-26,2026-08-11,260,Tốt,3743226.17,2
+PM-0835,Bản quyền phần mềm diệt virus Kaspersky,Phần mềm,2024-06-06,2026-12-07,389,Tốt,945197.62,2
+GT-0836,Giấy ủy quyền đại diện,Giấy tờ,2026-08-10,2027-04-15,523,Tốt,2967428.81,2
+GT-0837,Biên bản kiểm tra tài sản,Giấy tờ,2026-10-10,2027-04-07,534,Tốt,4196692.46,2
+GT-0838,Hợp đồng thuê văn phòng,Giấy tờ,2022-05-31,2025-02-09,-291,Hỏng,4702242.53,0
+GT-0839,Biên bản hợp tác,Giấy tờ,2025-02-05,2025-12-14,47,Tốt,1801169.59,2
+PM-0840,Gói Cloud AWS Business,Phần mềm,2024-07-25,2025-05-23,-176,Hỏng,2859045.82,0
+PC-0841,Máy in Canon LBP 2900,Giấy tờ,2022-03-30,2024-08-09,-461,Hỏng,2111922.61,0
+PC-0842,Máy in Canon LBP 2900,Phần cứng,2025-03-19,2026-02-10,100,Tốt,446447.62,2
+PC-0843,Laptop Dell XPS 13,Giấy tờ,2022-09-11,2024-10-25,-400,Hỏng,2823145.25,0
+PM-0844,Giấy phép Zoom Pro,Phần mềm,2025-01-21,2025-12-13,37,Tốt,3379238.73,2
+PM-0845,License phần mềm kế toán MISA,Phần mềm,2022-10-15,2024-11-11,-364,Hỏng,,0
+GT-0846,Giấy phép kinh doanh,Giấy tờ,2023-12-04,2025-08-26,-71,Cần bảo trì,4753863.54,1
+PM-0847,License AutoCAD 2024,Phần mềm,2024-03-14,2025-09-05,-64,Cần bảo trì,2377033.04,1
+PM-0848,Bản quyền Windows Server 2022,Phần mềm,2025-01-24,2026-06-09,246,Tốt,524040.32,2
+PC-0849,Router Mikrotik RB750Gr3,Phần cứng,2026-03-16,2026-08-09,260,Tốt,2502005.73,2
+GT-0850,Hợp đồng thuê văn phòng,Giấy tờ,2023-12-07,2024-11-03,-382,Hỏng,1849066.28,0
+PM-0851,License AutoCAD 2024,Phần mềm,2023-09-09,2024-10-17,-400,Hỏng,2760346.82,0
+PM-0852,Phần mềm quản lý nhân sự,Phần mềm,2024-04-14,2025-12-30,40,Tốt,3286767.41,2
+PM-0853,Domain công ty .vn,Phần mềm,2026-03-01,2026-10-29,341,Tốt,3238565.86,2
+GT-0854,Hồ sơ nhân sự,Giấy tờ,2026-02-02,2027-07-01,614,Tốt,179693.37,2
+GT-0855,Giấy phép kinh doanh,Giấy tờ,2024-09-01,2026-05-06,196,Tốt,3258198.8,2
+PC-0856,Switch Cisco SG350,Phần cứng,2025-10-22,2027-02-06,442,Tốt,4872959.06,2
+GT-0857,Biên bản thanh lý hợp đồng,Giấy tờ,2023-09-26,2025-07-22,-125,Hỏng,2340770.71,0
+GT-0858,Giấy chứng nhận đăng ký doanh nghiệp,Giấy tờ,2022-03-02,2024-11-11,-359,Hỏng,1838929.94,0
+GT-0859,Giấy phép kinh doanh,Giấy tờ,2023-07-25,2024-07-17,-491,Hỏng,3910076.67,0
+GT-0860,Giấy chứng nhận đăng ký doanh nghiệp,Giấy tờ,2022-04-19,2024-05-13,-539,Hỏng,3440222.22,0
+GT-0861,Giấy phép kinh doanh,Giấy tờ,2025-09-28,2027-04-21,528,Tốt,,2
+PC-0862,Router Mikrotik RB750Gr3,Phần cứng,2026-04-17,2026-08-06,244,Tốt,4744229.78,2
+PM-0863,License AutoCAD 2024,Phần mềm,2023-05-08,2024-07-10,-467,Hỏng,1651213.9,0
+PC-0864,Máy chiếu Epson EB-X51,Phần cứng,2023-06-01,2025-09-13,-33,Hỏng,2320475.8,0
+PC-0865,Ổ cứng WD 1TB,Phần cứng,2024-01-16,2026-08-05,248,Tốt,3387711.34,2
+PM-0866,Gói dịch vụ Google Workspace,Phần mềm,2025-02-11,2026-05-14,177,Tốt,3864607.41,1
+PC-0867,Switch Cisco SG350,Giấy tờ,2023-04-24,2024-09-12,-422,Hỏng,4035777.69,0
+PC-0868,Laptop Dell XPS 13,Phần cứng,2025-04-16,2027-05-23,562,Cần bảo trì,,1
+GT-0869,Giấy chứng nhận đăng ký doanh nghiệp,Giấy tờ,2023-01-07,2024-04-23,-558,Hỏng,3695132.79,0
+PM-0870,Domain công ty .vn,Phần mềm,2023-12-17,2024-04-02,-559,Hỏng,6768.13,0
+PM-0871,Phần mềm quản lý nhân sự,Phần mềm,2024-12-09,2025-07-18,-120,Hỏng,2741910.18,2
+PM-0872,Giấy phép Microsoft 365,Phần mềm,2024-03-31,2025-06-21,-156,Hỏng,2734816.26,0
+GT-0873,Biên bản thanh lý hợp đồng,Giấy tờ,2025-01-09,2027-02-23,447,Cần bảo trì,1990026.46,1
+PM-0874,Bản quyền Windows Server 2022,Phần mềm,2024-02-18,2024-08-25,-455,Hỏng,1233018.17,0
+GT-0875,Biên bản kiểm tra tài sản,Giấy tờ,2025-04-26,2027-05-13,547,Hỏng,2369049.14,0
+PC-0876,Bộ lưu điện APC 1000VA,Phần cứng,2025-02-15,2027-04-23,554,Tốt,4713621.6,2
+GT-0877,Hợp đồng cung cấp dịch vụ,Giấy tờ,2024-09-30,2025-11-19,-1,Cần bảo trì,3254786.68,1
+PM-0878,License phần mềm kế toán MISA,Phần mềm,2024-12-09,2025-09-12,-58,Hỏng,3884640.05,0
+GT-0879,Giấy chứng nhận đăng ký doanh nghiệp,Giấy tờ,2025-07-09,2027-04-09,513,Tốt,,2
+PC-0880,Ổ cứng WD 1TB,Phần cứng,2022-01-06,2024-04-16,-557,Hỏng,4235972.2,0
+PM-0881,License AutoCAD 2024,Phần mềm,2022-04-20,2024-12-13,-296,Hỏng,4908266.62,0
+PM-0882,Giấy phép Microsoft 365,Phần mềm,2025-03-07,2025-07-25,-118,Hỏng,4049300.94,0
+PM-0883,Gói Cloud AWS Business,Phần mềm,2025-01-02,2027-04-21,518,Cần bảo trì,,1
+GT-0884,Hồ sơ nhân sự,Giấy tờ,2022-06-16,2024-08-27,-426,Hỏng,3538606.75,0
+PC-0885,Laptop Dell XPS 13,Phần cứng,2022-08-03,2024-03-26,-586,Hỏng,2486562.23,0
+GT-0886,Hợp đồng thuê văn phòng,Giấy tờ,2024-03-25,2024-11-24,-325,Hỏng,671374.25,0
+PC-0887,Ổ cứng WD 1TB,Phần cứng,2023-06-10,2024-04-05,-577,Hỏng,1771338.82,0
+PC-0888,Bộ lưu điện APC 1000VA,Giấy tờ,2023-03-17,2025-06-17,-153,Hỏng,3104542.95,0
+PC-0889,Máy tính bàn HP EliteDesk,Phần cứng,2023-11-28,2025-06-10,-146,Hỏng,2298324.35,0
+PC-0890,Máy chiếu Epson EB-X51,Phần cứng,2021-12-14,2024-03-24,-581,Hỏng,828748.9,0
+GT-0891,Phiếu đăng ký nội bộ,Giấy tờ,2023-03-29,2025-07-27,-96,Hỏng,249895.14,0
+GT-0892,Giấy chứng nhận đăng ký doanh nghiệp,Giấy tờ,2023-03-20,2025-02-02,-262,Hỏng,3965714.37,0
+PM-0893,Giấy phép Zoom Pro,Phần mềm,2023-03-13,2024-12-18,-313,Cần bảo trì,3182693.23,1
+PM-0894,Bản quyền Windows Server 2022,Phần mềm,2024-06-23,2025-06-10,-137,Hỏng,2847698.9,0
+PM-0895,Phần mềm quản lý nhân sự,Phần mềm,2023-08-19,2024-12-20,-306,Hỏng,2967804.68,0
+PM-0896,Gói Cloud AWS Business,Phần mềm,2024-09-30,2026-08-24,295,Tốt,65147.84,2
+PC-0897,Thiết bị NAS Synology DS220+,Phần cứng,2023-03-25,2025-12-01,16,Cần bảo trì,3962975.58,1
+PM-0898,Bản quyền phần mềm diệt virus Kaspersky,Phần mềm,2024-12-10,2025-11-30,20,Cần bảo trì,1976029.63,1
+PC-0899,Bộ lưu điện APC 1000VA,Phần cứng,2023-06-07,2025-08-23,-63,Hỏng,808357.18,0
+PC-0900,Laptop Dell XPS 13,Phần cứng,2023-01-27,2025-07-29,-118,Hỏng,1160199.14,0
+NEW-0001,Biên bản thanh lý hợp đồng,Giấy tờ,2025-04-06,2025-11-18,12,Hỏng,418617.19,0
+NEW-0002,Giấy phép Zoom Pro,Giấy tờ,2024-04-19,2025-11-18,0,Cần bảo trì,649962.37,1
+NEW-0003,Bản quyền phần mềm diệt virus Kaspersky,Phần mềm,2024-05-18,2025-11-15,3,Cần bảo trì,1476332.71,1
+NEW-0004,Bộ lưu điện APC 1000VA,Phần cứng,2024-11-17,2025-11-23,30,Cần bảo trì,4968846.24,1
+NEW-0005,Ổ cứng WD 1TB,Phần cứng,2024-01-08,2025-11-23,14,Cần bảo trì,1092249.7,0
+NEW-0006,Bộ lưu điện APC 1000VA,Phần cứng,2023-03-06,2025-12-08,27,Cần bảo trì,4895022.08,1
+NEW-0007,Máy tính bàn HP EliteDesk,Phần cứng,2024-08-26,2025-12-11,9,Cần bảo trì,2529847.97,1
+NEW-0008,Switch Cisco SG350,Phần cứng,2024-11-11,2025-12-06,35,Cần bảo trì,1682096.49,1
+NEW-0009,Biên bản hợp tác,Giấy tờ,2023-03-12,2025-11-29,27,Cần bảo trì,479554.21,1
+NEW-0010,Phần mềm quản lý nhân sự,Phần mềm,2024-01-28,2025-12-07,57,Cần bảo trì,1526349.54,1
+NEW-0011,Máy chiếu Epson EB-X51,Giấy tờ,2023-10-13,2025-11-23,6,Cần bảo trì,4637281.61,1
+NEW-0012,Máy chủ Dell PowerEdge,Phần cứng,2023-03-17,2025-11-19,10,Cần bảo trì,1831766.65,1
+NEW-0013,Giấy phép kinh doanh,Giấy tờ,2024-10-07,2025-12-03,25,Cần bảo trì,,1
+NEW-0014,Domain công ty .vn,Phần mềm,2024-01-21,2025-12-11,53,Cần bảo trì,1590907.99,1
+NEW-0015,Gói dịch vụ Google Workspace,Phần mềm,2023-04-09,2025-12-04,21,Cần bảo trì,1941758.04,1
+NEW-0016,Máy chủ Dell PowerEdge,Phần cứng,2024-10-21,2025-11-29,21,Cần bảo trì,4861021.23,1
+NEW-0017,Switch Cisco SG350,Phần cứng,2023-11-23,2025-12-09,36,Cần bảo trì,1661067.76,1
+NEW-0018,Biên bản kiểm tra tài sản,Giấy tờ,2023-12-15,2025-12-05,26,Cần bảo trì,257952.61,1
+NEW-0019,Laptop Dell XPS 13,Phần cứng,2023-11-29,2025-11-19,9,Cần bảo trì,3423839.9,1
+NEW-0020,Phần mềm quản lý nhân sự,Phần mềm,2023-03-09,2025-11-18,9,Cần bảo trì,,1
+NEW-0021,Máy chủ Dell PowerEdge,Phần cứng,2025-01-18,2025-11-13,17,Cần bảo trì,3675365.01,1
+NEW-0022,Gói Cloud AWS Business,Phần mềm,2023-08-23,2025-11-23,-4,Cần bảo trì,,1
+NEW-0023,Gói Cloud AWS Business,Phần mềm,2023-03-22,2025-11-26,16,Cần bảo trì,1641177.57,1
+NEW-0024,Biên bản hợp tác,Giấy tờ,2023-10-21,2025-11-25,2,Cần bảo trì,297518.24,1
+NEW-0025,Biên bản kiểm tra tài sản,Giấy tờ,2023-10-11,2025-12-09,45,Cần bảo trì,143156.57,1
+NEW-0026,Gói dịch vụ Google Workspace,Phần mềm,2023-04-09,2025-12-10,5,Cần bảo trì,1861349.71,1
+NEW-0027,License phần mềm kế toán MISA,Phần mềm,2023-05-29,2025-11-26,6,Cần bảo trì,843197.25,1
+NEW-0028,Giấy phép kinh doanh,Giấy tờ,2023-07-21,2025-11-30,24,Cần bảo trì,164488.51,1
+NEW-0029,Máy chủ Dell PowerEdge,Phần cứng,2024-05-31,2025-12-09,50,Cần bảo trì,4570235.99,1
+NEW-0030,Bản quyền phần mềm diệt virus Kaspersky,Phần mềm,2024-04-07,2025-12-07,24,Cần bảo trì,1034446.76,1
+NEW-0031,Bản quyền phần mềm diệt virus Kaspersky,Phần mềm,2024-08-11,2025-12-06,16,Cần bảo trì,500780.57,1
+NEW-0032,Giấy phép kinh doanh,Giấy tờ,2024-09-14,2025-11-18,34,Cần bảo trì,165862.34,1
+NEW-0033,Giấy ủy quyền đại diện,Phần mềm,2023-06-25,2025-11-30,-4,Cần bảo trì,207764.93,2
+NEW-0034,Giấy ủy quyền đại diện,Giấy tờ,2023-10-11,2025-12-05,-10,Cần bảo trì,381207.58,1
+NEW-0035,Giấy phép Zoom Pro,Phần mềm,2023-08-11,2025-11-23,18,Hỏng,1245872.76,0
+NEW-0036,Laptop Dell XPS 13,Phần cứng,2023-10-09,2025-12-05,15,Cần bảo trì,3010716.09,1
+NEW-0037,Laptop Dell XPS 13,Giấy tờ,2024-12-18,2025-12-04,7,Cần bảo trì,1958247.56,1
+NEW-0038,Máy chủ Dell PowerEdge,Phần cứng,2024-04-02,2025-11-15,31,Cần bảo trì,1968221.09,1
+NEW-0039,Bản quyền Windows Server 2022,Phần mềm,2023-07-13,2025-12-02,14,Cần bảo trì,863239.91,1
+NEW-0040,Hợp đồng thuê văn phòng,Giấy tờ,2024-10-08,2025-11-17,-3,Cần bảo trì,259529.78,1
+NEW-0041,Gói dịch vụ Google Workspace,Phần mềm,2023-02-13,2025-11-18,8,Cần bảo trì,1543719.21,1
+NEW-0042,Máy chủ Dell PowerEdge,Phần cứng,2024-11-30,2025-12-08,39,Cần bảo trì,4238004.18,1
+NEW-0043,Máy chủ Dell PowerEdge,Phần cứng,2024-05-24,2025-11-18,16,Cần bảo trì,2546941.39,1
+NEW-0044,License phần mềm kế toán MISA,Phần mềm,2024-11-27,2025-11-19,6,Cần bảo trì,1011599.53,1
+NEW-0045,Router Mikrotik RB750Gr3,Phần cứng,2023-08-12,2025-12-11,57,Cần bảo trì,1699819.71,1
+NEW-0046,Gói Cloud AWS Business,Phần mềm,2024-08-16,2025-12-06,8,Cần bảo trì,891243.76,1
+NEW-0047,Máy chiếu Epson EB-X51,Phần cứng,2024-09-06,2025-11-23,-12,Cần bảo trì,1754828.43,1
+NEW-0048,Hồ sơ nhân sự,Giấy tờ,2025-03-04,2025-11-14,-8,Cần bảo trì,380143.13,1
+NEW-0049,Bản quyền phần mềm diệt virus Kaspersky,Phần mềm,2024-03-03,2025-12-05,22,Cần bảo trì,1776392.67,1
+NEW-0050,Máy in Canon LBP 2900,Phần cứng,2024-01-10,2025-11-17,9,Cần bảo trì,2489131.07,1
+NEW-0051,License phần mềm kế toán MISA,Phần mềm,2023-05-22,2025-11-14,-2,Cần bảo trì,925881.46,1
+NEW-0052,License AutoCAD 2024,Phần mềm,2023-09-25,2025-12-03,26,Cần bảo trì,1991686.19,1
+NEW-0053,Máy chủ Dell PowerEdge,Phần cứng,2024-03-31,2025-11-12,-19,Cần bảo trì,46644952.79147584,1
+NEW-0054,Giấy ủy quyền đại diện,Giấy tờ,2024-01-13,2025-11-18,28,Cần bảo trì,388375.97,1
+NEW-0055,Máy chủ Dell PowerEdge,Phần cứng,2023-08-24,2025-11-19,21,Cần bảo trì,4915571.43,1
+NEW-0056,Máy tính bàn HP EliteDesk,Phần cứng,2023-08-27,2025-12-03,38,Cần bảo trì,2400313.63,1
+NEW-0057,Switch Cisco SG350,Phần cứng,2023-07-08,2025-12-09,32,Cần bảo trì,1920741.07,1
+NEW-0058,Thiết bị NAS Synology DS220+,Phần cứng,2024-09-19,2025-11-15,10,Cần bảo trì,1708442.72,1
+NEW-0059,Giấy phép kinh doanh,Giấy tờ,2023-04-13,2025-12-11,38,Cần bảo trì,481571.43,1
+NEW-0060,Gói dịch vụ Google Workspace,Phần mềm,2025-01-18,2025-11-16,11,Cần bảo trì,1142276.22,1
+NEW-0061,Phiếu đăng ký nội bộ,Giấy tờ,2024-10-14,2025-12-30,37,Cần bảo trì,441203.78,1
+NEW-0062,Máy chủ Dell PowerEdge,Phần cứng,2023-10-05,2025-11-14,22,Cần bảo trì,4744619.1,1
+NEW-0063,Bản quyền Windows Server 2022,Phần mềm,2023-07-04,2025-11-14,5,Cần bảo trì,645764.74,1
+NEW-0064,Máy tính bàn HP EliteDesk,Phần cứng,2025-01-13,2025-11-13,12,Cần bảo trì,2290203.06,1
+NEW-0065,Gói dịch vụ Google Workspace,Phần mềm,2023-06-15,2025-11-12,-1,Cần bảo trì,1563366.5,1
+NEW-0066,Ổ cứng WD 1TB,Phần cứng,2023-12-08,2025-12-04,44,Cần bảo trì,3446054.84,1
+NEW-0067,License phần mềm kế toán MISA,Phần mềm,2023-12-02,2025-11-18,-4,Cần bảo trì,1697442.77,2
+NEW-0068,Thiết bị NAS Synology DS220+,Phần cứng,2025-01-25,2025-11-25,40,Cần bảo trì,2351980.63,1
+NEW-0069,Gói dịch vụ Google Workspace,Phần mềm,2023-07-02,2025-11-13,0,Cần bảo trì,1367420.21,1
+NEW-0070,Biên bản thanh lý hợp đồng,Giấy tờ,2024-05-20,2025-12-07,4,Cần bảo trì,317057.85,1
+NEW-0071,Giấy chứng nhận đăng ký doanh nghiệp,Giấy tờ,2024-02-08,2025-11-28,18,Hỏng,,0
+NEW-0072,Máy tính bàn HP EliteDesk,Phần cứng,2025-04-22,2025-11-16,-6,Cần bảo trì,1863284.11,1
+NEW-0073,Bản quyền phần mềm diệt virus Kaspersky,Phần mềm,2025-03-11,2025-11-18,19,Cần bảo trì,577522.58,1
+NEW-0074,Bộ lưu điện APC 1000VA,Phần cứng,2023-07-31,2025-11-14,-8,Cần bảo trì,4903408.32,1
+NEW-0075,Máy in Canon LBP 2900,Phần cứng,2023-09-01,2025-11-21,2,Cần bảo trì,2083329.01,1
+NEW-0076,Phần mềm quản lý nhân sự,Phần mềm,2023-02-26,2025-12-07,-3,Cần bảo trì,538026.12,1

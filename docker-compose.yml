@@ -1,0 +1,24 @@
+version: "3.9"
+
+services:
+  ai_backend:
+    build:
+      context: ./ai_module
+      dockerfile: Dockerfile
+    container_name: smart_asset_ai
+    ports:
+      - "8000:8000"
+    restart: unless-stopped
+    volumes:
+      - ./ai_module:/app
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: smart_asset_frontend
+    ports:
+      - "8080:80"
+    depends_on:
+      - ai_backend
+    restart: unless-stopped
