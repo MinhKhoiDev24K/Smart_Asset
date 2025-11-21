@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: smartasset-frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: smartasset-frontend
+  template:
+    metadata:
+      labels:
+        app: smartasset-frontend
+    spec:
+      containers:
+        - name: frontend
+          image: minhkhoi24k/smartasset-frontend:latest
+          ports:
+            - containerPort: 80

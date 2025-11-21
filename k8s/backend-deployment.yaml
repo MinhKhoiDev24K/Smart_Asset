@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: smartasset-backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: smartasset-backend
+  template:
+    metadata:
+      labels:
+        app: smartasset-backend
+    spec:
+      containers:
+        - name: backend
+          image: minhkhoi24k/smartasset-backend:latest
+          ports:
+            - containerPort: 8000
