@@ -59,7 +59,19 @@
                             <a href="#import-export"><i class="fas fa-exchange-alt"></i> Import / Export dữ liệu</a>
                         </li>
                         
-                        <li class="menu-header">Hệ thống AI</li>
+                        <!-- Cảnh báo bảo trì -->
+                         <li data-content-id="maintenance-alert-content">
+                            <a href="#maintenance-alert">
+                                <i class="fas fa-exclamation-triangle"></i> Điều Phối Bảo Trì
+                            </a>
+                        </li>
+
+                        <!-- Quản lý Nhân sự nằm dưới Điều phối bảo trì -->
+                        <li data-content-id="user-management-content">
+                            <a href="#user-management"><i class="fas fa-users"></i> Quản lý Nhân sự</a>
+                        </li>
+                        
+                        <li class="menu-header">Mô hình ML / AI</li>
                         <li data-content-id="ai-predict-content">
                             <a href="#ai-predict"><i class="fas fa-brain"></i> Dự đoán AI</a>
                         </li>
@@ -70,11 +82,6 @@
                         </li>
 
                         <li class="menu-header">Cấu hình</li>
-                        <li data-content-id="user-management-content">
-                            <a href="#user-management"><i class="fas fa-users"></i> Quản lý người dùng 
-                                <span class="new-feature-badge"><i class="fas fa-tools"></i>dev</span>
-                            </a>
-                        </li>
                         <li data-content-id="settings-content">
                             <a href="#settings"><i class="fas fa-cog"></i> Cài đặt hệ thống 
                                 <span class="new-feature-badge"><i class="fas fa-tools"></i>dev</span>
@@ -94,9 +101,15 @@
             
             <header class="header">
                 <h2 id="main-title">Dashboard (Tổng quan)</h2>
-                <div class="user-info">
-                    <i class="fas fa-user-circle"></i>
-                    <span id="current-username">Admin</span>
+                <!-- KHU VỰC ADMIN PROFILE SANG TRỌNG -->
+                <div class="admin-profile-badge">
+                    <div class="admin-avatar">
+                        <i class="fas fa-user-shield"></i>
+                    </div>
+                    <div class="admin-meta">
+                        <span class="admin-name" id="current-username">admin</span>
+                        <span class="admin-role">Quản trị viên hệ thống</span>
+                    </div>
                 </div>
             </header>
 
@@ -136,6 +149,25 @@
                         </div>
                     </div>
                 </div>
+
+                <!-- BANNER CHÀO MỪNG & TỔNG QUAN AI THÔNG MINH -->
+                <div class="dashboard-banner">
+                    <div class="banner-text">
+                        <h3><i class="fas fa-shield-alt" style="color: #2563eb;"></i> Hệ Thống Quản Trị Thông Minh SmartAsset</h3>
+                        <p>Hệ thống đang vận hành ổn định trên nền tảng Cloud Realtime. Tích hợp mô hình Học máy (Machine Learning) tự động dự đoán rủi ro hỏng hóc thiết bị và điều phối bảo trì tự động.</p>
+                        <div class="banner-actions">
+                            <button class="btn btn-primary" onclick="changeContent('ai-predict-content')">
+                                <i class="fas fa-brain"></i> Trải nghiệm Dự đoán AI
+                            </button>
+                            <button class="btn btn-secondary" onclick="changeContent('maintenance-alert-content')">
+                                <i class="fas fa-tools"></i> Kiểm tra Điều phối Bảo trì
+                            </button>
+                        </div>
+                    </div>
+                    <div class="banner-icon-area">
+                        <i class="fas fa-network-wired banner-big-icon"></i>
+                    </div>
+                </div>
                 
             </section>
             
@@ -148,16 +180,11 @@
                         <button class="btn btn-success" onclick="changeContent('import-export-content')">
                             <i class="fas fa-upload"></i> Import/Export
                         </button>
-
-                        <!-- <button class="btn btn-warning" onclick="runBatchPredict()">Dự đoán lại toàn bộ tài sản</button> -->
-                         <button class="btn btn-warning" onclick="runBatchPredict()" id="batchPredictBtn">
+                        <button class="btn btn-warning" onclick="runBatchPredict()" id="batchPredictBtn">
                             <i class="fas fa-cogs"></i> Dự đoán lại toàn bộ tài sản
                         </button>
-
-
                     </div>
                     
-                   
                     <div class="search-controls">
                         <!-- Lọc theo Loại -->
                         <div class="input-icon">
@@ -178,11 +205,10 @@
                                 <option value="Tốt">Tốt</option>
                                 <option value="Cần bảo trì">Cần bảo trì</option>
                                 <option value="Hỏng">Hỏng</option>
+                                <option value="Đang bảo trì">Đang bảo trì</option>
                                 <option value="Chưa dự đoán">Chưa dự đoán</option>
                             </select>
                         </div>
-
-                          <!-- xóa lọc -->
 
                         <button class="btn btn-secondary reset-filter-btn" onclick="resetFilters()">
                             <i class="fas fa-undo"></i> Xóa lọc
@@ -193,13 +219,7 @@
                             <i class="fas fa-search"></i>
                             <input type="text" id="searchInput" placeholder="Tìm kiếm theo Tên, Mã...">
                         </div>
-
-                      
-
-
                     </div>
-
-
                 </div>
                 
                 <div class="asset-table-container">
@@ -225,6 +245,95 @@
                     <span>Hiển thị 0 - 0 / 0 tài sản</span>
                 </div>
                 
+            </section>
+            
+            <!-- SECTION ĐIỀU PHỐI BẢO TRÌ -->
+            <section id="maintenance-alert-content" class="content-section hidden">
+                <div class="card mb-4">
+                    <h3 style="color: var(--primary-color); margin-bottom: 5px;"><i class="fas fa-tools"></i> Điều Phối Bảo Trì</h3>
+                    <p style="color: var(--secondary-color); margin-bottom: 20px;">Theo dõi tiến độ sửa chữa thiết bị nội bộ và thực hiện điều phối phân công công việc.</p>
+                    
+                    <div style="display: flex; gap: 25px; flex-wrap: wrap;">
+                        <!-- KHU VỰC HIỂN THỊ SONG SONG HAI DANH SÁCH -->
+                        <div style="flex: 2; min-width: 500px; display: flex; flex-direction: column; gap: 25px;">
+                            
+                            <!-- DANH SÁCH 1: CHỜ ĐIỀU PHỐI (Hỏng / Cần bảo trì) -->
+                            <div>
+                                <h4 style="margin-bottom: 10px; color: #2563eb; font-weight: 600;"><i class="fas fa-clock"></i> 1. Danh Sách Thiết Bị Chờ Điều Phối</h4>
+                                <div class="asset-table-container" style="max-height: 230px; overflow-y: auto; margin: 0; box-shadow: none; border: 1px solid #e2e8f0;">
+                                    <table class="asset-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Mã Tài Sản</th>
+                                                <th>Tên Thiết Bị</th>
+                                                <th>Loại</th>
+                                                <th>Tình Trạng</th>
+                                                <th>Hành Động</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="expired-assets-tbody">
+                                            <tr><td colspan="5" style="text-align: center;">Đang quét danh sách thiết bị cần bảo trì...</td></tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <!-- DANH SÁCH 2: THIẾT BỊ ĐANG BẢO TRÌ -->
+                            <div>
+                                <h4 style="margin-bottom: 10px; color: #2563eb; font-weight: 600;"><i class="fas fa-wrench"></i> 2. Danh Sách Thiết Bị Đang Bảo Trì</h4>
+                                <div class="asset-table-container" style="max-height: 230px; overflow-y: auto; margin: 0; box-shadow: none; border: 1px solid #e2e8f0;">
+                                    <table class="asset-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Mã Tài Sản</th>
+                                                <th>Tên Thiết Bị</th>
+                                                <th>Loại</th>
+                                                <th>Trạng Thái</th>
+                                                <th>Thao Tác Xử Lý</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="under-maintenance-tbody">
+                                            <tr><td colspan="5" style="text-align: center;">Đang tải danh sách thiết bị đang sửa chữa...</td></tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- FORM ĐIỀU PHỐI GỬI EMAIL (GÕ HOẶC CHỌN TỪ GỢI Ý DATALIST) -->
+                        <div style="flex: 1; min-width: 300px; background: #f8fafc; padding: 20px; border-radius: 8px; border: 1px solid #e2e8f0; height: fit-content;">
+                            <h4 style="margin-top: 0; color: var(--dark-color); border-bottom: 2px solid #e2e8f0; padding-bottom: 10px; margin-bottom: 15px;">
+                                <i class="fas fa-paper-plane" style="color: #10b981;"></i> Phiếu Phân Công
+                            </h4>
+                            
+                            <div class="form-group" style="margin-bottom: 15px;">
+                                <label style="font-weight: 600; font-size: 0.9em; margin-bottom: 5px; display: block;">Tài sản phân công:</label>
+                                <input type="text" id="assign-asset-display" readonly placeholder="Chưa chọn thiết bị..." style="background: #fff; width: 100%; padding: 8px; border: 1px solid #cbd5e1; border-radius: 4px; font-weight: bold; color: var(--primary-color);">
+                                <input type="hidden" id="assign-asset-id">
+                                <input type="hidden" id="assign-asset-name">
+                            </div>
+
+                            <div class="form-group" style="margin-bottom: 15px;">
+                                <label style="font-weight: 600; font-size: 0.9em; margin-bottom: 5px; display: block;">Email Kỹ Thuật Viên (Chọn hoặc Gõ trực tiếp):</label>
+                                <input type="email" id="assign-tech-email" list="personnel-email-list" placeholder="Nhập hoặc chọn email..." style="width: 100%; padding: 8px; border: 1px solid #cbd5e1; border-radius: 4px; background: #fff;">
+                                <datalist id="personnel-email-list">
+                                    <!-- Gợi ý tự động từ danh sách nhân sự realtime -->
+                                </datalist>
+                            </div>
+
+                            <div class="form-group" style="margin-bottom: 20px;">
+                                <label style="font-weight: 600; font-size: 0.9em; margin-bottom: 5px; display: block;">Ghi chú công việc:</label>
+                                <textarea id="assign-note" rows="4" placeholder="Nhập nội dung yêu cầu kỹ thuật..." style="width: 100%; padding: 8px; border: 1px solid #cbd5e1; border-radius: 4px; font-family: inherit; resize: none; background: #fff;"></textarea>
+                            </div>
+
+                            <button class="btn btn-primary" id="btn-submit-assignment" onclick="window.executeAssignTask()" disabled style="width: 100%; padding: 10px; font-weight: bold; background: #10b981; border-color: #10b981;">
+                                <i class="fas fa-envelope"></i> Gửi Mail Giao Việc
+                            </button>
+                            
+                            <div id="assign-status-message" class="hidden" style="margin-top: 15px; padding: 10px; border-radius: 4px; font-size: 0.9em; text-align: center;"></div>
+                        </div>
+                    </div>
+                </div>
             </section>
             
             <section id="add-asset-content" class="content-section hidden">
@@ -286,7 +395,7 @@
                                 <input type="number" id="usageFrequency" min="0" value="0" required>
                             </div>
                             <div class="form-group">
-                                <label for="maintenanceCount">Số lần bảo trì (Trong vòng 1 năm)</label>
+                                <label pour="maintenanceCount">Số lần bảo trì (Trong vòng 1 năm)</label>
                                 <input type="number" id="maintenanceCount" min="0" value="0" required>
                             </div>
                             
@@ -440,15 +549,18 @@
                         <p style="margin-top: 15px; font-size: 0.9em; color: var(--secondary-color);">
                             Kết quả dựa trên mô hình Học máy hiện tại.
                         </p>
-                        <!-- <button class="btn btn-success mt-3" onclick="savePredictionResult()">
-                            <i class="fas fa-database"></i> Lưu kết quả vào MySQL
-                        </button> -->
                     </div>
                 </div>
             </section>
-            <section id="ai-retrain-content" class="content-section hidden">
+
+           <section id="ai-retrain-content" class="content-section hidden">
                 <div class="card">
-                    <h3 class="mb-4" style="color: var(--primary-color);">Huấn luyện lại Mô hình AI</h3>
+                    <h3 class="mb-4" style="color: var(--primary-color); display: flex; align-items: center; justify-content: space-between;">
+                        <span>Huấn luyện lại Mô hình AI</span>
+                        <span class="feature-dev-badge">
+                            <i class="fas fa-tools"></i> Đang được phát triển
+                        </span>
+                    </h3>
                     
                     <p>Thực hiện huấn luyện lại mô hình dự đoán tình trạng tài sản bằng dữ liệu lịch sử mới nhất.</p>
 
@@ -468,76 +580,107 @@
                 </div>
             </section>
             
+            <!-- GIAO DIỆN QUẢN LÝ NHÂN SỰ REALTIME -->
             <section id="user-management-content" class="content-section hidden">
-                <div class="card p-5">
-                    <h3 class="mb-4" style="color: var(--primary-color);">Quản lý Người dùng Hệ thống</h3>
+                <div class="asset-actions">
+                    <div class="left-actions">
+                        <button class="btn btn-primary" onclick="openAddPersonnelModal()">
+                            <i class="fas fa-user-plus"></i> Thêm Nhân sự Mới
+                        </button>
+                    </div>
                     
-                    <button class="btn btn-primary mb-4" onclick="openAddUserModal()">
-                        <i class="fas fa-user-plus"></i> Thêm Người Dùng Mới
-                    </button>
-                    
-                    <div class="asset-table-container p-0">
-                        <table class="asset-table">
-                            <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Tên</th>
-                                    <th>Email</th>
-                                    <th>Vai trò</th>
-                                    <th>Trạng thái</th>
-                                    <th>Hành động</th>
-                                </tr>
-                            </thead>
-                            <tbody id="userTableBody">
-                                </tbody>
-                        </table>
+                    <div class="search-controls">
+                        <!-- Lọc theo Chức vụ -->
+                        <div class="input-icon">
+                            <i class="fas fa-filter"></i>
+                            <select id="filterPersonnelRole" onchange="filterPersonnelList()">
+                                <option value="">Lọc theo Chức vụ</option>
+                                <option value="Quản trị viên">Quản trị viên</option>
+                                <option value="Kỹ thuật viên">Kỹ thuật viên</option>
+                                <option value="Nhân viên">Nhân viên</option>
+                            </select>
+                        </div>
+
+                        <!-- Tìm kiếm -->
+                        <div class="input-icon">
+                            <i class="fas fa-search"></i>
+                            <input type="text" id="searchPersonnelInput" placeholder="Tìm theo Tên, Email..." oninput="filterPersonnelList()">
+                        </div>
                     </div>
                 </div>
                 
-                <div id="addUserModal" class="card mt-4 hidden">
-                    <h4 class="mb-4">Thêm Người Dùng</h4>
-                    <form id="addUserForm" onsubmit="addUser(event)">
-                        <div class="form-grid">
-                            <div class="form-group">
-                                <label for="userName">Tên Người dùng (*)</label>
-                                <input type="text" id="userName" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="userEmail">Email (*)</label>
-                                <input type="email" id="userEmail" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="userPassword">Mật khẩu (*)</label>
-                                <input type="password" id="userPassword" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="userRole">Vai trò (*)</label>
-                                <select id="userRole" required>
-                                    <option value="Staff">Nhân viên</option>
-                                    <option value="Admin">Quản trị viên</option>
-                                </select>
-                            </div>
-                            <div class="form-actions" style="justify-content: flex-end;">
-                                <button type="button" class="btn btn-secondary" onclick="document.getElementById('addUserModal').classList.add('hidden')">
-                                    Hủy
-                                </button>
-                                <button type="submit" class="btn btn-primary">
-                                    <i class="fas fa-save"></i> Lưu
-                                </button>
-                            </div>
-                        </div>
-                    </form>
+                <div class="asset-table-container">
+                    <table class="asset-table">
+                        <thead>
+                            <tr>
+                                <th>Mã NS</th>
+                                <th>Họ và Tên</th>
+                                <th>Email</th>
+                                <th>Chức vụ</th>
+                                <th>Trạng thái</th>
+                                <th>Hành động</th>
+                            </tr>
+                        </thead>
+                        <tbody id="personnelTableBody">
+                            <tr><td colspan="6" style="text-align: center;">Đang tải danh sách nhân sự từ Firebase...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="pagination">
+                    <span>Quản lý danh sách nhân sự Cloud Realtime</span>
                 </div>
             </section>
             
+            <!-- SECTION CÀI ĐẶT HỆ THỐNG MỞ RỘNG (HUY HIỆU ĐỒNG BỘ MÀU CHỮ DEV) -->
             <section id="settings-content" class="content-section hidden">
                 <div class="card">
-                    <h3 class="mb-4" style="color: var(--primary-color);">Cài đặt Hệ thống & API</h3>
+                    <h3 class="mb-4" style="color: var(--primary-color); display: flex; align-items: center; justify-content: space-between;">
+                        <span><i class="fas fa-sliders-h"></i> Tùy chỉnh Giao diện & Hệ thống</span>
+                        <span class="feature-dev-badge">
+                            <i class="fas fa-tools"></i> Đang được phát triển
+                        </span>
+                    </h3>
                     
                     <form id="settingsForm" onsubmit="handleSaveSettings(event)">
                         <div class="form-grid">
                             
-                            <h4 class="form-section-title">I. CẤU HÌNH API AI/ML</h4>
+                            <h4 class="form-section-title">I. TÙY CHỌN GIAO DIỆN & HIỂN THỊ (UI/UX)</h4>
+                            
+                            <div class="form-group">
+                                <label for="settingLanguage"><i class="fas fa-language"></i> Ngôn ngữ hiển thị hệ thống</label>
+                                <select id="settingLanguage">
+                                    <option value="vi" selected>Tiếng Việt (Vietnamese)</option>
+                                    <option value="en">English (Tiếng Anh - Sắp ra mắt)</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="settingTheme"><i class="fas fa-adjust"></i> Chủ đề giao diện (Theme)</label>
+                                <select id="settingTheme">
+                                    <option value="light" selected>Sáng (Light Mode - Mặc định)</option>
+                                    <option value="dark">Tối (Dark Mode - Sắp ra mắt)</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="settingDensity"><i class="fas fa-table"></i> Kiểu hiển thị bảng dữ liệu</label>
+                                <select id="settingDensity">
+                                    <option value="comfortable" selected>Thoải mái (Comfortable)</option>
+                                    <option value="compact">Thu gọn (Compact)</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="settingNotifications"><i class="fas fa-bell"></i> Thông báo trạng thái hệ thống</label>
+                                <select id="settingNotifications">
+                                    <option value="all" selected>Bật tất cả cảnh báo & email</option>
+                                    <option value="important">Chỉ cảnh báo quan trọng / Hỏng</option>
+                                    <option value="off">Tắt thông báo</option>
+                                </select>
+                            </div>
+
+                            <h4 class="form-section-title">II. THÔNG SỐ KỸ THUẬT & API (HỆ THỐNG CHÍNH)</h4>
                             
                             <div class="form-group">
                                 <label for="apiUrlPredict">Endpoint Dự đoán (PREDICT)</label>
@@ -548,19 +691,8 @@
                                 <input type="url" id="apiUrlRetrain" value="https://api.smartasset.com/retrain" required>
                             </div>
                             
-                            <h4 class="form-section-title">II. CẤU HÌNH DATABASE (MOCK)</h4>
-                            
                             <div class="form-group">
-                                <label for="dbHost">Database Host</label>
-                                <input type="text" id="dbHost" value="localhost:3306" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="dbName">Database Name</label>
-                                <input type="text" id="dbName" value="smart_asset_db" required>
-                            </div>
-                            
-                            <div class="form-group">
-                                <label for="assetPerPage">Tài sản/Trang (Phân trang)</label>
+                                <label for="assetPerPage">Tài sản/Trang (Phân trang bảng)</label>
                                 <input type="number" id="assetPerPage" min="5" value="10" required>
                             </div>
                             
@@ -569,7 +701,10 @@
                                 <input type="number" id="warningThreshold" min="1" value="30" required>
                             </div>
 
-                            <div class="form-actions">
+                            <div class="form-actions" style="grid-column: 1 / -1; display: flex; justify-content: space-between; align-items: center;">
+                                <span style="font-size: 0.85em; color: var(--secondary-color); font-style: italic;">
+                                    <i class="fas fa-info-circle"></i> Một số cài đặt giao diện sẽ được lưu trữ tự động trong phiên bản tiếp theo.
+                                </span>
                                 <button type="submit" class="btn btn-primary">
                                     <i class="fas fa-save"></i> Lưu Cài đặt
                                 </button>
@@ -589,7 +724,7 @@
                 <button class="modal-close-btn" onclick="closeModal()">&times;</button>
             </div>
             <div id="modalBody">
-                </div>
+            </div>
             <div class="modal-footer" style="padding-top: 20px; text-align: right;">
                 <button id="modalConfirmButton" class="btn btn-danger hidden" onclick="handleModalAction()">Xác nhận</button>
                 <button class="btn btn-secondary" onclick="closeModal()">Đóng</button>

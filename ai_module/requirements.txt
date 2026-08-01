@@ -9,3 +9,4 @@ pydantic
 # 1. câu lệnh cài pip install -r requirements.txt nằm ở mục terminal ai_module
 # 2. uvicorn app.main:app --reload ---> API
 # 3. pip install fastapi starlette[full] --> cài đặt thư viện CORS cho FastAPI
+

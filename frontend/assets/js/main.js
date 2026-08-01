@@ -1,31 +1,21 @@
-
 import { initializeApp as initApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
 import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
 import { getFirestore, collection, onSnapshot, addDoc, doc, updateDoc, deleteDoc, query } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 import { setLogLevel } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-
-
-
 // ===================================================================
 //  CẤU HÌNH FIREBASE & BIẾN TOÀN CỤC
-// ===================================================================
-// FIREBASE SETUP AND GLOBAL VARIABLES
 // ===================================================================
 setLogLevel('Debug');
 
 let app, auth, db, userId;
 let isAuthReady = false;
 
-// --- Environment Configuration Check ---
 const isCanvasEnvironment = typeof __firebase_config !== 'undefined' && __firebase_config && Object.keys(JSON.parse(__firebase_config)).length > 0;
-
 const canvasAppId = typeof __app_id !== 'undefined' ? __app_id : 'default-smartasset-id';
 const canvasFirebaseConfig = isCanvasEnvironment ? JSON.parse(__firebase_config) : {};
 const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
 
-// --- LOCAL FIREBASE CONFIGURATION (FOR VS CODE) ---
-// This block contains the actual config for smartasset-daaf4
 const LOCAL_FIREBASE_CONFIG = {
     apiKey: "AIzaSyDb2frcXhbqW8HqkwTbGbwmlhv-P3E-Uic", 
     authDomain: "smartasset-daaf4.firebaseapp.com", 
@@ -33,15 +23,12 @@ const LOCAL_FIREBASE_CONFIG = {
     storageBucket: "smartasset-daaf4.firebasestorage.app", 
     messagingSenderId: "247174750637", 
     appId: "1:247174750637:web:8bc582fc44ceff2ca28124",
-    measurementId: "G-ER8DZVZX9L" // Added Measurement ID
+    measurementId: "G-ER8DZVZX9L"
 };
-// --------------------------------------------------------------------------
 
-// Final configuration selection
 const finalConfig = isCanvasEnvironment ? canvasFirebaseConfig : LOCAL_FIREBASE_CONFIG;
 const appId = isCanvasEnvironment ? canvasAppId : LOCAL_FIREBASE_CONFIG.projectId || canvasAppId;
 
-// Critical Check: If running locally and config is not set, stop the process
 if (!finalConfig.apiKey || finalConfig.apiKey.includes('ĐIỀN')) {
     document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('auth-status').textContent = 'LỖI CẤU HÌNH: KHÓA API CHƯA ĐƯỢC ĐIỀN ĐẦY ĐỦ.';
@@ -49,43 +36,34 @@ if (!finalConfig.apiKey || finalConfig.apiKey.includes('ĐIỀN')) {
         document.getElementById('auth-status').style.color = 'var(--danger-color)';
         document.getElementById('loginButton').disabled = true;
     });
-    // Stop further script execution if running locally without proper config
     throw new Error("Missing Firebase Configuration."); 
 }
 
-// Sử dụng một ID cố định để lưu trữ dữ liệu Admin, thay vì sử dụng UID thay đổi của tài khoản ẩn danh/custom token.
 const DEFAULT_USERNAME = 'admin';
 const DEFAULT_PASSWORD = 'admin123';
 const ADMIN_PERSISTENT_ID = 'admin_data_store';
 
-// Global states
 let assetsCache = [];
 let currentEditingDocId = null;
 let currentModalAction = null;
-let modalTargetDocId = null; // Biến lưu trữ docId khi mở modal xác nhận
+let modalTargetDocId = null; 
 let assetTypeChartInstance = null;
 let predictionStatusChartInstance = null;
 let lastPredictionResult = null;
 
-// List/Pagination States
 let assetsPerPage = 10;
 let currentPage = 1;
 let currentSearchTerm = '';
 let currentFilterType = '';
 let currentFilterStatus = '';
 
-let mockUsers = [
-    { id: 1, name: 'Nguyễn Văn A', email: 'vana@smartasset.com', role: 'Admin', status: 'Active' },
-    { id: 2, name: 'Trần Thị B', email: 'thib@smartasset.com', role: 'Staff', status: 'Active' },
-    { id: 3, name: 'Lê Văn C', email: 'vanc@smartasset.com', role: 'Staff', status: 'Inactive' },
-];
-
+// DỮ LIỆU NHÂN SỰ ĐỒNG BỘ FIRESTORE REALTIME
+let personnelCache = [];
+let currentEditingPersonnelId = null;
 
 // ===================================================================
 // ĐĂNG NHẬP / KHỞI TẠO HỆ THỐNG
 // ===================================================================
-// --- AUTHENTICATION & INITIALIZATION LOGIC ---
-
 function toggleAppScreen(isAuthenticated, username = '') {
     const loginScreen = document.getElementById('login-screen');
     const appContainer = document.getElementById('app-container');
@@ -97,12 +75,10 @@ function toggleAppScreen(isAuthenticated, username = '') {
         document.getElementById('auth-status').style.display = 'none';
         initializeApp(); 
     } else {
-        // Logic hiển thị màn hình đăng nhập
         loginScreen.style.display = 'block';
         appContainer.style.display = 'none';
         document.getElementById('auth-status').style.display = 'block';
         document.getElementById('auth-status').textContent = 'Vui lòng đăng nhập';
-        
         destroyCharts(); 
     }
 }
@@ -127,49 +103,37 @@ async function handleLogin(event) {
         
         const token = initialAuthToken;
         try {
-            // Firebase sign-in initiates the session
             if (token) {
                 await signInWithCustomToken(auth, token);
             } else {
                 await signInAnonymously(auth);
             }
-            // onAuthStateChanged sẽ tự động xử lý chuyển màn hình nếu thành công
-
         } catch (error) {
             console.error("Lỗi đăng nhập Firebase:", error);
             statusElement.textContent = `Lỗi kết nối Firebase: ${error.message}`;
             document.getElementById('loginButton').disabled = false;
         }
-
     } else {
         statusElement.textContent = 'Lỗi: Tên đăng nhập hoặc mật khẩu không đúng.';
         document.getElementById('loginButton').disabled = false;
     }
 }
 
-
 function handleLogout(event) {
     event.preventDefault();
-    
-    // 1. Thực hiện Logout khỏi Firebase Auth
     if (auth) {
-        // Gọi signOut. Listener onAuthStateChanged sẽ nhận được trạng thái user=null và gọi toggleAppScreen(false)
         signOut(auth).catch((error) => {
             console.error("Lỗi khi đăng xuất Firebase:", error);
             showStatusModal('Lỗi Đăng xuất', `Đăng xuất thất bại: ${error.message}`, 'danger');
         });
     } else {
-        // Fallback nếu auth chưa được khởi tạo, chỉ cập nhật UI
         toggleAppScreen(false);
     }
-
-    // 2. Cleanup login form state immediately
     document.getElementById('username').value = DEFAULT_USERNAME;
     document.getElementById('password').value = DEFAULT_PASSWORD;
     document.getElementById('auth-status').textContent = 'Đã đăng xuất.';
     document.getElementById('loginButton').disabled = false;
 }
-
 
 async function initializeFirebase() {
     try {
@@ -179,37 +143,29 @@ async function initializeFirebase() {
             db = getFirestore(app);
         }
         
-        // Initial sign-in attempt
         if (initialAuthToken) {
             await signInWithCustomToken(auth, initialAuthToken);
         } else {
             await signInAnonymously(auth);
         }
 
-        // Listener for Auth State Changes (Handles both initial sign-in and sign-out)
         onAuthStateChanged(auth, (user) => {
             if (user) {
-                // Gán userId tạm thời của phiên cho mục đích theo dõi (userId sẽ thay đổi sau mỗi lần sign-in/out)
                 userId = user.uid; 
                 isAuthReady = true;
-                
-                // NOTE: For this mock app, we assume the user is 'Admin' after successful auth
                 const currentUsername = DEFAULT_USERNAME;
-                
                 console.log(`Firebase Ready. User ID (volatile): ${userId}, App ID: ${appId}`);
-                toggleAppScreen(true, currentUsername); // Switch to main app
-                setupAssetsListener(); // Start listening to Firestore data
-
+                toggleAppScreen(true, currentUsername); 
+                setupAssetsListener(); 
+                setupPersonnelListener(); 
             } else {
                 isAuthReady = false;
                 userId = null;
-                toggleAppScreen(false); // Switch back to login screen
+                toggleAppScreen(false); 
                 console.log("Người dùng đã bị ngắt kết nối.");
             }
-            // Re-enable login button after auth check is complete
             document.getElementById('loginButton').disabled = false;
         });
-
     } catch (error) {
         console.error("Lỗi khởi tạo hoặc đăng nhập Firebase:", error);
         document.getElementById('auth-status').textContent = `Lỗi hệ thống: ${error.message}`;
@@ -218,7 +174,6 @@ async function initializeFirebase() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    // This check throws an error if local config is bad, stopping script execution (handled by outer logic)
     if (!finalConfig.apiKey || finalConfig.apiKey.includes('ĐIỀN')) {
         return; 
     }
@@ -226,76 +181,69 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('app-container').style.display = 'none';
     document.getElementById('auth-status').style.display = 'block';
     document.getElementById('auth-status').textContent = 'Đang tải Firebase...';
-    
     initializeFirebase(); 
 });
-
 
 // ===================================================================
 //  AI PREDICT – TÍNH TOÁN FEATURES & GỌI API
 // ===================================================================
-// ====== AI PREDICT HELPERS ======
-    function computeFeaturesFromAsset(asset) {
-        const parse = d => d ? new Date(d) : null;
-        const now = new Date();
-        const start = parse(asset.purchaseDate);
-        const end = parse(asset.expiryDate);
-        const last = parse(asset.lastMaintenance);
+function computeFeaturesFromAsset(asset) {
+    const parse = d => d ? new Date(d) : null;
+    const now = new Date();
+    const start = parse(asset.purchaseDate);
+    const end = parse(asset.expiryDate);
+    const last = parse(asset.lastMaintenance);
+    const diff = (a,b) => Math.floor((a - b) / (1000*3600*24));
 
-        const diff = (a,b) => Math.floor((a - b) / (1000*3600*24));
+    return {
+        asset_value: Number(asset.value || 0),
+        usage_frequency: Number(asset.usageFrequency || 0),
+        maintenance_count: Number(asset.maintenanceCount || 0),
+        asset_age_months: start ? Math.floor(diff(now, start) / 30.4375) : 0,
+        days_since_last_maint: last ? diff(now, last) : 0,
+        days_left: end ? diff(end, now) : 0,
+        asset_type: asset.type,
+        start_date: asset.purchaseDate,
+        end_date: asset.expiryDate,
+        last_maintenance: asset.lastMaintenance,
+        predict_date: now.toISOString().slice(0,10)
+    };
+}
 
-        return {
-            asset_value: Number(asset.value || 0),
-            usage_frequency: Number(asset.usageFrequency || 0),
-            maintenance_count: Number(asset.maintenanceCount || 0),
-            asset_age_months: start ? Math.floor(diff(now, start) / 30.4375) : 0,
-            days_since_last_maint: last ? diff(now, last) : 0,
-            days_left: end ? diff(end, now) : 0,
-            asset_type: asset.type,
-            start_date: asset.purchaseDate,
-            end_date: asset.expiryDate,
-            last_maintenance: asset.lastMaintenance,
-            predict_date: now.toISOString().slice(0,10)
-        };
-    }
+async function callAIPredict(features) {
+    const res = await fetch("http://127.0.0.1:8000/predict", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(features)
+    });
+    return await res.json();
+}
 
-    async function callAIPredict(features) {
-        const res = await fetch("http://127.0.0.1:8000/predict", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(features)
-        });
-        return await res.json(); // { prediction: "Tốt" }
-    }
+async function savePredictionToDoc(docId, prediction) {
+    const path = getAssetCollectionPath();
+    await updateDoc(doc(db, path, docId), {
+        predictedStatus: prediction
+    });
+}
 
-    async function savePredictionToDoc(docId, prediction) {
-        const path = getAssetCollectionPath();
-        await updateDoc(doc(db, path, docId), {
-            predictedStatus: prediction
-        });
-    }
-
-// ==============++++++++++++++++++++++++++++++++=====================
-
-// [FIX] Cập nhật hàm này để sử dụng ADMIN_PERSISTENT_ID thay vì userId volatile.
 function getAssetCollectionPath() {
     if (!db) {
         console.error("Lỗi: Firestore chưa sẵn sàng.");
         return null;
     }
-    // Sử dụng ADMIN_PERSISTENT_ID cố định để đảm bảo dữ liệu không bị mất khi đăng xuất/đăng nhập lại
-    // Path: /artifacts/{appId}/users/admin_data_store/assets
-    const stableUid = ADMIN_PERSISTENT_ID; 
-    return `artifacts/${appId}/users/${stableUid}/assets`;
+    return `artifacts/${appId}/users/${ADMIN_PERSISTENT_ID}/assets`;
 }
 
+function getPersonnelCollectionPath() {
+    if (!db) return null;
+    return `artifacts/${appId}/users/${ADMIN_PERSISTENT_ID}/personnel`;
+}
 
 // ===================================================================
-//  LẮNG NGHE DỮ LIỆU FIRESTORE (REALTIME)
+//  LẮNG NGHE DỮ LIỆU FIRESTORE (REALTIME TÀI SẢN & NHÂN SỰ)
 // ===================================================================
 function setupAssetsListener() {
     if (!db) return;
-
     const path = getAssetCollectionPath();
     if (!path) return;
 
@@ -311,8 +259,6 @@ function setupAssetsListener() {
 
         snapshot.forEach(docSnap => {
             const data = docSnap.data();
-
-            // Parse dates with parseDate (returns local-midnight Date or null)
             const purchaseDateObj = parseDate(data.purchaseDate);
             const expiryDateObj = parseDate(data.expiryDate);
             const lastMaintObj = parseDate(data.lastMaintenance);
@@ -332,7 +278,6 @@ function setupAssetsListener() {
                 lastMaintenance: lastMaintObj ? formatLocalDate(lastMaintObj) : null,
                 description: data.description || '',
                 department: data.department || '',
-                // keep raw dates for any calculation if needed
                 _purchaseDateObj: purchaseDateObj,
                 _expiryDateObj: expiryDateObj,
                 _lastMaintObj: lastMaintObj
@@ -343,23 +288,19 @@ function setupAssetsListener() {
 
             if (assetTypeCounts[asset.type] !== undefined) assetTypeCounts[asset.type]++;
 
-            // Statistics by predictedStatus
             switch (asset.predictedStatus) {
                 case 'Tốt': predictionCounts.tot++; break;
                 case 'Cần bảo trì': predictionCounts.canBaoTri++; maintenanceNeeded++; break;
                 case 'Hỏng': predictionCounts.hong++; break;
             }
 
-            // Expiring soon calculation (INCLUSIVE: 0..30 days -> considered "soon")
             if (asset._expiryDateObj) {
                 const today = new Date();
-                // normalize to local midnight for safe difference
                 const t = new Date(today.getFullYear(), today.getMonth(), today.getDate());
                 const diffTime = asset._expiryDateObj.getTime() - t.getTime();
-                const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24)); // floor so same-day => 0
+                const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
 
                 if (diffDays >= 0 && diffDays <= 30) {
-                    // If not Hỏng, count as expiringSoon. (Hỏng may already included separately)
                     if (asset.predictedStatus !== 'Hỏng') {
                         expiringSoon++;
                     }
@@ -367,15 +308,18 @@ function setupAssetsListener() {
             }
         });
 
-        // remove internal date objects before storing cache (optional)
         assetsCache = tempAssets.map(a => {
             const copy = { ...a };
             delete copy._purchaseDateObj; delete copy._expiryDateObj; delete copy._lastMaintObj;
             return copy;
         });
 
-        console.log(`[Firestore]: Cập nhật ${assetsCache.length} Tài sản. (3 trạng thái)`);
         updateAssetView(assetsCache);
+
+        const maintenanceTab = document.getElementById('maintenance-alert-content');
+        if (maintenanceTab && maintenanceTab.classList.contains('active')) {
+            loadExpiredAssets();
+        }
 
         updateStatsCards({
             totalAssets,
@@ -387,40 +331,73 @@ function setupAssetsListener() {
 
     }, (error) => {
         console.error("Lỗi khi lắng nghe Assets:", error);
-        const tbody = document.getElementById('assetTableBody');
-        if (tbody) tbody.innerHTML = '<tr><td colspan="7" style="text-align: center; color: var(--danger-color);">Lỗi tải dữ liệu. Vui lòng kiểm tra console.</td></tr>';
     });
 }
 
-// ============================================================
+function setupPersonnelListener() {
+    if (!db) return;
+    const path = getPersonnelCollectionPath();
+    if (!path) return;
 
-// HÀM MỚI: Ánh xạ 4 trạng thái cũ sang 3 trạng thái mới
-    function mapStatusToThree(status) {
+    onSnapshot(query(collection(db, path)), async (snapshot) => {
+        const tempPersonnel = [];
+        snapshot.forEach(docSnap => {
+            const data = docSnap.data();
+            tempPersonnel.push({
+                id: docSnap.id,
+                personnelId: data.personnelId || docSnap.id,
+                name: data.name || '',
+                email: data.email || '',
+                role: data.role || 'Nhân viên',
+                status: data.status || 'Hoạt động',
+                department: data.department || ''
+            });
+        });
+
+        if (tempPersonnel.length === 0) {
+            await initDefaultPersonnel(path);
+        } else {
+            personnelCache = tempPersonnel;
+            renderUserManagement();
+            populatePersonnelDropdown(); // Cập nhật danh sách gợi ý email realtime
+        }
+    }, (error) => {
+        console.error("Lỗi lắng nghe nhân sự:", error);
+    });
+}
+
+async function initDefaultPersonnel(path) {
+    const defaultList = [
+        { personnelId: 'NS001', name: 'Nguyễn Văn A', email: 'vana@smartasset.com', role: 'Quản trị viên', status: 'Hoạt động', department: 'IT' },
+        { personnelId: 'NS002', name: 'Trần Thị B', email: 'thib@smartasset.com', role: 'Kỹ thuật viên', status: 'Hoạt động', department: 'Bảo trì' },
+        { personnelId: 'NS003', name: 'Lê Văn C', email: 'vanc@smartasset.com', role: 'Nhân viên', status: 'Khóa', department: 'Hành chính' }
+    ];
+    for (const p of defaultList) {
+        await addDoc(collection(db, path), p);
+    }
+}
+
+function mapStatusToThree(status) {
     if (!status || status === "N/A" || status === "Chưa dự đoán") {
         return "Chưa dự đoán";
     }
     if (status.includes("Hỏng")) return "Hỏng";
     if (status.includes("Cần")) return "Cần bảo trì";
+    if (status.includes("Đang bảo trì")) return "Đang bảo trì";
     return "Tốt";
 }
 
-// ===========================================================================
-
 async function addNewAsset(assetData) {
     if (!db) return showStatusModal('Lỗi', 'Hệ thống chưa sẵn sàng hoặc chưa đăng nhập.', 'danger');
-
     const path = getAssetCollectionPath();
     if (!path) return;
 
     try {
         const newAsset = mapFormDataToAsset(assetData);
-
-        // --- parse ngày an toàn bằng parseDate (hàm bạn đã có) ---
         const startDateObj = parseDate(newAsset.purchaseDate) || new Date();
-        const endDateObj = parseDate(newAsset.expiryDate) || new Date(startDateObj.getTime() + 365*24*3600*1000); // fallback 1 năm
+        const endDateObj = parseDate(newAsset.expiryDate) || new Date(startDateObj.getTime() + 365*24*3600*1000); 
         const today = new Date();
 
-        // kiểm tra hợp lệ
         const isValidStart = !isNaN(startDateObj.getTime());
         const isValidEnd = !isNaN(endDateObj.getTime());
 
@@ -431,7 +408,6 @@ async function addNewAsset(assetData) {
             return (lm && !isNaN(lm.getTime())) ? Math.floor((today - lm) / (1000 * 3600 * 24)) : 0;
         })() : 0;
 
-        // chuẩn hóa kiểu asset_type nếu backend cần (đảm bảo string)
         const assetTypeForApi = typeof newAsset.type === 'string' ? newAsset.type : String(newAsset.type);
 
         const payload = {
@@ -455,33 +431,24 @@ async function addNewAsset(assetData) {
         });
 
         const result = await response.json();
-        // lưu kết quả prediction vào object trước khi push vào Firestore
         newAsset.predictedStatus = result.prediction || 'Chưa dự đoán';
         newAsset.createdAt = new Date().toISOString();
 
-        // Lưu vào Firestore
         await addDoc(collection(db, path), newAsset);
-
         showStatusModal('Thành công', `Đã thêm tài sản và dự đoán AI: ${newAsset.predictedStatus}`, 'success');
         document.getElementById('addAssetForm').reset();
-
     } catch (e) {
         console.error("Lỗi khi thêm Tài sản: ", e);
         showStatusModal('Lỗi', `Thêm tài sản thất bại: ${e.message}`, 'danger');
     }
 }
 
-
-
-// ===========================================================================
-// dự đoán lại toàn bộ tâì sản
 async function runBatchPredict() {
     if (assetsCache.length === 0) {
         return showStatusModal("Lỗi", "Không có tài sản nào để dự đoán lại!", "warning");
     }
 
     showStatusModal("Đang xử lý", "Hệ thống đang dự đoán lại toàn bộ tài sản.", "warning");
-
     const path = getAssetCollectionPath();
     if (!path) return showStatusModal("Lỗi", "Không xác định được path lưu tài sản.", "danger");
 
@@ -489,43 +456,31 @@ async function runBatchPredict() {
     const MS_PER_DAY = 1000 * 60 * 60 * 24;
 
     for (const asset of assetsCache) {
-        // ensure we can parse original stored strings (they were normalized in listener)
+        if (asset.predictedStatus === "Đang bảo trì") continue;
+
         const startDateObj = parseDate(asset.purchaseDate);
         let endDateObj = parseDate(asset.expiryDate);
         const lastMaintObj = parseDate(asset.lastMaintenance);
-
-        const predictDateObj = new Date(); // predict_date = today (local midnight)
+        const predictDateObj = new Date(); 
         const predictLocal = new Date(predictDateObj.getFullYear(), predictDateObj.getMonth(), predictDateObj.getDate());
 
-        // If start invalid, fallback to predict date
         const isValidStart = startDateObj && !isNaN(startDateObj.getTime());
         const isValidEnd = endDateObj && !isNaN(endDateObj.getTime());
 
-        // If expiry missing, **option A**: try to infer from start + default lifetime (e.g. 12 or 36 months).
-        // Here ta sẽ fallback: nếu endDate missing, giả sử 12 tháng từ start (nếu start có) or 365 days from predict.
         if (!isValidEnd) {
             if (isValidStart) {
-                // default lifetime 36 months for phần cứng? chọn 12 tháng là an toàn — em điều chỉnh theo nhu cầu
-                const defaultMonths = 12; // <-- chỉnh nếu cần
+                const defaultMonths = 12; 
                 endDateObj = new Date(startDateObj.getFullYear(), startDateObj.getMonth() + defaultMonths, startDateObj.getDate());
             } else {
-                // fallback generic 1 year from today
                 endDateObj = new Date(predictLocal.getTime() + (365 * MS_PER_DAY));
             }
         }
 
-        // recompute valids
         const validStart = isValidStart;
         const validEnd = endDateObj && !isNaN(endDateObj.getTime());
 
-        // compute features exactly like single predict UI
-        const ageMonths = validStart
-            ? Math.floor((predictLocal.getTime() - startDateObj.getTime()) / (MS_PER_DAY * 30.4375))
-            : 0;
-
-        const daysLeft = validEnd
-            ? Math.floor((endDateObj.getTime() - predictLocal.getTime()) / MS_PER_DAY)
-            : null; // null indicates unknown; ML backend should handle
+        const ageMonths = validStart ? Math.floor((predictLocal.getTime() - startDateObj.getTime()) / (MS_PER_DAY * 30.4375)) : 0;
+        const daysLeft = validEnd ? Math.floor((endDateObj.getTime() - predictLocal.getTime()) / MS_PER_DAY) : null;
 
         let daysSinceLast = 0;
         if (lastMaintObj && !isNaN(lastMaintObj.getTime())) {
@@ -557,7 +512,6 @@ async function runBatchPredict() {
         .then(async result => {
             const docRef = doc(db, path, asset.id);
             const newPred = result && result.prediction ? result.prediction : 'Chưa dự đoán';
-            // Update Firestore document
             await updateDoc(docRef, { predictedStatus: newPred });
         })
         .catch(err => {
@@ -568,76 +522,52 @@ async function runBatchPredict() {
     }
 
     await Promise.all(promises);
-
-    // ensure UI re-render after update
     updateAssetView(assetsCache);
-
     showStatusModal("Thành công", "Tất cả tài sản đã được dự đoán lại bởi AI!", "success");
 }
 
-
-// ===========================================================================
 async function updateExistingAsset(docId, assetData) {
     if (!db) return showStatusModal('Lỗi', 'Hệ thống chưa sẵn sàng hoặc chưa đăng nhập.', 'danger');
-    
     const path = getAssetCollectionPath();
     if (!path) return;
 
     try {
         const updatedAsset = mapFormDataToAsset(assetData);
-        
         const docRef = doc(db, path, docId);
-        // Tạo một bản sao để xóa assetId, vì ta không muốn cập nhật nó
         const updatePayload = { ...updatedAsset };
         delete updatePayload.assetId; 
         
         await updateDoc(docRef, updatePayload);
-        
         currentEditingDocId = null; 
-        
         showStatusModal('Thành công', `Đã cập nhật Tài sản ${assetData.assetId} thành công!`, 'success');
         changeContent('asset-list-content');
-
     } catch (e) {
         console.error("Lỗi khi cập nhật Tài sản: ", e);
         showStatusModal('Lỗi', `Cập nhật tài sản thất bại: ${e.message}`, 'danger');
     }
 }
 
-// Đã điều chỉnh hàm deleteAsset để kiểm tra docId rõ ràng hơn
 async function deleteAsset(docId) {
     if (!db) {
         console.error("Firebase not ready for delete.");
         return showStatusModal('Lỗi', 'Hệ thống chưa sẵn sàng hoặc chưa đăng nhập.', 'danger');
     }
-    
     const path = getAssetCollectionPath();
     if (!path) return;
+    if (!docId) return showStatusModal('Lỗi', 'ID tài sản không hợp lệ.', 'danger');
 
-    if (!docId) {
-        console.error("Attempted to delete asset with null docId or empty docId.");
-        return showStatusModal('Lỗi', 'ID tài sản không hợp lệ.', 'danger');
-    }
-
-    console.log(`[Firestore DELETE]: Attempting to delete docId: ${docId} at path: ${path}/${docId}`);
-    
     try {
-        // Thực hiện xóa tài liệu
         await deleteDoc(doc(db, path, docId));
         showStatusModal('Thành công', `Đã xóa tài sản thành công!`, 'success');
     } catch (e) {
         console.error("Lỗi khi xóa Tài sản: ", e);
-        // Kiểm tra lỗi quyền truy cập
-        let errorMessage = e.message.includes('permission') 
-                                        ? 'Lỗi: Thiếu quyền truy cập. Vui lòng kiểm tra Firebase Security Rules.' 
-                                        : `Xóa tài sản thất bại: ${e.message}`;
+        let errorMessage = e.message.includes('permission') ? 'Lỗi: Thiếu quyền.' : `Xóa tài sản thất bại: ${e.message}`;
         showStatusModal('Lỗi Xóa', errorMessage, 'danger');
     }
 }
 
 function mapFormDataToAsset(assetData) {
     const oldAsset = assetsCache.find(a => a.id === currentEditingDocId);
-    // Giữ lại trạng thái dự đoán cũ (đã được ánh xạ 3 trạng thái)
     const predictedStatus = oldAsset ? oldAsset.predictedStatus : 'Chưa dự đoán'; 
 
     return {
@@ -649,64 +579,42 @@ function mapFormDataToAsset(assetData) {
         expiryDate: assetData.expiryDate || null,
         department: assetData.department,
         description: assetData.description,
-        
         usageFrequency: parseInt(assetData.usageFrequency) || 0,
         maintenanceCount: parseInt(assetData.maintenanceCount) || 0,
         ageMonths: parseInt(assetData.ageMonths) || 0,
         lastMaintenance: assetData.lastMaintenance || null,
-        
         predictedStatus: predictedStatus || 'Chưa dự đoán',
     };
 }
 
-// ------------------------------------------------
-
 // ===================================================================
 // 🛠️ UI/UX & MOCK FUNCTIONS
 // ===================================================================
-
 function updateStatsCards(data) {
     if (!data) return; 
-
-    // ĐIỀU CHỈNH 3 TRẠNG THÁI: Tính toán tỷ lệ Tốt
-    const totalPredicted = data.predictionStatus.tot + 
-                                data.predictionStatus.canBaoTri +
-                                data.predictionStatus.hong;
-
-    const goodPredictionPercentage = data.totalAssets > 0 
-        ? ((data.predictionStatus.tot / data.totalAssets) * 100).toFixed(0) 
-        : 0;
+    const goodPredictionPercentage = data.totalAssets > 0 ? ((data.predictionStatus.tot / data.totalAssets) * 100).toFixed(0) : 0;
 
     document.querySelector('.stats-cards .total p').textContent = data.totalAssets;
     document.querySelector('.stats-cards .warning p').textContent = data.maintenanceNeeded;
-    // Sử dụng predictionCounts.hong cho Danger
     document.querySelector('.stats-cards .danger p').textContent = data.predictionStatus.hong;
     document.querySelector('.stats-cards .good p').textContent = `${goodPredictionPercentage}%`;
     
-    // Luôn khởi tạo biểu đồ khi dữ liệu thống kê được cập nhật
     initializeCharts(data);
 }
 
-
 // ===================================================================
-// 7. BIỂU ĐỒ DASHBOARD
+// BIỂU ĐỒ DASHBOARD
 // ===================================================================
 function initializeCharts(data) {
     destroyCharts();
-
     const labelsType = ['Giấy tờ', 'Phần cứng', 'Phần mềm'];
-    // ĐIỀU CHỈNH 3 TRẠNG THÁI: Chỉ còn 3 nhãn
     const labelsStatus = ['Tốt', 'Cần bảo trì', 'Hỏng']; 
     
     const assetTypeData = {
         labels: labelsType,
         datasets: [{
             label: 'Số lượng tài sản',
-            data: [
-                data.assetTypes['Giấy tờ'] || 0, 
-                data.assetTypes['Phần cứng'] || 0, 
-                data.assetTypes['Phần mềm'] || 0
-            ], 
+            data: [data.assetTypes['Giấy tờ'] || 0, data.assetTypes['Phần cứng'] || 0, data.assetTypes['Phần mềm'] || 0], 
             backgroundColor: ['#007bff', '#28a745', '#ffc107'],
             hoverOffset: 4
         }]
@@ -714,24 +622,14 @@ function initializeCharts(data) {
     assetTypeChartInstance = new Chart(document.getElementById('assetTypeChart'), { 
         type: 'doughnut', 
         data: assetTypeData, 
-        options: { 
-            responsive: true, 
-            maintainAspectRatio: false, 
-            plugins: { legend: { position: 'bottom' }, title: { display: false } } 
-        } 
+        options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom' } } } 
     });
 
     const predictionStatusData = {
         labels: labelsStatus,
         datasets: [{
             label: 'Số lượng Tài sản',
-            // ĐIỀU CHỈNH 3 TRẠNG THÁI: Chỉ sử dụng 3 cột dữ liệu
-            data: [
-                data.predictionStatus.tot, 
-                data.predictionStatus.canBaoTri, 
-                data.predictionStatus.hong 
-            ], 
-            // Màu sắc tương ứng: Success, Warning, Danger
+            data: [data.predictionStatus.tot, data.predictionStatus.canBaoTri, data.predictionStatus.hong], 
             backgroundColor: ['#28a745', '#ffc107', '#dc3545'], 
             borderRadius: 6
         }]
@@ -739,50 +637,24 @@ function initializeCharts(data) {
     predictionStatusChartInstance = new Chart(document.getElementById('predictionStatusChart'), { 
         type: 'bar', 
         data: predictionStatusData, 
-        options: { 
-            responsive: true, 
-            maintainAspectRatio: false, 
-            plugins: { legend: { display: false }, title: { display: false } }, 
-            scales: { y: { beginAtZero: true } } 
-        } 
+        options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true } } } 
     });
 }
 
 function destroyCharts() {
-    if (assetTypeChartInstance) {
-        assetTypeChartInstance.destroy();
-        assetTypeChartInstance = null;
-    }
-    if (predictionStatusChartInstance) {
-        predictionStatusChartInstance.destroy();
-        predictionStatusChartInstance = null;
-    }
+    if (assetTypeChartInstance) { assetTypeChartInstance.destroy(); assetTypeChartInstance = null; }
+    if (predictionStatusChartInstance) { predictionStatusChartInstance.destroy(); predictionStatusChartInstance = null; }
 }
-
 
 function initializeApp() {
     setupNavigation();
     setupImportExportEvents();
     handleAssetSubmission();
 
-    // gán listeners ở đây (chỉ một lần)
-    document.getElementById("filterType").addEventListener("change", (ev) => {
-        currentFilterType = ev.target.value;
-        currentPage = 1;
-        updateAssetView(assetsCache);
-    });
-    document.getElementById("filterStatus").addEventListener("change", (ev) => {
-        currentFilterStatus = ev.target.value;
-        currentPage = 1;
-        updateAssetView(assetsCache);
-    });
-    document.getElementById("searchInput").addEventListener("input", (ev) => {
-        currentSearchTerm = ev.target.value.toLowerCase();
-        currentPage = 1;
-        updateAssetView(assetsCache);
-    });
+    document.getElementById("filterType").addEventListener("change", (ev) => { currentFilterType = ev.target.value; currentPage = 1; updateAssetView(assetsCache); });
+    document.getElementById("filterStatus").addEventListener("change", (ev) => { currentFilterStatus = ev.target.value; currentPage = 1; updateAssetView(assetsCache); });
+    document.getElementById("searchInput").addEventListener("input", (ev) => { currentSearchTerm = ev.target.value.toLowerCase(); currentPage = 1; updateAssetView(assetsCache); });
 }
-
 
 function changeContent(contentId) {
     document.querySelectorAll('.content-section').forEach(section => {
@@ -801,24 +673,25 @@ function changeContent(contentId) {
     if (targetMenuItem) {
         targetMenuItem.classList.add('active');
         
-        let titleText = targetMenuItem.querySelector('a').textContent.trim();
-        const badge = targetMenuItem.querySelector('.new-feature-badge');
-        if (badge) {
-            titleText = titleText.replace(badge.textContent, '').trim();
+        if (contentId === 'maintenance-alert-content') {
+            document.getElementById('main-title').textContent = 'Điều Phối Bảo Trì';
+        } else if (contentId === 'user-management-content') {
+            document.getElementById('main-title').textContent = 'Quản lý Nhân sự';
+        } else {
+            let titleText = targetMenuItem.querySelector('a').textContent.trim();
+            const badge = targetMenuItem.querySelector('.new-feature-badge');
+            if (badge) titleText = titleText.replace(badge.textContent, '').trim();
+            document.getElementById('main-title').textContent = titleText;
         }
-        document.getElementById('main-title').textContent = titleText;
     }
     
     if (contentId === 'dashboard-content') {
         if (assetsCache.length > 0) {
-            const dashboardData = calculateDashboardStats(assetsCache);
-            updateStatsCards(dashboardData);
-
+            updateStatsCards(calculateDashboardStats(assetsCache));
         } else if (isAuthReady) {
             updateStatsCards(calculateDashboardStats([]));
         }
     } else {
-        // Khi chuyển sang tab khác, hủy các biểu đồ để tránh lỗi Chart.js
         destroyCharts();
     }
     
@@ -830,20 +703,17 @@ function changeContent(contentId) {
             document.getElementById('assetId').disabled = false;
         }
     } else if (contentId === 'asset-list-content') {
-            // Re-render the asset view on tab switch to ensure current filters/page are respected
-            updateAssetView(assetsCache); 
+        updateAssetView(assetsCache); 
     } else if (contentId === 'ai-predict-content') {
-            // Đặt ngày Dự đoán mặc định là ngày hôm nay khi mở form
-            const today = new Date().toISOString().slice(0, 10);
-            document.getElementById('ai_predict_date').value = today;
-            document.getElementById('predictionResult').classList.add('hidden');
+        document.getElementById('ai_predict_date').value = new Date().toISOString().slice(0, 10);
+        document.getElementById('predictionResult').classList.add('hidden');
     } else if (contentId === 'user-management-content') {
         renderUserManagement();
-        document.getElementById('addUserModal').classList.add('hidden');
+    } else if (contentId === 'maintenance-alert-content') {
+        loadExpiredAssets();
     }
 }
 
-// Tính toán lại số liệu thống kê từ cache (3 trạng thái)
 function calculateDashboardStats(assets) {
     let totalAssets = assets.length;
     const assetTypeCounts = { 'Giấy tờ': 0, 'Phần cứng': 0, 'Phần mềm': 0 };
@@ -852,85 +722,462 @@ function calculateDashboardStats(assets) {
     let expiringSoon = 0;
 
     assets.forEach(asset => {
-        if (assetTypeCounts[asset.type] !== undefined) {
-            assetTypeCounts[asset.type]++;
-        }
-
-        // Cập nhật thống kê dựa trên 3 trạng thái mới (đã được ánh xạ trong setupAssetsListener)
+        if (assetTypeCounts[asset.type] !== undefined) assetTypeCounts[asset.type]++;
         switch (asset.predictedStatus) {
             case 'Tốt': predictionCounts.tot++; break;
             case 'Cần bảo trì': predictionCounts.canBaoTri++; maintenanceNeeded++; break;
-            case 'Hỏng': predictionCounts.hong++; expiringSoon++; break;
+            case 'Hỏng': predictionCounts.hong++; break;
         }
-
         if (asset.expiryDate) {
-            const expiryDate = new Date(asset.expiryDate);
-            const today = new Date();
-            const diffTime = expiryDate.getTime() - today.getTime();
-            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); 
-            if (diffDays > 0 && diffDays <= 30) {
-                    if (asset.predictedStatus !== 'Hỏng') {
-                    expiringSoon++;
-                    }
-            }
+            const diffDays = Math.ceil((new Date(asset.expiryDate).getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24)); 
+            if (diffDays > 0 && diffDays <= 30 && asset.predictedStatus !== 'Hỏng') expiringSoon++;
         }
     });
     
-    return {
-        totalAssets, maintenanceNeeded, expiringSoon, 
-        assetTypes: assetTypeCounts,
-        predictionStatus: predictionCounts
-    };
+    return { totalAssets, maintenanceNeeded, expiringSoon, assetTypes: assetTypeCounts, predictionStatus: predictionCounts };
 }
 
+// ===================================================================
+// LOGIC CHỨC NĂNG MỚI: ĐIỀU PHỐI BẢO TRÌ & GỢI Ý DATALIST NHÂN SỰ
+// ===================================================================
+function populatePersonnelDropdown() {
+    const datalist = document.getElementById('personnel-email-list');
+    if (!datalist) return;
 
+    datalist.innerHTML = '';
+
+    personnelCache.forEach(p => {
+        if (p.status === 'Hoạt động') {
+            const opt = document.createElement('option');
+            opt.value = p.email;
+            opt.textContent = `${p.name} - ${p.role} (${p.department || 'Chung'})`;
+            datalist.appendChild(opt);
+        }
+    });
+}
+
+function loadExpiredAssets() {
+    populatePersonnelDropdown(); // Đổ dữ liệu vào datalist gợi ý email
+
+    const tbodyExpired = document.getElementById('expired-assets-tbody');
+    const tbodyMaintenance = document.getElementById('under-maintenance-tbody');
+    
+    if (tbodyExpired) tbodyExpired.innerHTML = '';
+    if (tbodyMaintenance) tbodyMaintenance.innerHTML = '';
+
+    const expiredAssets = assetsCache.filter(a => a.predictedStatus === "Hỏng" || a.predictedStatus === "Cần bảo trì");
+    if (tbodyExpired) {
+        if (expiredAssets.length === 0) {
+            tbodyExpired.innerHTML = '<tr><td colspan="5" style="text-align: center; color: var(--success-color); padding: 12px;">Tuyệt vời! Không có tài sản nào chờ điều phối phân công.</td></tr>';
+        } else {
+            expiredAssets.forEach(asset => {
+                const row = document.createElement('tr');
+                row.id = `m-row-${asset.id}`;
+                const statusBadgeClass = asset.predictedStatus === "Hỏng" ? "danger" : "warning";
+                row.innerHTML = `
+                    <td style="color: var(--primary-color); font-weight: bold;">${asset.assetId}</td>
+                    <td>${asset.name}</td>
+                    <td>${asset.type}</td>
+                    <td><span class="status-badge ${statusBadgeClass}">${asset.predictedStatus}</span></td>
+                    <td>
+                        <button class="btn btn-primary" style="padding: 5px 10px; font-size: 0.85em;" onclick="selectAssetToAssign('${asset.id}', '${asset.name}')">
+                            <i class="fas fa-user-plus"></i> Chọn
+                        </button>
+                    </td>
+                `;
+                tbodyExpired.appendChild(row);
+            });
+        }
+    }
+
+    const maintenanceAssets = assetsCache.filter(a => a.predictedStatus === "Đang bảo trì");
+    if (tbodyMaintenance) {
+        if (maintenanceAssets.length === 0) {
+            tbodyMaintenance.innerHTML = '<tr><td colspan="5" style="text-align: center; color: var(--secondary-color); padding: 12px;">Hiện tại không có thiết bị nào đang sửa chữa.</td></tr>';
+        } else {
+            maintenanceAssets.forEach(asset => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td style="color: var(--primary-color); font-weight: bold;">${asset.assetId}</td>
+                    <td>${asset.name}</td>
+                    <td>${asset.type}</td>
+                    <td><span class="status-badge info">Đang bảo trì</span></td>
+                    <td>
+                        <button class="btn btn-success" style="padding: 5px 10px; font-size: 0.85em; background: #10b981; border-color: #10b981;" onclick="completeMaintenance('${asset.id}', '${asset.assetId}')">
+                            <i class="fas fa-check"></i> Hoàn tất Check 
+                        </button>
+                    </td>
+                `;
+                tbodyMaintenance.appendChild(row);
+            });
+        }
+    }
+}
+
+window.selectAssetToAssign = function(id, name) {
+    document.getElementById('assign-asset-id').value = id;
+    document.getElementById('assign-asset-name').value = name;
+    document.getElementById('assign-asset-display').value = `[${id}] - ${name}`;
+    document.getElementById('btn-submit-assignment').disabled = false;
+    document.getElementById('assign-tech-email').focus();
+};
+
+window.executeAssignTask = async function() {
+    const id = document.getElementById('assign-asset-id').value;
+    const name = document.getElementById('assign-asset-name').value;
+    const email = document.getElementById('assign-tech-email').value.trim();
+    const note = document.getElementById('assign-note').value.trim();
+    const statusMsg = document.getElementById('assign-status-message');
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!email || !emailRegex.test(email)) {
+        statusMsg.style.display = "block";
+        statusMsg.style.background = "#fee2e2";
+        statusMsg.style.color = "#ef4444";
+        statusMsg.innerHTML = '<i class="fas fa-exclamation-circle"></i> Vui lòng nhập hoặc chọn đúng định dạng Email kỹ thuật viên!';
+        statusMsg.classList.remove('hidden');
+        return;
+    }
+
+    if (!note) {
+        statusMsg.style.display = "block";
+        statusMsg.style.background = "#fee2e2";
+        statusMsg.style.color = "#ef4444";
+        statusMsg.innerHTML = '<i class="fas fa-exclamation-circle"></i> Vui lòng nhập nội dung ghi chú công việc!';
+        statusMsg.classList.remove('hidden');
+        return;
+    }
+
+    statusMsg.style.display = "block";
+    statusMsg.style.background = "#e0f2fe";
+    statusMsg.style.color = "#0369a1";
+    statusMsg.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Đang kết nối với dịch vụ gửi thư...';
+    statusMsg.classList.remove('hidden');
+
+    try {
+        const response = await fetch("http://127.0.0.1:8000/api/assets/assign", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ asset_id: id, asset_name: name, tech_email: email, note: note })
+        });
+
+        const result = await response.json();
+
+        if (response.ok) {
+            statusMsg.style.background = "#dcfce7";
+            statusMsg.style.color = "#15803d";
+            statusMsg.innerHTML = `<i class="fas fa-check-circle"></i> Đã gửi email giao việc thành công tới: <b>${email}</b>`;
+            
+            try {
+                const path = getAssetCollectionPath(); 
+                if (path) {
+                    await updateDoc(doc(db, path, id), {
+                        predictedStatus: "Đang bảo trì"
+                    });
+                }
+            } catch (fsError) {
+                console.error("Lỗi cập nhật trạng thái bảo trì lên Firestore:", fsError);
+            }
+
+            const targetRow = document.getElementById(`m-row-${id}`);
+            if (targetRow) targetRow.remove();
+
+            document.getElementById('assign-asset-id').value = "";
+            document.getElementById('assign-asset-name').value = "";
+            document.getElementById('assign-asset-display').value = "";
+            document.getElementById('assign-tech-email').value = "";
+            document.getElementById('assign-note').value = "";
+            document.getElementById('btn-submit-assignment').disabled = true;
+        } else {
+            throw new Error(result.detail || "Gửi mail thất bại.");
+        }
+    } catch (error) {
+        statusMsg.style.background = "#fee2e2";
+        statusMsg.style.color = "#ef4444";
+        statusMsg.innerHTML = `<i class="fas fa-times-circle"></i> Lỗi hệ thống: ${error.message}`;
+    }
+};
+
+window.completeMaintenance = function(id, assetId) {
+    currentModalAction = 'complete_maintenance';
+    modalTargetDocId = id; 
+    
+    const today = new Date().toISOString().slice(0, 10);
+    const nextYearDate = new Date();
+    nextYearDate.setDate(nextYearDate.getDate() + 365);
+    const defaultExpiry = nextYearDate.toISOString().slice(0, 10);
+    
+    document.getElementById('modalTitle').textContent = `Xác nhận Hoàn Tất Bảo Trì: ${assetId}`;
+    document.getElementById('modalBody').innerHTML = `
+        <div style="padding: 10px 0;">
+            <p style="margin-bottom: 15px; color: var(--secondary-color);">Cập nhật các thông số thời gian thực tế để đồng bộ chính xác dữ liệu AI:</p>
+            
+            <div class="form-group" style="margin-bottom: 15px;">
+                <label style="font-weight: 600; display: block; margin-bottom: 5px;">Ngày sửa xong thực tế (*):</label>
+                <input type="date" id="maint-complete-date" value="${today}" required style="width: 100%; padding: 8px; border: 1px solid #cbd5e1; border-radius: 4px;">
+            </div>
+
+            <div class="form-group" style="margin-bottom: 15px;">
+                <label style="font-weight: 600; display: block; margin-bottom: 5px;">Ngày hết hạn tiếp theo (Gia hạn mới) (*):</label>
+                <input type="date" id="maint-next-expiry" value="${defaultExpiry}" required style="width: 100%; padding: 8px; border: 1px solid #cbd5e1; border-radius: 4px;">
+            </div>
+            
+            <p style="font-size: 0.85em; color: var(--primary-color); background: #f0fdf4; padding: 8px; border-radius: 4px; border: 1px solid #bbf7d0; margin-top: 15px; text-align: center;">
+                <i class="fas fa-info-circle"></i> Hệ thống tự động tăng <b>Số lần bảo trì +1</b>
+            </p>
+        </div>
+    `;
+    
+    const confirmBtn = document.getElementById('modalConfirmButton');
+    confirmBtn.classList.remove('hidden');
+    confirmBtn.textContent = 'Xác nhận Hoàn Thành';
+    confirmBtn.className = 'btn btn-success'; 
+    
+    document.getElementById('statusModal').classList.add('visible');
+};
 
 // ===================================================================
-// 6. HIỂN THỊ DANH SÁCH / LỌC / PHÂN TRANG
+// QUẢN LÝ NHÂN SỰ REALTIME TRÊN CLOUD (FIRESTORE) + KHÓA/MỞ KHÓA LINH HOẠT
+// ===================================================================
+function renderUserManagement() {
+    filterPersonnelList();
+}
+
+function filterPersonnelList() {
+    const searchVal = document.getElementById('searchPersonnelInput')?.value.toLowerCase().trim() || '';
+    const roleVal = document.getElementById('filterPersonnelRole')?.value || '';
+
+    const filtered = personnelCache.filter(p => {
+        const matchesSearch = p.name.toLowerCase().includes(searchVal) || p.email.toLowerCase().includes(searchVal) || p.personnelId.toLowerCase().includes(searchVal);
+        const matchesRole = roleVal === '' || p.role === roleVal;
+        return matchesSearch && matchesRole;
+    });
+
+    renderPersonnelTable(filtered);
+}
+
+function renderPersonnelTable(list) {
+    const tbody = document.getElementById('personnelTableBody');
+    if (!tbody) return;
+    tbody.innerHTML = '';
+
+    if (list.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="6" style="text-align: center; color: var(--secondary-color);">Không tìm thấy nhân sự nào phù hợp.</td></tr>';
+        return;
+    }
+
+    list.forEach(p => {
+        const badgeClass = p.status === 'Hoạt động' ? 'good' : 'inactive';
+        const lockIcon = p.status === 'Hoạt động' ? 'fa-lock' : 'fa-unlock-alt';
+        const lockTitle = p.status === 'Hoạt động' ? 'Khóa tài khoản' : 'Mở khóa tài khoản';
+        const btnColor = p.status === 'Hoạt động' ? 'btn-secondary' : 'btn-success';
+
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td style="font-weight: bold; color: var(--primary-color);">${p.personnelId}</td>
+            <td>${p.name}</td>
+            <td>${p.email}</td>
+            <td>${p.role}</td>
+            <td><span class="status-badge ${badgeClass}">${p.status}</span></td>
+            <td class="action-btns">
+                <button class="btn btn-primary" onclick="viewPersonnelDetails('${p.id}')" title="Xem chi tiết"><i class="fas fa-eye"></i></button>
+                <button class="btn btn-secondary" onclick="editPersonnel('${p.id}')" title="Chỉnh sửa"><i class="fas fa-edit"></i></button>
+                <button class="btn ${btnColor}" onclick="togglePersonnelStatus('${p.id}')" title="${lockTitle}"><i class="fas ${lockIcon}"></i></button>
+                <button class="btn btn-danger" onclick="deletePersonnel('${p.id}')" title="Xóa"><i class="fas fa-trash-alt"></i></button>
+            </td>
+        `;
+        tbody.appendChild(row);
+    });
+}
+
+function openAddPersonnelModal() {
+    currentEditingPersonnelId = null;
+    const modalBody = document.getElementById('modalBody');
+    document.getElementById('modalTitle').textContent = 'Thêm Nhân Sự Mới';
+    
+    modalBody.innerHTML = `
+        <form id="personnelForm" onsubmit="savePersonnel(event)">
+            <div class="form-group" style="margin-bottom: 12px;">
+                <label style="font-weight: 600; display: block; margin-bottom: 5px;">Mã Nhân sự (*):</label>
+                <input type="text" id="p_id" required placeholder="Ví dụ: NS004" style="width: 100%; padding: 8px; border: 1px solid #cbd5e1; border-radius: 4px;">
+            </div>
+            <div class="form-group" style="margin-bottom: 12px;">
+                <label style="font-weight: 600; display: block; margin-bottom: 5px;">Họ và Tên (*):</label>
+                <input type="text" id="p_name" required placeholder="Nhập họ tên..." style="width: 100%; padding: 8px; border: 1px solid #cbd5e1; border-radius: 4px;">
+            </div>
+            <div class="form-group" style="margin-bottom: 12px;">
+                <label style="font-weight: 600; display: block; margin-bottom: 5px;">Email (*):</label>
+                <input type="email" id="p_email" required placeholder="email@company.com" style="width: 100%; padding: 8px; border: 1px solid #cbd5e1; border-radius: 4px;">
+            </div>
+            <div class="form-group" style="margin-bottom: 12px;">
+                <label style="font-weight: 600; display: block; margin-bottom: 5px;">Chức vụ (*):</label>
+                <select id="p_role" required style="width: 100%; padding: 8px; border: 1px solid #cbd5e1; border-radius: 4px;">
+                    <option value="Nhân viên">Nhân viên</option>
+                    <option value="Kỹ thuật viên">Kỹ thuật viên</option>
+                    <option value="Quản trị viên">Quản trị viên</option>
+                </select>
+            </div>
+            <div class="form-group" style="margin-bottom: 15px;">
+                <label style="font-weight: 600; display: block; margin-bottom: 5px;">Phòng ban:</label>
+                <input type="text" id="p_dept" placeholder="Ví dụ: IT, Bảo trì..." style="width: 100%; padding: 8px; border: 1px solid #cbd5e1; border-radius: 4px;">
+            </div>
+            <div style="text-align: right;">
+                <button type="submit" class="btn btn-success"><i class="fas fa-save"></i> Lưu Nhân sự</button>
+            </div>
+        </form>
+    `;
+    
+    document.getElementById('modalConfirmButton').classList.add('hidden');
+    document.getElementById('statusModal').classList.add('visible');
+}
+
+async function savePersonnel(event) {
+    event.preventDefault();
+    const personnelId = document.getElementById('p_id').value.trim();
+    const name = document.getElementById('p_name').value.trim();
+    const email = document.getElementById('p_email').value.trim();
+    const role = document.getElementById('p_role').value;
+    const dept = document.getElementById('p_dept').value.trim();
+
+    const path = getPersonnelCollectionPath();
+    if (!path) return showStatusModal('Lỗi', 'Database chưa sẵn sàng.', 'danger');
+
+    try {
+        if (currentEditingPersonnelId) {
+            await updateDoc(doc(db, path, currentEditingPersonnelId), {
+                name, email, role, department: dept
+            });
+            showStatusModal('Thành công', 'Đã cập nhật nhân sự thành công!', 'success');
+        } else {
+            if (personnelCache.some(x => x.personnelId === personnelId)) {
+                alert('Mã nhân sự này đã tồn tại trên hệ thống!');
+                return;
+            }
+            await addDoc(collection(db, path), {
+                personnelId, name, email, role, status: 'Hoạt động', department: dept
+            });
+            showStatusModal('Thành công', 'Đã thêm nhân sự mới thành công!', 'success');
+        }
+        closeModal();
+    } catch (e) {
+        showStatusModal('Lỗi', `Thất bại: ${e.message}`, 'danger');
+    }
+}
+
+function viewPersonnelDetails(id) {
+    const p = personnelCache.find(x => x.id === id);
+    if (!p) return;
+
+    document.getElementById('modalTitle').textContent = `Chi tiết Nhân sự: ${p.name}`;
+    document.getElementById('modalBody').innerHTML = `
+        <div style="line-height: 1.8; font-size: 1em;">
+            <p><strong>Mã Nhân sự:</strong> ${p.personnelId}</p>
+            <p><strong>Họ và Tên:</strong> ${p.name}</p>
+            <p><strong>Email:</strong> ${p.email}</p>
+            <p><strong>Chức vụ:</strong> ${p.role}</p>
+            <p><strong>Phòng ban:</strong> ${p.department || 'Chưa cập nhật'}</p>
+            <p><strong>Trạng thái:</strong> <span class="status-badge ${p.status === 'Hoạt động' ? 'good' : 'inactive'}">${p.status}</span></p>
+        </div>
+    `;
+    document.getElementById('modalConfirmButton').classList.add('hidden');
+    document.getElementById('statusModal').classList.add('visible');
+}
+
+function editPersonnel(id) {
+    const p = personnelCache.find(x => x.id === id);
+    if (!p) return;
+
+    currentEditingPersonnelId = id;
+    const modalBody = document.getElementById('modalBody');
+    document.getElementById('modalTitle').textContent = `Chỉnh sửa Nhân sự: ${p.personnelId}`;
+    
+    modalBody.innerHTML = `
+        <form id="personnelForm" onsubmit="savePersonnel(event)">
+            <div class="form-group" style="margin-bottom: 12px;">
+                <label style="font-weight: 600; display: block; margin-bottom: 5px;">Mã Nhân sự:</label>
+                <input type="text" id="p_id" value="${p.personnelId}" disabled style="width: 100%; padding: 8px; border: 1px solid #cbd5e1; border-radius: 4px; background: #f1f5f9;">
+            </div>
+            <div class="form-group" style="margin-bottom: 12px;">
+                <label style="font-weight: 600; display: block; margin-bottom: 5px;">Họ và Tên (*):</label>
+                <input type="text" id="p_name" value="${p.name}" required style="width: 100%; padding: 8px; border: 1px solid #cbd5e1; border-radius: 4px;">
+            </div>
+            <div class="form-group" style="margin-bottom: 12px;">
+                <label style="font-weight: 600; display: block; margin-bottom: 5px;">Email (*):</label>
+                <input type="email" id="p_email" value="${p.email}" required style="width: 100%; padding: 8px; border: 1px solid #cbd5e1; border-radius: 4px;">
+            </div>
+            <div class="form-group" style="margin-bottom: 12px;">
+                <label style="font-weight: 600; display: block; margin-bottom: 5px;">Chức vụ (*):</label>
+                <select id="p_role" required style="width: 100%; padding: 8px; border: 1px solid #cbd5e1; border-radius: 4px;">
+                    <option value="Nhân viên" ${p.role === 'Nhân viên' ? 'selected' : ''}>Nhân viên</option>
+                    <option value="Kỹ thuật viên" ${p.role === 'Kỹ thuật viên' ? 'selected' : ''}>Kỹ thuật viên</option>
+                    <option value="Quản trị viên" ${p.role === 'Quản trị viên' ? 'selected' : ''}>Quản trị viên</option>
+                </select>
+            </div>
+            <div class="form-group" style="margin-bottom: 15px;">
+                <label style="font-weight: 600; display: block; margin-bottom: 5px;">Phòng ban:</label>
+                <input type="text" id="p_dept" value="${p.department || ''}" style="width: 100%; padding: 8px; border: 1px solid #cbd5e1; border-radius: 4px;">
+            </div>
+            <div style="text-align: right;">
+                <button type="submit" class="btn btn-success"><i class="fas fa-save"></i> Cập nhật</button>
+            </div>
+        </form>
+    `;
+    
+    document.getElementById('modalConfirmButton').classList.add('hidden');
+    document.getElementById('statusModal').classList.add('visible');
+}
+
+async function togglePersonnelStatus(id) {
+    const p = personnelCache.find(x => x.id === id);
+    if (!p) return;
+
+    const newStatus = p.status === 'Hoạt động' ? 'Khóa' : 'Hoạt động';
+    const path = getPersonnelCollectionPath();
+    if (!path) return;
+
+    try {
+        await updateDoc(doc(db, path, id), {
+            status: newStatus
+        });
+        showStatusModal('Thành công', `Đã chuyển trạng thái nhân sự thành: ${newStatus}`, 'success');
+    } catch (e) {
+        showStatusModal('Lỗi', `Cập nhật trạng thái thất bại: ${e.message}`, 'danger');
+    }
+}
+
+async function deletePersonnel(id) {
+    if (confirm(`Bạn có chắc chắn muốn xóa nhân sự này không?`)) {
+        const path = getPersonnelCollectionPath();
+        try {
+            await deleteDoc(doc(db, path, id));
+            showStatusModal('Thành công', 'Đã xóa nhân sự thành công!', 'success');
+        } catch (e) {
+            showStatusModal('Lỗi', `Xóa thất bại: ${e.message}`, 'danger');
+        }
+    }
+}
+
+// ===================================================================
+// HIỂN THỊ DANH SÁCH / LỌC / PHÂN TRANG TÀI SẢN
 // ===================================================================
 function updateAssetView(assets) {
-    // 1. Apply Filtering (Search and Type)
     let filteredAssets = assets.filter(asset => {
-        const matchesSearch =
-            asset.name.toLowerCase().includes(currentSearchTerm) ||
-            asset.assetId.toLowerCase().includes(currentSearchTerm);
-
-        const matchesType =
-            currentFilterType === '' || asset.type === currentFilterType;
-
+        const matchesSearch = asset.name.toLowerCase().includes(currentSearchTerm) || asset.assetId.toLowerCase().includes(currentSearchTerm);
+        const matchesType = currentFilterType === '' || asset.type === currentFilterType;
         const status = asset.predictedStatus ? asset.predictedStatus : "Chưa dự đoán";
-
-        const matchesStatus =
-            currentFilterStatus === '' ||
-            (currentFilterStatus === "Chưa dự đoán" && status === "Chưa dự đoán") ||
-            status === currentFilterStatus;
-
+        const matchesStatus = currentFilterStatus === '' || (currentFilterStatus === "Chưa dự đoán" && status === "Chưa dự đoán") || status === currentFilterStatus;
         return matchesSearch && matchesType && matchesStatus;
     });
 
-
-
-    // Sort by assetId for deterministic display
     filteredAssets.sort((a, b) => a.assetId.localeCompare(b.assetId));
-
-    // Reset currentPage if it's out of bounds after filtering
     const totalPages = Math.ceil(filteredAssets.length / assetsPerPage);
-    if (currentPage > totalPages && totalPages > 0) {
-        currentPage = totalPages;
-    } else if (totalPages === 0) {
-        currentPage = 1;
-    }
+    if (currentPage > totalPages && totalPages > 0) currentPage = totalPages;
+    else if (totalPages === 0) currentPage = 1;
 
-    // 2. Apply Pagination (Slice)
     const startIndex = (currentPage - 1) * assetsPerPage;
     const endIndex = startIndex + assetsPerPage;
-    const assetsToDisplay = filteredAssets.slice(startIndex, endIndex);
-
-    // 3. Render Table and Pagination Controls
-    renderAssetTable(assetsToDisplay, filteredAssets.length);
+    renderAssetTable(filteredAssets.slice(startIndex, endIndex), filteredAssets.length);
 }
-
-//=======================================================================================
 
 function renderAssetTable(assetsToDisplay, totalFilteredAssets) {
     const tbody = document.getElementById('assetTableBody');
@@ -938,49 +1185,32 @@ function renderAssetTable(assetsToDisplay, totalFilteredAssets) {
     tbody.innerHTML = '';
     
     if (assetsToDisplay.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="7" style="text-align: center; color: var(--secondary-color);">Không tìm thấy tài sản nào phù hợp với điều kiện lọc/tìm kiếm.</td></tr>';
+        tbody.innerHTML = '<tr><td colspan="7" style="text-align: center; color: var(--secondary-color);">Không tìm thấy tài sản nào phù hợp.</td></tr>';
     } else {
         assetsToDisplay.forEach(asset => {
-            
-            // === XỬ LÝ TRẠNG THÁI ===
             const { badgeClass, statusText } = renderStatus(asset.predictedStatus);
-
-            const assetValue = typeof asset.value === 'number'
-                ? asset.value
-                : parseFloat(asset.value || 0);
-
-            const formattedValue = assetValue.toLocaleString('vi-VN');
+            const assetValue = typeof asset.value === 'number' ? asset.value : parseFloat(asset.value || 0);
 
             const row = document.createElement('tr');
             row.innerHTML = `
                 <td>${asset.assetId}</td>
                 <td>${asset.name}</td>
                 <td>${asset.type}</td>
-                <td>${formattedValue} VNĐ</td>
+                <td>${assetValue.toLocaleString('vi-VN')} VNĐ</td>
                 <td>${asset.purchaseDate}</td>
-                
                 <td class="asset-status"><span class="status-badge ${badgeClass}">${statusText}</span></td>
-
                 <td class="action-btns">
-                    <button class="btn btn-primary" onclick="viewAssetDetails('${asset.id}')" title="Xem Chi tiết">
-                        <i class="fas fa-eye"></i>
-                    </button>
-                    <button class="btn btn-secondary" onclick="editAsset('${asset.id}')" title="Chỉnh sửa">
-                        <i class="fas fa-edit"></i>
-                    </button>
-                    <button class="btn btn-danger" onclick="confirmDelete('${asset.id}', '${asset.assetId}')" title="Xóa">
-                        <i class="fas fa-trash-alt"></i>
-                    </button>
+                    <button class="btn btn-primary" onclick="viewAssetDetails('${asset.id}')" title="Xem Chi tiết"><i class="fas fa-eye"></i></button>
+                    <button class="btn btn-secondary" onclick="editAsset('${asset.id}')" title="Chỉnh sửa"><i class="fas fa-edit"></i></button>
+                    <button class="btn btn-danger" onclick="confirmDelete('${asset.id}', '${asset.assetId}')" title="Xóa"><i class="fas fa-trash-alt"></i></button>
                 </td>
             `;
             tbody.appendChild(row);
         });
     }
     
-    // Update Pagination Controls
     const paginationDiv = document.querySelector('.pagination');
-    paginationDiv.innerHTML = ''; // Clear existing content
-
+    paginationDiv.innerHTML = '';
     const totalPages = Math.ceil(totalFilteredAssets / assetsPerPage);
     const startItem = totalFilteredAssets > 0 ? (currentPage - 1) * assetsPerPage + 1 : 0;
     const endItem = Math.min(currentPage * assetsPerPage, totalFilteredAssets);
@@ -989,95 +1219,46 @@ function renderAssetTable(assetsToDisplay, totalFilteredAssets) {
     paginationSpan.textContent = `Hiển thị ${startItem} - ${endItem} / ${totalFilteredAssets} tài sản`;
     paginationDiv.appendChild(paginationSpan);
 
-    // Prev Button
     const prevBtn = document.createElement('button');
-    prevBtn.innerHTML = '&laquo;';
-    prevBtn.disabled = currentPage === 1 || totalPages === 0;
+    prevBtn.innerHTML = '&laquo;'; prevBtn.disabled = currentPage === 1 || totalPages === 0;
     prevBtn.onclick = () => changePage(-1);
     paginationDiv.appendChild(prevBtn);
 
-    // Page Buttons
     for (let i = 1; i <= totalPages; i++) {
         const pageBtn = document.createElement('button');
-        pageBtn.textContent = i;
-        pageBtn.className = i === currentPage ? 'active' : '';
+        pageBtn.textContent = i; pageBtn.className = i === currentPage ? 'active' : '';
         pageBtn.onclick = () => { if (i !== currentPage) { changePage(i - currentPage); } };
         paginationDiv.appendChild(pageBtn);
     }
     
-    // Next Button
     const nextBtn = document.createElement('button');
-    nextBtn.innerHTML = '&raquo;';
-    nextBtn.disabled = currentPage === totalPages || totalPages === 0;
+    nextBtn.innerHTML = '&raquo;'; nextBtn.disabled = currentPage === totalPages || totalPages === 0;
     nextBtn.onclick = () => changePage(1);
     paginationDiv.appendChild(nextBtn);
 }
 
-
-//============================================================================
 function renderStatus(status) {
-
-    // Nếu không có trạng thái → hiển thị N/A
-    if (!status || status === "N/A" || status === "Chưa dự đoán") {
-        return {
-            badgeClass: "inactive",
-            statusText: "N/A"
-        };
-    }
-
-    if (status === "Tốt") {
-        return {
-            badgeClass: "good",
-            statusText: "Tốt"
-        };
-    }
-
-    if (status === "Cần bảo trì") {
-        return {
-            badgeClass: "warning",
-            statusText: "Cần bảo trì"
-        };
-    }
-
-    if (status === "Hỏng") {
-        return {
-            badgeClass: "danger",
-            statusText: "Hỏng"
-        };
-    }
-
-    // Nếu gặp trạng thái lạ từ dữ liệu cũ
-    return {
-        badgeClass: "inactive",
-        statusText: "N/A"
-    };
+    if (!status || status === "N/A" || status === "Chưa dự đoán") return { badgeClass: "inactive", statusText: "N/A" };
+    if (status === "Tốt") return { badgeClass: "good", statusText: "Tốt" };
+    if (status === "Cần bảo trì") return { badgeClass: "warning", statusText: "Cần bảo trì" };
+    if (status === "Hỏng") return { badgeClass: "danger", statusText: "Hỏng" };
+    if (status === "Đang bảo trì") return { badgeClass: "info", statusText: "Đang bảo trì" };
+    return { badgeClass: "inactive", statusText: "N/A" };
 }
 
-
-
-// ==============================================================================
-function changePage(pageOffset) {
-    currentPage += pageOffset;
-    updateAssetView(assetsCache); 
-}
-
-function handleSearchFilter() {
-    currentSearchTerm = document.getElementById('searchInput').value.toLowerCase().trim();
-    currentFilterType = document.getElementById('filterType').value;
-    currentPage = 1; // Reset to first page on search/filter change
-    updateAssetView(assetsCache);
-}
+function changePage(pageOffset) { currentPage += pageOffset; updateAssetView(assetsCache); }
+function handleSearchFilter() { currentSearchTerm = document.getElementById('searchInput').value.toLowerCase().trim(); currentFilterType = document.getElementById('filterType').value; currentPage = 1; updateAssetView(assetsCache); }
 
 function viewAssetDetails(docId) {
     const asset = assetsCache.find(a => a.id === docId);
     if (!asset) return showStatusModal('Lỗi', 'Không tìm thấy chi tiết tài sản.', 'danger');
     
     let badgeClass = '';
-    // ĐIỀU CHỈNH 3 TRẠNG THÁI: Phân loại theo 3 trạng thái mới
     switch (asset.predictedStatus) {
         case 'Tốt': badgeClass = 'good'; break;
         case 'Cần bảo trì': badgeClass = 'warning'; break; 
         case 'Hỏng': badgeClass = 'danger'; break; 
+        case 'Đang bảo trì': badgeClass = 'info'; break;
         default: badgeClass = 'secondary';
     }
     
@@ -1092,25 +1273,13 @@ function viewAssetDetails(docId) {
             <div class="detail-item"><strong>Ngày mua/Ký HĐ:</strong> ${asset.purchaseDate}</div>
             <div class="detail-item"><strong>Ngày hết hạn:</strong> ${asset.expiryDate || 'N/A'}</div>
             <div class="detail-item"><strong>Phòng ban:</strong> ${asset.department || 'N/A'}</div>
-
-            <div class="detail-full-width">
-                <h4>Tình trạng & Đặc trưng ML</h4>
-            </div>
-            
-            <div class="detail-item">
-                <strong>Trạng thái AI:</strong>
-                <span class="modal-status-badge ${badgeClass} status-badge">${asset.predictedStatus}</span>
-            </div>
-
+            <div class="detail-full-width"><h4>Tình trạng & Đặc trưng ML</h4></div>
+            <div class="detail-item"><strong>Trạng thái AI:</strong> <span class="modal-status-badge ${badgeClass} status-badge">${asset.predictedStatus}</span></div>
             <div class="detail-item"><strong>Tần suất sử dụng:</strong> ${asset.usageFrequency} lần/tháng</div>
             <div class="detail-item"><strong>Số lần bảo trì:</strong> ${asset.maintenanceCount} lần</div>
             <div class="detail-item"><strong>Tuổi đời:</strong> ${asset.ageMonths} tháng</div>
             <div class="detail-item"><strong>Bảo trì gần nhất:</strong> ${asset.lastMaintenance || 'N/A'}</div>
-            
-            <div class="detail-full-width">
-                <strong>Mô tả chi tiết:</strong> 
-                <p style="margin-top: 5px;">${asset.description || 'Không có mô tả.'}</p>
-            </div>
+            <div class="detail-full-width"><strong>Mô tả chi tiết:</strong><p style="margin-top: 5px;">${asset.description || 'Không có mô tả.'}</p></div>
         </div>
     `;
     
@@ -1121,10 +1290,7 @@ function viewAssetDetails(docId) {
 
 function editAsset(docId) {
     const assetToEdit = assetsCache.find(a => a.id === docId);
-    
-    if (!assetToEdit) {
-        return showStatusModal('Lỗi', `Không tìm thấy tài sản với ID: ${docId}`, 'danger');
-    }
+    if (!assetToEdit) return showStatusModal('Lỗi', `Không tìm thấy tài sản ID: ${docId}`, 'danger');
     
     currentEditingDocId = docId; 
     changeContent('add-asset-content'); 
@@ -1137,7 +1303,6 @@ function editAsset(docId) {
     document.getElementById('expiryDate').value = assetToEdit.expiryDate || '';
     document.getElementById('department').value = assetToEdit.department;
     document.getElementById('description').value = assetToEdit.description;
-    
     document.getElementById('usageFrequency').value = assetToEdit.usageFrequency;
     document.getElementById('maintenanceCount').value = assetToEdit.maintenanceCount;
     document.getElementById('ageMonths').value = assetToEdit.ageMonths;
@@ -1149,60 +1314,71 @@ function editAsset(docId) {
 }
 
 function confirmDelete(docId, assetId) {
-    // Đảm bảo docId được lưu chính xác trước khi mở modal
-    modalTargetDocId = docId; 
-    currentModalAction = 'delete';
-    
+    modalTargetDocId = docId; currentModalAction = 'delete';
     document.getElementById('modalTitle').textContent = 'Xác nhận Xóa';
-    document.getElementById('modalBody').innerHTML = `<p>Bạn có chắc chắn muốn xóa tài sản **${assetId}** này khỏi hệ thống không? Hành động này không thể hoàn tác.</p>`;
+    document.getElementById('modalBody').innerHTML = `<p>Bạn có chắc chắn muốn xóa tài sản **${assetId}** này khỏi hệ thống không?</p>`;
     
     const confirmBtn = document.getElementById('modalConfirmButton');
-    confirmBtn.classList.remove('hidden');
-    confirmBtn.textContent = 'Xóa Vĩnh viễn';
-    confirmBtn.className = 'btn btn-danger';
-    
+    confirmBtn.classList.remove('hidden'); confirmBtn.textContent = 'Xóa Vĩnh viễn'; confirmBtn.className = 'btn btn-danger';
     document.getElementById('statusModal').classList.add('visible');
 }
 
-async function handleModalAction() {
-    if (currentModalAction === 'delete') {
-        // Đã đóng modal trong hàm deleteAsset để hiển thị thông báo thành công/lỗi rõ ràng hơn
-        await deleteAsset(modalTargetDocId);
-        // Reset modalTargetDocId sau khi action hoàn tất (thành công hoặc thất bại)
+async function handleModalAction() { 
+    if (currentModalAction === 'delete') { 
+        await deleteAsset(modalTargetDocId); 
         modalTargetDocId = null; 
-    } else {
-        closeModal();
+    } 
+    else if (currentModalAction === 'complete_maintenance') {
+        const completeDate = document.getElementById('maint-complete-date').value;
+        const nextExpiryDate = document.getElementById('maint-next-expiry').value;
+        
+        if (!completeDate || !nextExpiryDate) {
+            alert("Vui lòng điền đầy đủ thông tin ngày sửa xong và ngày hết hạn gia hạn!");
+            return;
+        }
+
+        try {
+            const path = getAssetCollectionPath();
+            if (path) {
+                const asset = assetsCache.find(a => a.id === modalTargetDocId);
+                const currentCount = asset ? parseInt(asset.maintenanceCount || 0) : 0;
+
+                await updateDoc(doc(db, path, modalTargetDocId), {
+                    predictedStatus: "Tốt",
+                    lastMaintenance: completeDate,
+                    expiryDate: nextExpiryDate,
+                    maintenanceCount: currentCount + 1
+                });
+                
+                closeModal(); 
+                showStatusModal('Thành công', `Thiết bị [${asset ? asset.assetId : ''}] đã hoàn tất cập nhật chu kỳ bảo trì mới thành công!`, 'success');
+            }
+        } catch (error) {
+            console.error("Lỗi cập nhật hoàn tất bảo trì:", error);
+            showStatusModal('Lỗi', `Không thể cập nhật: ${error.message}`, 'danger');
+        }
+        modalTargetDocId = null;
     }
+    else { 
+        closeModal(); 
+    } 
 }
 
 function showStatusModal(title, message, type) {
     document.getElementById('modalTitle').textContent = title;
     document.getElementById('modalBody').innerHTML = `<p style="color: var(--${type}-color); font-weight: 600;">${message}</p>`;
-    
-    const confirmBtn = document.getElementById('modalConfirmButton');
-    confirmBtn.classList.add('hidden');
-    
+    document.getElementById('modalConfirmButton').classList.add('hidden');
     document.getElementById('statusModal').classList.add('visible');
-    
-    if (type === 'success' || type === 'danger' || type === 'warning') {
-        // Tự động đóng modal sau 3 giây cho thông báo thành công/lỗi/cảnh báo
-        setTimeout(closeModal, 3000);
-    }
+    if (type === 'success' || type === 'danger' || type === 'warning') setTimeout(closeModal, 3000);
 }
 
-function closeModal() {
-    document.getElementById('statusModal').classList.remove('visible');
-    currentModalAction = null;
-    modalTargetDocId = null;
-}
-
+function closeModal() { document.getElementById('statusModal').classList.remove('visible'); currentModalAction = null; modalTargetDocId = null; }
 
 function handleAssetSubmission() {
     const form = document.getElementById('addAssetForm');
     if (form) {
         form.onsubmit = function(e) {
             e.preventDefault();
-            
             const assetData = {
                 assetId: document.getElementById('assetId').value,
                 name: document.getElementById('assetName').value,
@@ -1218,12 +1394,10 @@ function handleAssetSubmission() {
                 lastMaintenance: document.getElementById('lastMaintenance').value
             };
             
-            if (currentEditingDocId) {
-                updateExistingAsset(currentEditingDocId, assetData);
-            } else {
-                const isDuplicate = assetsCache.some(a => a.assetId === assetData.assetId);
-                if (isDuplicate) {
-                    return showStatusModal('Lỗi Trùng lặp', `Mã Tài sản "${assetData.assetId}" đã tồn tại. Vui lòng chọn mã khác.`, 'danger');
+            if (currentEditingDocId) { updateExistingAsset(currentEditingDocId, assetData); }
+            else {
+                if (assetsCache.some(a => a.assetId === assetData.assetId)) {
+                    return showStatusModal('Lỗi Trùng lặp', `Mã Tài sản "${assetData.assetId}" đã tồn tại.`, 'danger');
                 }
                 addNewAsset(assetData);
             }
@@ -1231,44 +1405,35 @@ function handleAssetSubmission() {
     }
 }
 
-
-
 // ===================================================================
-// 8. IMPORT / EXPORT CSV, XLSX
+// IMPORT / EXPORT CSV, XLSX
 // ===================================================================
-
 function parseCSV(csvText) {
-    // Using a simple regex to handle potential quoted values and commas, but focuses on the provided simple structure
     const lines = csvText.trim().split('\n');
     if (lines.length < 2) return [];
-
     const headers = lines[0].split(',').map(h => h.trim().replace(/"/g, ''));
     const data = [];
 
     for (let i = 1; i < lines.length; i++) {
-        // Simple split by comma for non-quoted fields, assuming no commas inside fields for this basic parser
         const values = lines[i].split(',').map(v => v.trim().replace(/"/g, ''));
         if (values.length !== headers.length) continue; 
 
-        // Map CSV fields to internal asset model (based on header order in the sample CSV)
-        const asset = {};
-        asset.assetId = values[0] || 'N/A';
-        asset.name = values[1] || 'Chưa đặt tên';
-        asset.type = values[2] || 'Phần cứng';
-        asset.value = parseFloat(values[3].replace(/\./g, '')) || 0; // Handle VNĐ formatting if present
-        asset.purchaseDate = values[4] || new Date().toISOString().slice(0, 10);
-        asset.expiryDate = values[5] || null;
-        asset.department = values[6] || 'Chung';
-        asset.description = values[7] || '';
-        asset.usageFrequency = parseInt(values[8]) || 0;
-        asset.maintenanceCount = parseInt(values[9]) || 0;
-        asset.ageMonths = parseInt(values[10]) || 0;
-        asset.lastMaintenance = values[11] || null;
-        
-        // Add default status and creation date (Default status is "Chưa dự đoán")
-        asset.predictedStatus = mapStatusToThree(values[12] || 'Chưa dự đoán');
-        asset.createdAt = new Date().toISOString();
-
+        const asset = {
+            assetId: values[0] || 'N/A',
+            name: values[1] || 'Chưa đặt tên',
+            type: values[2] || 'Phần cứng',
+            value: parseFloat(values[3].replace(/\./g, '')) || 0,
+            purchaseDate: values[4] || new Date().toISOString().slice(0, 10),
+            expiryDate: values[5] || null,
+            department: values[6] || 'Chung',
+            description: values[7] || '',
+            usageFrequency: parseInt(values[8]) || 0,
+            maintenanceCount: parseInt(values[9]) || 0,
+            ageMonths: parseInt(values[10]) || 0,
+            lastMaintenance: values[11] || null,
+            predictedStatus: mapStatusToThree(values[12] || 'Chưa dự đoán'),
+            createdAt: new Date().toISOString()
+        };
         data.push(asset);
     }
     return data;
@@ -1279,520 +1444,184 @@ async function handleImport(event) {
     const importType = document.getElementById('importType').value;
     const importFile = document.getElementById('importFile').files[0];
 
-    if (!importFile) {
-        return showStatusModal('Lỗi', "Vui lòng chọn một file để Import.", 'warning');
-    }
-    
+    if (!importFile) return showStatusModal('Lỗi', "Vui lòng chọn file.", 'warning');
     if (importType !== 'assets') {
-        // Mock response for non-asset imports
-        showStatusModal('Thông báo', `Đang Import ${importType}. (Mô phỏng: Tính năng Import Người dùng đang được phát triển)`, 'warning');
-        document.getElementById('importForm').reset();
-        document.getElementById('fileNameDisplay').textContent = "Kéo thả hoặc Nhấn để chọn file";
+        showStatusModal('Thông báo', `Tính năng đang phát triển.`, 'warning');
         return;
     }
+    if (!importFile.name.toLowerCase().endsWith('.csv')) return showStatusModal('Lỗi', "Chỉ hỗ trợ file CSV.", 'danger');
 
-    if (!importFile.name.toLowerCase().endsWith('.csv')) {
-        return showStatusModal('Lỗi', "Hiện tại chỉ hỗ trợ Import file CSV cho Tài sản.", 'danger');
-    }
-
-    const path = getAssetCollectionPath();
-    if (!path) return;
-
+    const path = getAssetCollectionPath(); if (!path) return;
     const reader = new FileReader();
     
     reader.onload = async function(e) {
-        const csvText = e.target.result;
-        const importedAssets = parseCSV(csvText);
-        
-        if (importedAssets.length === 0) {
-            return showStatusModal('Lỗi', "File CSV không chứa dữ liệu Tài sản hợp lệ hoặc không đúng định dạng.", 'danger');
-        }
+        const importedAssets = parseCSV(e.target.result);
+        if (importedAssets.length === 0) return showStatusModal('Lỗi', "File không hợp lệ.", 'danger');
 
-        let importSuccessCount = 0;
-        let ignoredCount = 0;
-        
+        let importSuccessCount = 0; let ignoredCount = 0;
         const writePromises = importedAssets.map(asset => {
-            // Check for duplicate assetId before adding to avoid key conflicts
-            const isDuplicate = assetsCache.some(a => a.assetId === asset.assetId);
-            if (isDuplicate) {
-                ignoredCount++;
-                console.warn(`Bỏ qua tài sản trùng lặp: ${asset.assetId}`);
-                return Promise.resolve(false);
-            }
-            return addDoc(collection(db, path), asset).then(() => {
-                importSuccessCount++;
-                return true;
-            }).catch(err => {
-                console.error(`Lỗi khi thêm TS ${asset.assetId} vào Firestore:`, err);
-                return false;
-            });
+            if (assetsCache.some(a => a.assetId === asset.assetId)) { ignoredCount++; return Promise.resolve(false); }
+            return addDoc(collection(db, path), asset).then(() => { importSuccessCount++; }).catch(() => false);
         });
 
         await Promise.all(writePromises);
-        
-        showStatusModal('Thành công', `Hoàn tất Import. Đã thêm thành công ${importSuccessCount} / ${importedAssets.length} tài sản. ${ignoredCount > 0 ? `(${ignoredCount} tài sản bị bỏ qua do trùng Mã TS)` : ''}`, 'success');
-        // The onSnapshot listener handles refreshing the list automatically
+        showStatusModal('Thành công', `Đã thêm ${importSuccessCount} tài sản. Bỏ qua ${ignoredCount} trùng lặp.`, 'success');
     };
-
-    reader.onerror = function() {
-        showStatusModal('Lỗi', "Không thể đọc file đã chọn.", 'danger');
-    };
-
-    // Start reading the file
-    showStatusModal('Thông báo', `Đang đọc và xử lý file CSV...`, 'warning');
     reader.readAsText(importFile);
-    
-    // Reset UI state for file input
     document.getElementById('importForm').reset();
     document.getElementById('fileNameDisplay').textContent = "Kéo thả hoặc Nhấn để chọn file";
 }
 
-// -------------------------------------------------------------------
-// EXPORT LOGIC
-// -------------------------------------------------------------------
-
 function prepareExportData(sourceData, exportType) {
-    let dataToExport = [];
-    let fileName = 'export_data';
-    let headers = [];
-
+    let dataToExport = []; let fileName = 'export_data';
     if (exportType === 'current_assets' || exportType === 'all_assets') {
-        // For Assets (using assetsCache for current assets for now)
         dataToExport = sourceData.map(asset => ({
-            'Mã TS': asset.assetId,
-            'Tên Tài sản': asset.name,
-            'Loại': asset.type,
-            'Giá trị (VNĐ)': asset.value,
-            'Ngày mua/Ký HĐ': asset.purchaseDate,
-            'Ngày hết hạn': asset.expiryDate,
-            'Phòng ban': asset.department,
-            'Mô tả': asset.description,
-            'Tần suất SD (Lần/tháng)': asset.usageFrequency,
-            'Số lần bảo trì (Năm)': asset.maintenanceCount,
-            'Tuổi đời (Tháng)': asset.ageMonths,
-            'Bảo trì gần nhất': asset.lastMaintenance,
-            'Trạng thái AI (3 Trạng thái)': asset.predictedStatus
+            'Mã TS': asset.assetId, 'Tên Tài sản': asset.name, 'Loại': asset.type, 'Giá trị (VNĐ)': asset.value,
+            'Ngày mua/Ký HĐ': asset.purchaseDate, 'Ngày hết hạn': asset.expiryDate, 'Phòng ban': asset.department,
+            'Mô tả': asset.description, 'Tần suất SD (Lần/tháng)': asset.usageFrequency, 'Số lần bảo trì (Năm)': asset.maintenanceCount,
+            'Tuổi đời (Tháng)': asset.ageMonths, 'Bảo trì gần nhất': asset.lastMaintenance, 'Trạng thái AI (3 Trạng thái)': asset.predictedStatus
         }));
-        fileName = (exportType === 'current_assets' ? 'danh_sach_tai_san' : 'lich_su_tai_san');
-        
+        fileName = exportType === 'current_assets' ? 'danh_sach_tai_san' : 'lich_su_tai_san';
     } else if (exportType === 'users') {
-        // For Mock Users
-        dataToExport = mockUsers.map(user => ({
-            'ID': user.id,
-            'Tên người dùng': user.name,
-            'Email': user.email,
-            'Vai trò': user.role,
-            'Trạng thái': user.status === 'Active' ? 'Hoạt động' : 'Khóa'
-        }));
-        fileName = 'danh_sach_nguoi_dung';
+        dataToExport = personnelCache.map(u => ({ 'ID': u.personnelId, 'Tên nhân sự': u.name, 'Email': u.email, 'Chức vụ': u.role, 'Trạng thái': u.status }));
+        fileName = 'danh_sach_nhan_su';
     }
-    
-    return { data: dataToExport, fileName: fileName };
+    return { data: dataToExport, fileName };
 }
 
 function exportToCSV(exportData, fileName) {
-    if (exportData.length === 0) {
-        return showStatusModal('Lỗi Export', 'Không có dữ liệu để xuất.', 'warning');
-    }
-    // Thêm kiểm tra và sử dụng window.saveAs rõ ràng
-    if (typeof window.saveAs === 'undefined') {
-        return showStatusModal('Lỗi Export', 'Không tìm thấy thư viện FileSaver.js (saveAs). Vui lòng kiểm tra console.', 'danger');
-    }
+    if (exportData.length === 0) return showStatusModal('Lỗi', 'Không có dữ liệu.', 'warning');
+    if (typeof window.saveAs === 'undefined') return showStatusModal('Lỗi', 'Thiếu FileSaver.js.', 'danger');
 
-    // 1. Get Headers
     const headers = Object.keys(exportData[0]);
-    
-    // 2. Build CSV Content
     let csv = headers.join(',') + '\n';
-    
     exportData.forEach(row => {
-        const values = headers.map(header => {
-            let value = row[header] === null || row[header] === undefined ? '' : row[header];
-            // Escape commas and quotes for CSV format
-            if (typeof value === 'string' && value.includes(',')) {
-                value = `"${value.replace(/"/g, '""')}"`;
-            }
-            return value;
-        });
-        csv += values.join(',') + '\n';
+        csv += headers.map(h => { let v = row[h] ?? ''; return (typeof v === 'string' && v.includes(',')) ? `"${v.replace(/"/g, '""')}"` : v; }).join(',') + '\n';
     });
-
-    try {
-        // 3. Create Blob and Download
-        const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-        window.saveAs(blob, `${fileName}.csv`); // Sử dụng window.saveAs
-
-        showStatusModal('Thành công', `Đã xuất dữ liệu thành công sang ${fileName}.csv.`, 'success');
-    } catch (e) {
-        console.error("Lỗi khi tạo và tải file CSV:", e);
-        showStatusModal('Lỗi Export', `Tải file CSV thất bại: ${e.message}. Vui lòng kiểm tra console.`, 'danger');
-    }
+    window.saveAs(new Blob([csv], { type: 'text/csv;charset=utf-8;' }), `${fileName}.csv`);
+    showStatusModal('Thành công', `Đã xuất ${fileName}.csv thành công.`, 'success');
 }
 
 function exportToXLSX(exportData, fileName) {
-    // [FIX] Kiểm tra và sử dụng window.XLSX rõ ràng
-    if (typeof window.XLSX === 'undefined') {
-        return showStatusModal('Lỗi Export', 'Không thể tìm thấy thư viện XLSX. Vui lòng tải lại trang.', 'danger');
-    }
-    if (exportData.length === 0) {
-        return showStatusModal('Lỗi Export', 'Không có dữ liệu để xuất.', 'warning');
-    }
-
-    try {
-        // 1. Create a worksheet from JSON data
-        const ws = window.XLSX.utils.json_to_sheet(exportData);
-
-        // 2. Create a workbook
-        const wb = window.XLSX.utils.book_new();
-        window.XLSX.utils.book_append_sheet(wb, ws, "Dữ liệu Asset"); // Sử dụng window.XLSX
-
-        // 3. Write and Download the file
-        window.XLSX.writeFile(wb, `${fileName}.xlsx`); // Sử dụng window.XLSX
-
-        showStatusModal('Thành công', `Đã xuất dữ liệu thành công sang ${fileName}.xlsx.`, 'success');
-    } catch (e) {
-            console.error("Lỗi khi tạo và tải file XLSX:", e);
-            showStatusModal('Lỗi Export', `Tải file XLSX thất bại: ${e.message}. Vui lòng kiểm tra console.`, 'danger');
-    }
+    if (typeof window.XLSX === 'undefined') return showStatusModal('Lỗi', 'Thiếu thư viện XLSX.', 'danger');
+    if (exportData.length === 0) return showStatusModal('Lỗi', 'Không có dữ liệu.', 'warning');
+    const ws = window.XLSX.utils.json_to_sheet(exportData);
+    const wb = window.XLSX.utils.book_new();
+    window.XLSX.utils.book_append_sheet(wb, ws, "Dữ liệu Asset");
+    window.XLSX.writeFile(wb, `${fileName}.xlsx`);
+    showStatusModal('Thành công', `Đã xuất ${fileName}.xlsx thành công.`, 'success');
 }
 
 function handleExport(format) {
     const exportType = document.getElementById('exportType').value;
-    
-    let sourceData = [];
-
-    if (exportType === 'current_assets' || exportType === 'all_assets') {
-        sourceData = assetsCache; // Always export current cache for simplicity (mocking historical data for 'all_assets')
-    } else if (exportType === 'users') {
-        sourceData = mockUsers;
-    }
-    
-    if (sourceData.length === 0) {
-        return showStatusModal('Lỗi', `Không có dữ liệu ${exportType} để xuất.`, 'warning');
-    }
-
+    let sourceData = (exportType === 'current_assets' || exportType === 'all_assets') ? assetsCache : personnelCache;
+    if (sourceData.length === 0) return showStatusModal('Lỗi', `Không có dữ liệu.`, 'warning');
     const { data, fileName } = prepareExportData(sourceData, exportType);
-
-    if (format === 'csv') {
-        exportToCSV(data, fileName);
-    } else if (format === 'xlsx') {
-        exportToXLSX(data, fileName);
-    } else {
-        showStatusModal('Lỗi', 'Định dạng file không hợp lệ.', 'danger');
-    }
+    if (format === 'csv') exportToCSV(data, fileName);
+    else if (format === 'xlsx') exportToXLSX(data, fileName);
 }
-
-// --- MOCK AI/USER FUNCTIONS ---
 
 function setupNavigation() {
     document.querySelectorAll('.nav li').forEach(listItem => {
         const link = listItem.querySelector('a');
-        if (link) {
-            link.addEventListener('click', function(e) {
-                e.preventDefault(); 
-                const contentId = listItem.getAttribute('data-content-id');
-                if (contentId) {
-                    changeContent(contentId);
-                }
-            });
-        }
+        if (link) { link.addEventListener('click', function(e) { e.preventDefault(); const contentId = listItem.getAttribute('data-content-id'); if (contentId) changeContent(contentId); }); }
     });
 }
 
 function setupImportExportEvents() {
     const importFile = document.getElementById('importFile');
-    const fileNameDisplay = document.getElementById('fileNameDisplay');
-    
-    if (importFile) {
-        importFile.addEventListener('change', function() {
-            if (this.files.length > 0) {
-                fileNameDisplay.textContent = this.files[0].name;
-            } else {
-                fileNameDisplay.textContent = "Kéo thả hoặc Nhấn để chọn file";
-            }
-        });
-    }
+    if (importFile) { importFile.addEventListener('change', function() { document.getElementById('fileNameDisplay').textContent = this.files.length > 0 ? this.files[0].name : "Kéo thả hoặc Nhấn để chọn file"; }); }
 }
 
-
-// ===================================================================
-//  HÀM TIỆN ÍCH (DATE, FORMAT, MAPPING)
-// ===================================================================
 function parseDate(dateStr) {
     if (!dateStr) return null;
-
-    // yyyy-mm-dd (ISO-like) but construct local date to avoid timezone shift
-    if (/^\d{4}-\d{2}-\d{2}$/.test(dateStr)) {
-        const [y, m, d] = dateStr.split('-').map(Number);
-        return new Date(y, m - 1, d); // local midnight
-    }
-
-    // dd/mm/yyyy (VN)
-    if (/^\d{2}\/\d{2}\/\d{4}$/.test(dateStr)) {
-        const [d, m, y] = dateStr.split('/').map(Number);
-        return new Date(y, m - 1, d); // local midnight
-    }
-
-    // fallback: try Date constructor, but still normalize to local Y-M-D if possible
-    const tmp = new Date(dateStr);
-    if (!isNaN(tmp.getTime())) {
-        // return same Date object (may include time)
-        return new Date(tmp.getFullYear(), tmp.getMonth(), tmp.getDate());
-    }
-    return null;
+    if (/^\d{4}-\d{2}-\d{2}$/.test(dateStr)) { const [y, m, d] = dateStr.split('-').map(Number); return new Date(y, m - 1, d); }
+    if (/^\d{2}\/\d{2}\/\d{4}$/.test(dateStr)) { const [d, m, y] = dateStr.split('/').map(Number); return new Date(y, m - 1, d); }
+    const tmp = new Date(dateStr); return !isNaN(tmp.getTime()) ? new Date(tmp.getFullYear(), tmp.getMonth(), tmp.getDate()) : null;
 }
 
 function formatLocalDate(date) {
     if (!date || isNaN(date.getTime())) return null;
-    const y = date.getFullYear();
-    const m = (date.getMonth() + 1).toString().padStart(2, '0');
-    const d = date.getDate().toString().padStart(2, '0');
-    return `${y}-${m}-${d}`; // yyyy-mm-dd local
+    return `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`;
 }
 
-
-
-function diffInDays(a, b) {
-    return Math.floor((a - b) / (1000 * 3600 * 24));
-}
+function diffInDays(a, b) { return Math.floor((a - b) / (1000 * 3600 * 24)); }
 
 async function handleAIPredict(event) {
     event.preventDefault();
-
-    const predictDate = parseDate(ai_predict_date.value);
-    const startDate = parseDate(ai_start_date.value);
-    const endDate = parseDate(ai_end_date.value);
-    const lastMaint = parseDate(ai_lastMaintenance.value);
-
-    const ageMonths = Math.floor((predictDate - startDate) / (1000 * 3600 * 24 * 30.4375));
-    const daysLeft = diffInDays(endDate, predictDate);
-    const daysSinceLast = diffInDays(predictDate, lastMaint);
+    const predictDate = parseDate(ai_predict_date.value); const startDate = parseDate(ai_start_date.value);
+    const endDate = parseDate(ai_end_date.value); const lastMaint = parseDate(ai_lastMaintenance.value);
 
     const payload = {
-        asset_value: +ai_assetValue.value,
-        usage_frequency: +ai_usageFrequency.value,
-        maintenance_count: +ai_maintenanceCount.value,
-        asset_age_months: ageMonths,
-        days_since_last_maint: daysSinceLast,
-        days_left: daysLeft,
-        asset_type: ai_assetType.value,
-        start_date: ai_start_date.value,
-        end_date: ai_end_date.value,
-        last_maintenance: ai_lastMaintenance.value,
-        predict_date: ai_predict_date.value
+        asset_value: +ai_assetValue.value, usage_frequency: +ai_usageFrequency.value, maintenance_count: +ai_maintenanceCount.value,
+        asset_age_months: Math.floor((predictDate - startDate) / (1000 * 3600 * 24 * 30.4375)),
+        days_since_last_maint: diffInDays(predictDate, lastMaint), days_left: diffInDays(endDate, predictDate),
+        asset_type: ai_assetType.value, start_date: ai_start_date.value, end_date: ai_end_date.value, last_maintenance: ai_lastMaintenance.value, predict_date: ai_predict_date.value
     };
 
-    console.log("Payload:", payload);
-
-    const response = await fetch("http://127.0.0.1:8000/predict", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload)
-    });
-
+    const response = await fetch("http://127.0.0.1:8000/predict", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload) });
     const data = await response.json();
-
-    // === HIỆN KẾT QUẢ TRÊN GIAO DIỆN ===
     const badge = document.getElementById("predictionBadge");
-    const box = document.getElementById("predictionResult");
-
-    badge.textContent = data.prediction;
-
-    // reset class
-    badge.className = "prediction-box";
-
+    badge.textContent = data.prediction; badge.className = "prediction-box";
     if (data.prediction === "Tốt") badge.classList.add("good");
     else if (data.prediction === "Cần bảo trì") badge.classList.add("warning");
     else badge.classList.add("danger");
-
-    // hiện khung kết quả
-    box.classList.remove("hidden");
+    document.getElementById("predictionResult").classList.remove("hidden");
 }
 
-// ===================================================
-
 function savePredictionResult() {
-    if (!lastPredictionResult) {
-        return showStatusModal('Lỗi', "Vui lòng thực hiện dự đoán trước khi lưu.", 'warning');
-    }
-    
-    showStatusModal('Thành công', `Đã lưu kết quả dự đoán "${lastPredictionResult}" vào MySQL! (Mô phỏng)`, 'success');
+    if (!lastPredictionResult) return showStatusModal('Lỗi', "Chưa thực hiện dự đoán.", 'warning');
+    showStatusModal('Thành công', `Đã lưu kết quả thành công! (Mô phỏng)`, 'success');
 }
 
 function handleRetrain() {
-    const logOutput = document.getElementById('logOutput');
-    const statusElement = document.getElementById('retrainStatus');
-    const apiUrl = document.getElementById('apiUrlRetrain')?.value || "https://api.smartasset.com/retrain";
+    const logOutput = document.getElementById('logOutput'); const statusElement = document.getElementById('retrainStatus');
+    logOutput.textContent = `[Hệ thống]: Kết nối API...\n`; statusElement.textContent = 'Đang huấn luyện...'; statusElement.className = 'font-bold text-warning-color';
 
-    logOutput.textContent = `[Hệ thống]: Bắt đầu kết nối đến API: ${apiUrl}\n`;
-    statusElement.textContent = 'Đang huấn luyện...';
-    statusElement.className = 'font-bold text-warning-color';
-
-    const steps = [
-        "Đang tải dữ liệu lịch sử (12,500 mẫu)...",
-        "Tiền xử lý dữ liệu và chuẩn hóa features...",
-        "Khởi tạo mô hình Machine Learning (Gradient Boosting)...",
-        "Bắt đầu Training. Epoch 1/10...",
-        "Epoch 5/10: Accuracy 85%...",
-        "Epoch 10/10: Accuracy 92%. Đang tối ưu hóa...",
-        "Đánh giá mô hình trên Validation Set: Loss 0.05.",
-        "[Hệ thống]: Lưu mô hình mới thành công. Cập nhật Model Version: 2.1.",
-    ];
-
-    let stepIndex = 0;
+    const steps = ["Đang tải dữ liệu...", "Tiền xử lý dữ liệu...", "Khởi tạo mô hình...", "Huấn luyện hoàn tất. Phiên bản: 2.1."];
+    let idx = 0;
     const interval = setInterval(() => {
-        if (stepIndex < steps.length) {
-            logOutput.textContent += `[${new Date().toLocaleTimeString()}]: ${steps[stepIndex]}\n`;
-            logOutput.scrollTop = logOutput.scrollHeight; 
-            stepIndex++;
-        } else {
-            clearInterval(interval);
-            statusElement.textContent = 'Hoàn thành';
-            statusElement.className = 'font-bold text-success-color';
-            logOutput.textContent += `[Hệ thống]: Huấn luyện hoàn tất thành công! Sẵn sàng sử dụng.`;
-        }
+        if (idx < steps.length) { logOutput.textContent += `[${new Date().toLocaleTimeString()}]: ${steps[idx]}\n`; idx++; }
+        else { clearInterval(interval); statusElement.textContent = 'Hoàn thành'; statusElement.className = 'font-bold text-success-color'; }
     }, 1000);
 }
 
+function handleSaveSettings(event) { event.preventDefault(); assetsPerPage = parseInt(document.getElementById('assetPerPage').value) || 10; showStatusModal('Thành công', "Đã lưu thành công!", 'success'); }
 
-// ===================================================================
-//  QUẢN LÝ NGƯỜI DÙNG (MOCK)
-// ===================================================================
-function renderUserManagement() {
-    const tbody = document.getElementById('userTableBody');
-    if (!tbody) return;
-    tbody.innerHTML = '';
-    
-    mockUsers.forEach(user => {
-        const badgeClass = user.status === 'Active' ? 'good' : 'inactive';
-        const row = document.createElement('tr');
-        row.innerHTML = `
-            <td>${user.id}</td>
-            <td>${user.name}</td>
-            <td>${user.email}</td>
-            <td>${user.role}</td>
-            <td><span class="status-badge ${badgeClass}">${user.status === 'Active' ? 'Hoạt động' : 'Khóa'}</span></td>
-            <td class="action-btns">
-                <button class="btn btn-secondary" onclick="editUser('${user.id}')" title="Chỉnh sửa"><i class="fas fa-edit"></i></button>
-                <button class="btn btn-danger" onclick="toggleUserStatus('${user.id}')" title="${user.status === 'Active' ? 'Khóa' : 'Mở khóa'}">
-                    <i class="fas ${user.status === 'Active' ? 'fa-lock' : 'fa-unlock-alt'}"></i>
-                </button>
-            </td>
-        `;
-        tbody.appendChild(row);
-    });
-}
-
-function openAddUserModal() {
-    document.getElementById('addUserModal').classList.remove('hidden');
-    document.getElementById('addUserForm').reset();
-}
-
-function addUser(event) {
-    event.preventDefault();
-    
-    const name = document.getElementById('userName').value;
-    const email = document.getElementById('userEmail').value;
-    const role = document.getElementById('userRole').value;
-    
-    const newId = mockUsers.length + 1;
-    mockUsers.push({
-        id: newId,
-        name: name,
-        email: email,
-        role: role,
-        status: 'Active'
-    });
-
-    document.getElementById('addUserModal').classList.add('hidden');
-    renderUserManagement();
-    showStatusModal('Thành công', `Đã thêm người dùng: ${name}`, 'success');
-}
-
-function editUser(id) {
-    showStatusModal('Thông báo', `Tính năng Chỉnh sửa người dùng ID ${id} đang được phát triển.`, 'warning');
-}
-
-function toggleUserStatus(id) {
-    const user = mockUsers.find(u => u.id == id);
-    if (user) {
-        user.status = user.status === 'Active' ? 'Inactive' : 'Active';
-        renderUserManagement();
-        const action = user.status === 'Active' ? 'Mở khóa' : 'Khóa';
-        showStatusModal('Thành công', `${action} người dùng ${user.name} thành công.`, 'success');
-    }
-}
-
-function handleSaveSettings(event) {
-    event.preventDefault();
-    
-    const settings = {
-        apiUrlPredict: document.getElementById('apiUrlPredict').value,
-        apiUrlRetrain: document.getElementById('apiUrlRetrain').value,
-        dbHost: document.getElementById('dbHost').value,
-        dbName: document.getElementById('dbName').value,
-        assetPerPage: document.getElementById('assetPerPage').value,
-        warningThreshold: document.getElementById('warningThreshold').value,
-    };
-    
-    // Update global state for assetsPerPage if needed
-    assetsPerPage = parseInt(settings.assetPerPage) || 10;
-
-    showStatusModal('Thành công', "Đã lưu cài đặt hệ thống thành công! (Mô phỏng)", 'success');
-}
-
-
-// xóa lọc
 function resetFilters() {
-    // 1) Reset biến logic
-    currentFilterType = "";
-    currentFilterStatus = "";
-    currentSearchTerm = "";
-    currentPage = 1;
-
-    // 2) Reset UI controls robustly (chọn option đầu tiên)
-    const ft = document.getElementById("filterType");
-    const fs = document.getElementById("filterStatus");
-    const si = document.getElementById("searchInput");
-
-    if (ft) {
-        ft.selectedIndex = 0; // an toàn ngay cả khi không có value = ""
-        // phát event để listener xử lý thay đổi
-        ft.dispatchEvent(new Event('change', { bubbles: true }));
-    }
-    if (fs) {
-        fs.selectedIndex = 0;
-        fs.dispatchEvent(new Event('change', { bubbles: true }));
-    }
-    if (si) {
-        si.value = "";
-        si.dispatchEvent(new Event('input', { bubbles: true }));
-    }
-
-    // 3) Cập nhật lại view (dự phòng nếu listeners không có hoặc không chạy)
+    currentFilterType = ""; currentFilterStatus = ""; currentSearchTerm = ""; currentPage = 1;
+    const ft = document.getElementById("filterType"); const fs = document.getElementById("filterStatus"); const si = document.getElementById("searchInput");
+    if (ft) { ft.selectedIndex = 0; ft.dispatchEvent(new Event('change', { bubbles: true })); }
+    if (fs) { fs.selectedIndex = 0; fs.dispatchEvent(new Event('change', { bubbles: true })); }
+    if (si) { si.value = ""; si.dispatchEvent(new Event('input', { bubbles: true })); }
     updateAssetView(assetsCache);
 }
 
-
-
-// Expose global functions for HTML inline events
-window.viewAssetDetails = viewAssetDetails;
-window.editAsset = editAsset;
+// Global functions mapping
+window.viewAssetDetails = viewAssetDetails; 
+window.editAsset = editAsset; 
 window.confirmDelete = confirmDelete;
-window.changeContent = changeContent;
-window.handleLogout = handleLogout;
+window.changeContent = changeContent; 
+window.handleLogout = handleLogout; 
 window.handleModalAction = handleModalAction;
-window.closeModal = closeModal;
-window.openAddUserModal = openAddUserModal;
-window.addUser = addUser;
-window.editUser = editUser;
-window.toggleUserStatus = toggleUserStatus;
+window.closeModal = closeModal; 
 window.handleImport = handleImport;
-window.handleExport = handleExport;
-window.handleAIPredict = handleAIPredict;
+window.handleExport = handleExport; 
+window.handleAIPredict = handleAIPredict; 
 window.savePredictionResult = savePredictionResult;
-window.handleRetrain = handleRetrain;
-window.handleLogin = handleLogin;
-window.runBatchPredict = runBatchPredict;
+window.handleRetrain = handleRetrain; 
+window.handleLogin = handleLogin; 
+window.runBatchPredict = runBatchPredict; 
 window.resetFilters = resetFilters;
+window.selectAssetToAssign = selectAssetToAssign; 
+window.executeAssignTask = executeAssignTask; 
+window.completeMaintenance = completeMaintenance;
 
+// Nhân sự Global bindings
+window.openAddPersonnelModal = openAddPersonnelModal;
+window.savePersonnel = savePersonnel;
+window.viewPersonnelDetails = viewPersonnelDetails;
+window.editPersonnel = editPersonnel;
+window.togglePersonnelStatus = togglePersonnelStatus;
+window.deletePersonnel = deletePersonnel;
+window.filterPersonnelList = filterPersonnelList;
