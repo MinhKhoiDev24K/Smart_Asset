@@ -61,17 +61,34 @@ let currentFilterStatus = '';
 let personnelCache = [];
 let currentEditingPersonnelId = null;
 
+// BIẾN QUẢN LÝ QUYỀN PHIÊN ĐĂNG NHẬP HIỆN TẠI
+let currentUserSession = {
+    username: '',
+    role: '', 
+    isAdmin: false
+};
+
 // ===================================================================
-// ĐĂNG NHẬP / KHỞI TẠO HỆ THỐNG
+// ĐĂNG NHẬP / KHỞI TẠO HỆ THỐNG / PHÂN QUYỀN GIAO DIỆN
 // ===================================================================
-function toggleAppScreen(isAuthenticated, username = '') {
+function toggleAppScreen(isAuthenticated, username = '', role = 'Quản trị viên') {
     const loginScreen = document.getElementById('login-screen');
     const appContainer = document.getElementById('app-container');
     
     if (isAuthenticated) {
         loginScreen.style.display = 'none';
         appContainer.style.display = 'flex';
+        
+        currentUserSession.username = username;
+        currentUserSession.role = role;
+        currentUserSession.isAdmin = (username === DEFAULT_USERNAME || role === 'Quản trị viên');
+
         document.getElementById('current-username').textContent = username;
+        const roleElement = document.getElementById('current-user-role');
+        if (roleElement) roleElement.textContent = role;
+
+        applyRoleBasedUIPolicy();
+
         document.getElementById('auth-status').style.display = 'none';
         initializeApp(); 
     } else {
@@ -83,39 +100,73 @@ function toggleAppScreen(isAuthenticated, username = '') {
     }
 }
 
+function applyRoleBasedUIPolicy() {
+    const adminElements = document.querySelectorAll('.admin-only-nav, .admin-only-item');
+    adminElements.forEach(el => {
+        if (currentUserSession.isAdmin) {
+            el.style.display = ''; 
+        } else {
+            el.style.display = 'none'; 
+        }
+    });
+
+    const profileIcon = document.getElementById('profile-icon');
+    if (profileIcon) {
+        profileIcon.className = currentUserSession.isAdmin ? 'fas fa-user-shield' : 'fas fa-user';
+    }
+}
+
 async function handleLogin(event) {
     event.preventDefault();
-    const usernameInput = document.getElementById('username').value;
-    const passwordInput = document.getElementById('password').value;
+    const usernameInput = document.getElementById('username').value.trim();
+    const passwordInput = document.getElementById('password').value.trim();
     const statusElement = document.getElementById('auth-status');
     
     statusElement.style.display = 'block';
     statusElement.textContent = 'Đang xác thực...';
 
+    // 1. Kiểm tra tài khoản Admin mặc định
     if (usernameInput === DEFAULT_USERNAME && passwordInput === DEFAULT_PASSWORD) {
-        console.log("Xác thực thành công với tài khoản mặc định!");
-        
-        if (!app) {
-            app = initApp(finalConfig);
-            auth = getAuth(app);
-            db = getFirestore(app);
+        console.log("Xác thực thành công với tài khoản Admin!");
+        await authenticateFirebaseAndEnter(DEFAULT_USERNAME, 'Quản trị viên');
+        return;
+    }
+
+    // 2. Kiểm tra danh sách Nhân sự trên Firestore Realtime
+    const foundPersonnel = personnelCache.find(p => (p.email === usernameInput || p.personnelId === usernameInput) && p.status === 'Hoạt động');
+    if (foundPersonnel) {
+        const storedPassword = foundPersonnel.password || 'SmartAsset@2026';
+        if (passwordInput === storedPassword) {
+            console.log(`Xác thực thành công với tài khoản Nhân viên: ${foundPersonnel.name}`);
+            await authenticateFirebaseAndEnter(foundPersonnel.name, foundPersonnel.role);
+            return;
         }
-        
-        const token = initialAuthToken;
-        try {
-            if (token) {
-                await signInWithCustomToken(auth, token);
-            } else {
-                await signInAnonymously(auth);
-            }
-        } catch (error) {
-            console.error("Lỗi đăng nhập Firebase:", error);
-            statusElement.textContent = `Lỗi kết nối Firebase: ${error.message}`;
-            document.getElementById('loginButton').disabled = false;
+    }
+
+    statusElement.textContent = 'Lỗi: Tên đăng nhập, mật khẩu không đúng hoặc tài khoản bị khóa.';
+    const btn = document.getElementById('loginButton');
+    if (btn) btn.disabled = false;
+}
+
+async function authenticateFirebaseAndEnter(username, role) {
+    if (!app) {
+        app = initApp(finalConfig);
+        auth = getAuth(app);
+        db = getFirestore(app);
+    }
+    
+    try {
+        if (initialAuthToken) {
+            await signInWithCustomToken(auth, initialAuthToken);
+        } else {
+            await signInAnonymously(auth);
         }
-    } else {
-        statusElement.textContent = 'Lỗi: Tên đăng nhập hoặc mật khẩu không đúng.';
-        document.getElementById('loginButton').disabled = false;
+        toggleAppScreen(true, username, role);
+    } catch (error) {
+        console.error("Lỗi đăng nhập Firebase:", error);
+        document.getElementById('auth-status').textContent = `Lỗi kết nối Firebase: ${error.message}`;
+        const btn = document.getElementById('loginButton');
+        if (btn) btn.disabled = false;
     }
 }
 
@@ -129,10 +180,11 @@ function handleLogout(event) {
     } else {
         toggleAppScreen(false);
     }
-    document.getElementById('username').value = DEFAULT_USERNAME;
-    document.getElementById('password').value = DEFAULT_PASSWORD;
+    document.getElementById('username').value = '';
+    document.getElementById('password').value = '';
     document.getElementById('auth-status').textContent = 'Đã đăng xuất.';
-    document.getElementById('loginButton').disabled = false;
+    const btn = document.getElementById('loginButton');
+    if (btn) btn.disabled = false;
 }
 
 async function initializeFirebase() {
@@ -153,9 +205,7 @@ async function initializeFirebase() {
             if (user) {
                 userId = user.uid; 
                 isAuthReady = true;
-                const currentUsername = DEFAULT_USERNAME;
                 console.log(`Firebase Ready. User ID (volatile): ${userId}, App ID: ${appId}`);
-                toggleAppScreen(true, currentUsername); 
                 setupAssetsListener(); 
                 setupPersonnelListener(); 
             } else {
@@ -164,12 +214,14 @@ async function initializeFirebase() {
                 toggleAppScreen(false); 
                 console.log("Người dùng đã bị ngắt kết nối.");
             }
-            document.getElementById('loginButton').disabled = false;
+            const btn = document.getElementById('loginButton');
+            if (btn) btn.disabled = false;
         });
     } catch (error) {
         console.error("Lỗi khởi tạo hoặc đăng nhập Firebase:", error);
         document.getElementById('auth-status').textContent = `Lỗi hệ thống: ${error.message}`;
-        document.getElementById('loginButton').disabled = true;
+        const btn = document.getElementById('loginButton');
+        if (btn) btn.disabled = true;
     }
 }
 
@@ -350,7 +402,8 @@ function setupPersonnelListener() {
                 email: data.email || '',
                 role: data.role || 'Nhân viên',
                 status: data.status || 'Hoạt động',
-                department: data.department || ''
+                department: data.department || '',
+                password: data.password || 'SmartAsset@2026'
             });
         });
 
@@ -359,7 +412,7 @@ function setupPersonnelListener() {
         } else {
             personnelCache = tempPersonnel;
             renderUserManagement();
-            populatePersonnelDropdown(); // Cập nhật danh sách gợi ý email realtime
+            populatePersonnelDropdown();
         }
     }, (error) => {
         console.error("Lỗi lắng nghe nhân sự:", error);
@@ -368,9 +421,9 @@ function setupPersonnelListener() {
 
 async function initDefaultPersonnel(path) {
     const defaultList = [
-        { personnelId: 'NS001', name: 'Nguyễn Văn A', email: 'vana@smartasset.com', role: 'Quản trị viên', status: 'Hoạt động', department: 'IT' },
-        { personnelId: 'NS002', name: 'Trần Thị B', email: 'thib@smartasset.com', role: 'Kỹ thuật viên', status: 'Hoạt động', department: 'Bảo trì' },
-        { personnelId: 'NS003', name: 'Lê Văn C', email: 'vanc@smartasset.com', role: 'Nhân viên', status: 'Khóa', department: 'Hành chính' }
+        { personnelId: 'NS001', name: 'Nguyễn Văn A', email: 'vana@smartasset.com', role: 'Quản trị viên', status: 'Hoạt động', department: 'IT', password: 'admin123' },
+        { personnelId: 'NS002', name: 'Trần Thị B', email: 'thib@smartasset.com', role: 'Kỹ thuật viên', status: 'Hoạt động', department: 'Bảo trì', password: 'SmartAsset@2026' },
+        { personnelId: 'NS003', name: 'Lê Văn C', email: 'vanc@smartasset.com', role: 'Nhân viên', status: 'Khóa', department: 'Hành chính', password: 'SmartAsset@2026' }
     ];
     for (const p of defaultList) {
         await addDoc(collection(db, path), p);
@@ -619,11 +672,14 @@ function initializeCharts(data) {
             hoverOffset: 4
         }]
     };
-    assetTypeChartInstance = new Chart(document.getElementById('assetTypeChart'), { 
-        type: 'doughnut', 
-        data: assetTypeData, 
-        options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom' } } } 
-    });
+    const el1 = document.getElementById('assetTypeChart');
+    if (el1) {
+        assetTypeChartInstance = new Chart(el1, { 
+            type: 'doughnut', 
+            data: assetTypeData, 
+            options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom' } } } 
+        });
+    }
 
     const predictionStatusData = {
         labels: labelsStatus,
@@ -634,11 +690,14 @@ function initializeCharts(data) {
             borderRadius: 6
         }]
     };
-    predictionStatusChartInstance = new Chart(document.getElementById('predictionStatusChart'), { 
-        type: 'bar', 
-        data: predictionStatusData, 
-        options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true } } } 
-    });
+    const el2 = document.getElementById('predictionStatusChart');
+    if (el2) {
+        predictionStatusChartInstance = new Chart(el2, { 
+            type: 'bar', 
+            data: predictionStatusData, 
+            options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true } } } 
+        });
+    }
 }
 
 function destroyCharts() {
@@ -651,12 +710,25 @@ function initializeApp() {
     setupImportExportEvents();
     handleAssetSubmission();
 
-    document.getElementById("filterType").addEventListener("change", (ev) => { currentFilterType = ev.target.value; currentPage = 1; updateAssetView(assetsCache); });
-    document.getElementById("filterStatus").addEventListener("change", (ev) => { currentFilterStatus = ev.target.value; currentPage = 1; updateAssetView(assetsCache); });
-    document.getElementById("searchInput").addEventListener("input", (ev) => { currentSearchTerm = ev.target.value.toLowerCase(); currentPage = 1; updateAssetView(assetsCache); });
+    const ft = document.getElementById("filterType");
+    if (ft) ft.addEventListener("change", (ev) => { currentFilterType = ev.target.value; currentPage = 1; updateAssetView(assetsCache); });
+
+    const fs = document.getElementById("filterStatus");
+    if (fs) fs.addEventListener("change", (ev) => { currentFilterStatus = ev.target.value; currentPage = 1; updateAssetView(assetsCache); });
+
+    const si = document.getElementById("searchInput");
+    if (si) si.addEventListener("input", (ev) => { currentSearchTerm = ev.target.value.toLowerCase(); currentPage = 1; updateAssetView(assetsCache); });
 }
 
 function changeContent(contentId) {
+    // Chặn nhân viên truy cập các tab Quản lý Nhân sự, Mô hình ML/AI, Cài đặt
+    if (!currentUserSession.isAdmin) {
+        const restrictedTabs = ['user-management-content', 'ai-predict-content', 'ai-retrain-content', 'settings-content'];
+        if (restrictedTabs.includes(contentId)) {
+            return showStatusModal('Hạn chế quyền', 'Chỉ tài khoản Quản trị viên mới được truy cập chức năng này!', 'warning');
+        }
+    }
+
     document.querySelectorAll('.content-section').forEach(section => {
         section.classList.add('hidden');
         section.classList.remove('active');
@@ -705,8 +777,10 @@ function changeContent(contentId) {
     } else if (contentId === 'asset-list-content') {
         updateAssetView(assetsCache); 
     } else if (contentId === 'ai-predict-content') {
-        document.getElementById('ai_predict_date').value = new Date().toISOString().slice(0, 10);
-        document.getElementById('predictionResult').classList.add('hidden');
+        const pd = document.getElementById('ai_predict_date');
+        if (pd) pd.value = new Date().toISOString().slice(0, 10);
+        const pr = document.getElementById('predictionResult');
+        if (pr) pr.classList.add('hidden');
     } else if (contentId === 'user-management-content') {
         renderUserManagement();
     } else if (contentId === 'maintenance-alert-content') {
@@ -738,7 +812,7 @@ function calculateDashboardStats(assets) {
 }
 
 // ===================================================================
-// LOGIC CHỨC NĂNG MỚI: ĐIỀU PHỐI BẢO TRÌ & GỢI Ý DATALIST NHÂN SỰ
+// LOGIC CHỨC NĂNG: ĐIỀU PHỐI BẢO TRÌ & GỢI Ý DATALIST NHÂN SỰ
 // ===================================================================
 function populatePersonnelDropdown() {
     const datalist = document.getElementById('personnel-email-list');
@@ -757,7 +831,7 @@ function populatePersonnelDropdown() {
 }
 
 function loadExpiredAssets() {
-    populatePersonnelDropdown(); // Đổ dữ liệu vào datalist gợi ý email
+    populatePersonnelDropdown(); 
 
     const tbodyExpired = document.getElementById('expired-assets-tbody');
     const tbodyMaintenance = document.getElementById('under-maintenance-tbody');
@@ -937,7 +1011,7 @@ window.completeMaintenance = function(id, assetId) {
 };
 
 // ===================================================================
-// QUẢN LÝ NHÂN SỰ REALTIME TRÊN CLOUD (FIRESTORE) + KHÓA/MỞ KHÓA LINH HOẠT
+// QUẢN LÝ NHÂN SỰ REALTIME TRÊN CLOUD + CẤP & ĐỔI MẬT KHẨU
 // ===================================================================
 function renderUserManagement() {
     filterPersonnelList();
@@ -976,12 +1050,12 @@ function renderPersonnelTable(list) {
         row.innerHTML = `
             <td style="font-weight: bold; color: var(--primary-color);">${p.personnelId}</td>
             <td>${p.name}</td>
-            <td>${p.email}</td>
+            <td>${p.email} <br><small style="color: gray;">Pass: ${p.password || 'SmartAsset@2026'}</small></td>
             <td>${p.role}</td>
             <td><span class="status-badge ${badgeClass}">${p.status}</span></td>
             <td class="action-btns">
                 <button class="btn btn-primary" onclick="viewPersonnelDetails('${p.id}')" title="Xem chi tiết"><i class="fas fa-eye"></i></button>
-                <button class="btn btn-secondary" onclick="editPersonnel('${p.id}')" title="Chỉnh sửa"><i class="fas fa-edit"></i></button>
+                <button class="btn btn-secondary" onclick="editPersonnel('${p.id}')" title="Chỉnh sửa & Cấp lại mật khẩu"><i class="fas fa-edit"></i></button>
                 <button class="btn ${btnColor}" onclick="togglePersonnelStatus('${p.id}')" title="${lockTitle}"><i class="fas ${lockIcon}"></i></button>
                 <button class="btn btn-danger" onclick="deletePersonnel('${p.id}')" title="Xóa"><i class="fas fa-trash-alt"></i></button>
             </td>
@@ -993,7 +1067,7 @@ function renderPersonnelTable(list) {
 function openAddPersonnelModal() {
     currentEditingPersonnelId = null;
     const modalBody = document.getElementById('modalBody');
-    document.getElementById('modalTitle').textContent = 'Thêm Nhân Sự Mới';
+    document.getElementById('modalTitle').textContent = 'Thêm Nhân sự & Cấp tài khoản';
     
     modalBody.innerHTML = `
         <form id="personnelForm" onsubmit="savePersonnel(event)">
@@ -1006,15 +1080,19 @@ function openAddPersonnelModal() {
                 <input type="text" id="p_name" required placeholder="Nhập họ tên..." style="width: 100%; padding: 8px; border: 1px solid #cbd5e1; border-radius: 4px;">
             </div>
             <div class="form-group" style="margin-bottom: 12px;">
-                <label style="font-weight: 600; display: block; margin-bottom: 5px;">Email (*):</label>
-                <input type="email" id="p_email" required placeholder="email@company.com" style="width: 100%; padding: 8px; border: 1px solid #cbd5e1; border-radius: 4px;">
+                <label style="font-weight: 600; display: block; margin-bottom: 5px;">Email / Tên đăng nhập (*):</label>
+                <input type="email" id="p_email" required placeholder="email@smartasset.com" style="width: 100%; padding: 8px; border: 1px solid #cbd5e1; border-radius: 4px;">
+            </div>
+            <div class="form-group" style="margin-bottom: 12px;">
+                <label style="font-weight: 600; display: block; margin-bottom: 5px;">Mật khẩu đăng nhập (*):</label>
+                <input type="text" id="p_password" value="SmartAsset@2026" required placeholder="Nhập mật khẩu..." style="width: 100%; padding: 8px; border: 1px solid #cbd5e1; border-radius: 4px; font-weight: bold; color: #2563eb;">
             </div>
             <div class="form-group" style="margin-bottom: 12px;">
                 <label style="font-weight: 600; display: block; margin-bottom: 5px;">Chức vụ (*):</label>
                 <select id="p_role" required style="width: 100%; padding: 8px; border: 1px solid #cbd5e1; border-radius: 4px;">
-                    <option value="Nhân viên">Nhân viên</option>
-                    <option value="Kỹ thuật viên">Kỹ thuật viên</option>
-                    <option value="Quản trị viên">Quản trị viên</option>
+                    <option value="Nhân viên">Nhân viên (Quyền cơ bản)</option>
+                    <option value="Kỹ thuật viên">Kỹ thuật viên (Nhận bảo trì)</option>
+                    <option value="Quản trị viên">Quản trị viên (Toàn quyền)</option>
                 </select>
             </div>
             <div class="form-group" style="margin-bottom: 15px;">
@@ -1022,7 +1100,55 @@ function openAddPersonnelModal() {
                 <input type="text" id="p_dept" placeholder="Ví dụ: IT, Bảo trì..." style="width: 100%; padding: 8px; border: 1px solid #cbd5e1; border-radius: 4px;">
             </div>
             <div style="text-align: right;">
-                <button type="submit" class="btn btn-success"><i class="fas fa-save"></i> Lưu Nhân sự</button>
+                <button type="submit" class="btn btn-success"><i class="fas fa-save"></i> Tạo Tài khoản & Lưu</button>
+            </div>
+        </form>
+    `;
+    
+    document.getElementById('modalConfirmButton').classList.add('hidden');
+    document.getElementById('statusModal').classList.add('visible');
+}
+
+function editPersonnel(id) {
+    const p = personnelCache.find(x => x.id === id);
+    if (!p) return;
+
+    currentEditingPersonnelId = id;
+    const modalBody = document.getElementById('modalBody');
+    document.getElementById('modalTitle').textContent = `Chỉnh sửa & Đổi Mật khẩu: ${p.personnelId}`;
+    
+    modalBody.innerHTML = `
+        <form id="personnelForm" onsubmit="savePersonnel(event)">
+            <div class="form-group" style="margin-bottom: 12px;">
+                <label style="font-weight: 600; display: block; margin-bottom: 5px;">Mã Nhân sự:</label>
+                <input type="text" id="p_id" value="${p.personnelId}" disabled style="width: 100%; padding: 8px; border: 1px solid #cbd5e1; border-radius: 4px; background: #f1f5f9;">
+            </div>
+            <div class="form-group" style="margin-bottom: 12px;">
+                <label style="font-weight: 600; display: block; margin-bottom: 5px;">Họ và Tên (*):</label>
+                <input type="text" id="p_name" value="${p.name}" required style="width: 100%; padding: 8px; border: 1px solid #cbd5e1; border-radius: 4px;">
+            </div>
+            <div class="form-group" style="margin-bottom: 12px;">
+                <label style="font-weight: 600; display: block; margin-bottom: 5px;">Email (*):</label>
+                <input type="email" id="p_email" value="${p.email}" required style="width: 100%; padding: 8px; border: 1px solid #cbd5e1; border-radius: 4px;">
+            </div>
+            <div class="form-group" style="margin-bottom: 12px;">
+                <label style="font-weight: 600; display: block; margin-bottom: 5px; color: #dc3545;">Mật khẩu mới (Cấp lại khi quên):</label>
+                <input type="text" id="p_password" value="${p.password || 'SmartAsset@2026'}" required style="width: 100%; padding: 8px; border: 1px solid #cbd5e1; border-radius: 4px; font-weight: bold; color: #dc3545;">
+            </div>
+            <div class="form-group" style="margin-bottom: 12px;">
+                <label style="font-weight: 600; display: block; margin-bottom: 5px;">Chức vụ (*):</label>
+                <select id="p_role" required style="width: 100%; padding: 8px; border: 1px solid #cbd5e1; border-radius: 4px;">
+                    <option value="Nhân viên" ${p.role === 'Nhân viên' ? 'selected' : ''}>Nhân viên</option>
+                    <option value="Kỹ thuật viên" ${p.role === 'Kỹ thuật viên' ? 'selected' : ''}>Kỹ thuật viên</option>
+                    <option value="Quản trị viên" ${p.role === 'Quản trị viên' ? 'selected' : ''}>Quản trị viên</option>
+                </select>
+            </div>
+            <div class="form-group" style="margin-bottom: 15px;">
+                <label style="font-weight: 600; display: block; margin-bottom: 5px;">Phòng ban:</label>
+                <input type="text" id="p_dept" value="${p.department || ''}" style="width: 100%; padding: 8px; border: 1px solid #cbd5e1; border-radius: 4px;">
+            </div>
+            <div style="text-align: right;">
+                <button type="submit" class="btn btn-success"><i class="fas fa-save"></i> Cập nhật Thông tin & Mật khẩu</button>
             </div>
         </form>
     `;
@@ -1036,6 +1162,7 @@ async function savePersonnel(event) {
     const personnelId = document.getElementById('p_id').value.trim();
     const name = document.getElementById('p_name').value.trim();
     const email = document.getElementById('p_email').value.trim();
+    const password = document.getElementById('p_password').value.trim();
     const role = document.getElementById('p_role').value;
     const dept = document.getElementById('p_dept').value.trim();
 
@@ -1045,18 +1172,18 @@ async function savePersonnel(event) {
     try {
         if (currentEditingPersonnelId) {
             await updateDoc(doc(db, path, currentEditingPersonnelId), {
-                name, email, role, department: dept
+                name, email, password, role, department: dept
             });
-            showStatusModal('Thành công', 'Đã cập nhật nhân sự thành công!', 'success');
+            showStatusModal('Thành công', 'Đã cập nhật nhân sự & mật khẩu thành công!', 'success');
         } else {
             if (personnelCache.some(x => x.personnelId === personnelId)) {
                 alert('Mã nhân sự này đã tồn tại trên hệ thống!');
                 return;
             }
             await addDoc(collection(db, path), {
-                personnelId, name, email, role, status: 'Hoạt động', department: dept
+                personnelId, name, email, password, role, status: 'Hoạt động', department: dept
             });
-            showStatusModal('Thành công', 'Đã thêm nhân sự mới thành công!', 'success');
+            showStatusModal('Thành công', 'Đã tạo tài khoản cho nhân sự mới thành công!', 'success');
         }
         closeModal();
     } catch (e) {
@@ -1079,50 +1206,6 @@ function viewPersonnelDetails(id) {
             <p><strong>Trạng thái:</strong> <span class="status-badge ${p.status === 'Hoạt động' ? 'good' : 'inactive'}">${p.status}</span></p>
         </div>
     `;
-    document.getElementById('modalConfirmButton').classList.add('hidden');
-    document.getElementById('statusModal').classList.add('visible');
-}
-
-function editPersonnel(id) {
-    const p = personnelCache.find(x => x.id === id);
-    if (!p) return;
-
-    currentEditingPersonnelId = id;
-    const modalBody = document.getElementById('modalBody');
-    document.getElementById('modalTitle').textContent = `Chỉnh sửa Nhân sự: ${p.personnelId}`;
-    
-    modalBody.innerHTML = `
-        <form id="personnelForm" onsubmit="savePersonnel(event)">
-            <div class="form-group" style="margin-bottom: 12px;">
-                <label style="font-weight: 600; display: block; margin-bottom: 5px;">Mã Nhân sự:</label>
-                <input type="text" id="p_id" value="${p.personnelId}" disabled style="width: 100%; padding: 8px; border: 1px solid #cbd5e1; border-radius: 4px; background: #f1f5f9;">
-            </div>
-            <div class="form-group" style="margin-bottom: 12px;">
-                <label style="font-weight: 600; display: block; margin-bottom: 5px;">Họ và Tên (*):</label>
-                <input type="text" id="p_name" value="${p.name}" required style="width: 100%; padding: 8px; border: 1px solid #cbd5e1; border-radius: 4px;">
-            </div>
-            <div class="form-group" style="margin-bottom: 12px;">
-                <label style="font-weight: 600; display: block; margin-bottom: 5px;">Email (*):</label>
-                <input type="email" id="p_email" value="${p.email}" required style="width: 100%; padding: 8px; border: 1px solid #cbd5e1; border-radius: 4px;">
-            </div>
-            <div class="form-group" style="margin-bottom: 12px;">
-                <label style="font-weight: 600; display: block; margin-bottom: 5px;">Chức vụ (*):</label>
-                <select id="p_role" required style="width: 100%; padding: 8px; border: 1px solid #cbd5e1; border-radius: 4px;">
-                    <option value="Nhân viên" ${p.role === 'Nhân viên' ? 'selected' : ''}>Nhân viên</option>
-                    <option value="Kỹ thuật viên" ${p.role === 'Kỹ thuật viên' ? 'selected' : ''}>Kỹ thuật viên</option>
-                    <option value="Quản trị viên" ${p.role === 'Quản trị viên' ? 'selected' : ''}>Quản trị viên</option>
-                </select>
-            </div>
-            <div class="form-group" style="margin-bottom: 15px;">
-                <label style="font-weight: 600; display: block; margin-bottom: 5px;">Phòng ban:</label>
-                <input type="text" id="p_dept" value="${p.department || ''}" style="width: 100%; padding: 8px; border: 1px solid #cbd5e1; border-radius: 4px;">
-            </div>
-            <div style="text-align: right;">
-                <button type="submit" class="btn btn-success"><i class="fas fa-save"></i> Cập nhật</button>
-            </div>
-        </form>
-    `;
-    
     document.getElementById('modalConfirmButton').classList.add('hidden');
     document.getElementById('statusModal').classList.add('visible');
 }
@@ -1210,31 +1293,33 @@ function renderAssetTable(assetsToDisplay, totalFilteredAssets) {
     }
     
     const paginationDiv = document.querySelector('.pagination');
-    paginationDiv.innerHTML = '';
-    const totalPages = Math.ceil(totalFilteredAssets / assetsPerPage);
-    const startItem = totalFilteredAssets > 0 ? (currentPage - 1) * assetsPerPage + 1 : 0;
-    const endItem = Math.min(currentPage * assetsPerPage, totalFilteredAssets);
+    if (paginationDiv) {
+        paginationDiv.innerHTML = '';
+        const totalPages = Math.ceil(totalFilteredAssets / assetsPerPage);
+        const startItem = totalFilteredAssets > 0 ? (currentPage - 1) * assetsPerPage + 1 : 0;
+        const endItem = Math.min(currentPage * assetsPerPage, totalFilteredAssets);
 
-    const paginationSpan = document.createElement('span');
-    paginationSpan.textContent = `Hiển thị ${startItem} - ${endItem} / ${totalFilteredAssets} tài sản`;
-    paginationDiv.appendChild(paginationSpan);
+        const paginationSpan = document.createElement('span');
+        paginationSpan.textContent = `Hiển thị ${startItem} - ${endItem} / ${totalFilteredAssets} tài sản`;
+        paginationDiv.appendChild(paginationSpan);
 
-    const prevBtn = document.createElement('button');
-    prevBtn.innerHTML = '&laquo;'; prevBtn.disabled = currentPage === 1 || totalPages === 0;
-    prevBtn.onclick = () => changePage(-1);
-    paginationDiv.appendChild(prevBtn);
+        const prevBtn = document.createElement('button');
+        prevBtn.innerHTML = '&laquo;'; prevBtn.disabled = currentPage === 1 || totalPages === 0;
+        prevBtn.onclick = () => changePage(-1);
+        paginationDiv.appendChild(prevBtn);
 
-    for (let i = 1; i <= totalPages; i++) {
-        const pageBtn = document.createElement('button');
-        pageBtn.textContent = i; pageBtn.className = i === currentPage ? 'active' : '';
-        pageBtn.onclick = () => { if (i !== currentPage) { changePage(i - currentPage); } };
-        paginationDiv.appendChild(pageBtn);
+        for (let i = 1; i <= totalPages; i++) {
+            const pageBtn = document.createElement('button');
+            pageBtn.textContent = i; pageBtn.className = i === currentPage ? 'active' : '';
+            pageBtn.onclick = () => { if (i !== currentPage) { changePage(i - currentPage); } };
+            paginationDiv.appendChild(pageBtn);
+        }
+        
+        const nextBtn = document.createElement('button');
+        nextBtn.innerHTML = '&raquo;'; nextBtn.disabled = currentPage === totalPages || totalPages === 0;
+        nextBtn.onclick = () => changePage(1);
+        paginationDiv.appendChild(nextBtn);
     }
-    
-    const nextBtn = document.createElement('button');
-    nextBtn.innerHTML = '&raquo;'; nextBtn.disabled = currentPage === totalPages || totalPages === 0;
-    nextBtn.onclick = () => changePage(1);
-    paginationDiv.appendChild(nextBtn);
 }
 
 function renderStatus(status) {
@@ -1514,6 +1599,11 @@ function exportToXLSX(exportData, fileName) {
 
 function handleExport(format) {
     const exportType = document.getElementById('exportType').value;
+    
+    if (exportType === 'users' && !currentUserSession.isAdmin) {
+        return showStatusModal('Truy cập bị từ chối', 'Bạn không có quyền xuất danh sách người dùng!', 'danger');
+    }
+
     let sourceData = (exportType === 'current_assets' || exportType === 'all_assets') ? assetsCache : personnelCache;
     if (sourceData.length === 0) return showStatusModal('Lỗi', `Không có dữ liệu.`, 'warning');
     const { data, fileName } = prepareExportData(sourceData, exportType);

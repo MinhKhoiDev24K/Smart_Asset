@@ -75,11 +75,11 @@ def predict(asset: AssetFeatures):
         raise HTTPException(status_code=500, detail=str(e))
 
 # ===================================================================
-# CHỨC NĂNG MỚI: API SMTP KẾT NỐI GOOGLE GỬI MAIL GIAO VIỆC THẬT
+# CHỨC NĂNG MỚI: API SMTP KẾT NỐI GOOGLE GỬI MAIL GIAO VIỆC
 # ===================================================================
 @app.post("/api/assets/assign")
 def assign_task(task: AssignTaskRequest):
-    # tài khoản Gmail gửi và Mật khẩu ứng dụng (App Password 16 ký tự) của Đệ vào đây
+    # tài khoản Gmail gửi và Mật khẩu ứng dụng (App Password 16 ký tự)
     sender_email = "minhkhoik3p2st@gmail.com" 
     sender_password = "osvy sxnb lsrg kyzy" 
     

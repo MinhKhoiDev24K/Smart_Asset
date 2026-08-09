@@ -23,16 +23,16 @@
         <h2><i class="fas fa-cubes"></i> SmartAsset Login</h2>
         <div id="auth-status" class="error-message">Đang kết nối...</div>
         <form class="login-form" id="loginForm" onsubmit="handleLogin(event)">
-            <input type="text" id="username" placeholder="Tên đăng nhập (admin)" required>
-            <input type="password" id="password" placeholder="Mật khẩu (admin123)" required>
-            <button type="submit" id="loginButton" disabled>Đăng nhập</button>
+            <input type="text" id="username" placeholder="Tên đăng nhập hoặc Email" required>
+            <input type="password" id="password" placeholder="Mật khẩu" required>
+            <button type="submit" id="loginButton">Đăng nhập</button>
         </form>
         <div class="login-info">
-            Tài khoản mẫu: admin | Mật khẩu: admin123
+            <!-- Tài khoản: admin | Mật khẩu: admin123 -->
         </div>
     </div>
     
-    <div class="container" id="app-container"> 
+    <div class="container" id="app-container" style="display: none;"> 
         <aside class="sidebar">
             <div>
                 <div class="logo">
@@ -66,23 +66,25 @@
                             </a>
                         </li>
 
-                        <!-- Quản lý Nhân sự nằm dưới Điều phối bảo trì -->
-                        <li data-content-id="user-management-content">
+                        <!-- Quản lý Nhân sự (Chỉ Admin) -->
+                        <li data-content-id="user-management-content" class="admin-only-nav">
                             <a href="#user-management"><i class="fas fa-users"></i> Quản lý Nhân sự</a>
                         </li>
                         
-                        <li class="menu-header">Mô hình ML / AI</li>
-                        <li data-content-id="ai-predict-content">
+                        <!-- Mô hình ML/AI (Chỉ Admin) -->
+                        <li class="menu-header admin-only-nav">Mô hình ML / AI</li>
+                        <li data-content-id="ai-predict-content" class="admin-only-nav">
                             <a href="#ai-predict"><i class="fas fa-brain"></i> Dự đoán AI</a>
                         </li>
-                        <li data-content-id="ai-retrain-content">
+                        <li data-content-id="ai-retrain-content" class="admin-only-nav">
                             <a href="#ai-retrain"><i class="fas fa-sync-alt"></i> Huấn luyện lại mô hình 
                                 <span class="new-feature-badge"><i class="fas fa-tools"></i>dev</span>
                             </a>
                         </li>
 
-                        <li class="menu-header">Cấu hình</li>
-                        <li data-content-id="settings-content">
+                        <!-- Cài đặt hệ thống (Chỉ Admin) -->
+                        <li class="menu-header admin-only-nav">Cấu hình</li>
+                        <li data-content-id="settings-content" class="admin-only-nav">
                             <a href="#settings"><i class="fas fa-cog"></i> Cài đặt hệ thống 
                                 <span class="new-feature-badge"><i class="fas fa-tools"></i>dev</span>
                             </a>
@@ -104,11 +106,11 @@
                 <!-- KHU VỰC ADMIN PROFILE SANG TRỌNG -->
                 <div class="admin-profile-badge">
                     <div class="admin-avatar">
-                        <i class="fas fa-user-shield"></i>
+                        <i class="fas fa-user-shield" id="profile-icon"></i>
                     </div>
                     <div class="admin-meta">
                         <span class="admin-name" id="current-username">admin</span>
-                        <span class="admin-role">Quản trị viên hệ thống</span>
+                        <span class="admin-role" id="current-user-role">Quản trị viên hệ thống</span>
                     </div>
                 </div>
             </header>
@@ -432,7 +434,7 @@
                             <label for="importType">Chọn loại dữ liệu Import:</label>
                             <select id="importType">
                                 <option value="assets">Danh sách Tài sản</option>
-                                <option value="users">Danh sách Người dùng</option>
+                                <option value="users" class="admin-only-item">Danh sách Người dùng</option>
                             </select>
                         </div>
 
@@ -459,7 +461,7 @@
                             <select id="exportType">
                                 <option value="current_assets">Danh sách Tài sản Hiện tại</option>
                                 <option value="all_assets">Tất cả Tài sản (Lịch sử)</option>
-                                <option value="users">Danh sách Người dùng</option>
+                                <option value="users" class="admin-only-item">Danh sách Người dùng (Chỉ Admin)</option>
                             </select>
                         </div>
                         
@@ -585,7 +587,7 @@
                 <div class="asset-actions">
                     <div class="left-actions">
                         <button class="btn btn-primary" onclick="openAddPersonnelModal()">
-                            <i class="fas fa-user-plus"></i> Thêm Nhân sự Mới
+                            <i class="fas fa-user-plus"></i> Thêm Nhân sự Mới & Cấp Tài khoản
                         </button>
                     </div>
                     
@@ -615,7 +617,7 @@
                             <tr>
                                 <th>Mã NS</th>
                                 <th>Họ và Tên</th>
-                                <th>Email</th>
+                                <th>Email / Tài khoản</th>
                                 <th>Chức vụ</th>
                                 <th>Trạng thái</th>
                                 <th>Hành động</th>
@@ -632,7 +634,7 @@
                 </div>
             </section>
             
-            <!-- SECTION CÀI ĐẶT HỆ THỐNG MỞ RỘNG (HUY HIỆU ĐỒNG BỘ MÀU CHỮ DEV) -->
+            <!-- SECTION CÀI ĐẶT HỆ THỐNG MỞ RỘNG -->
             <section id="settings-content" class="content-section hidden">
                 <div class="card">
                     <h3 class="mb-4" style="color: var(--primary-color); display: flex; align-items: center; justify-content: space-between;">
